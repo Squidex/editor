@@ -1,0 +1,83 @@
+.remirror-theme {
+    width: 100%;
+}
+
+.menu {
+    border: 1px solid #dedfe3;
+    border-bottom: 0;
+}
+
+.MuiStack-root {
+    padding: 5px;
+}
+
+.MuiStack-root>.MuiBox-root {
+    margin-right: 5px;
+}
+
+.MuiStack-root>.MuiBox-root>button.MuiButtonBase-root {
+    margin-left: -1px;
+}
+
+.MuiBox-root>.MuiButtonBase-root {
+    border-color: #dedfe3 !important;
+    border-radius: 0;
+}
+
+.MuiButtonBase-root.Mui-selected:hover {
+    background-color: #3284f4 !important;
+}
+
+.remirror-editor img {
+    max-width: 300px;
+    max-height: 300px;
+}
+
+.remirror-editor-wrapper {
+    padding-top: 0 !important;
+}
+
+.custom-icon path {
+    fill: rgba(0, 0, 0, 0.54);
+}
+
+.remirror-theme div.ProseMirror {
+    border: 1px solid #dedfe3 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+.MuiTooltip-popper>div {
+    background-color: #1a2129;
+    border-radius: 0;
+    font-size: 85%;
+    font-weight: normal;
+    padding: .5rem;
+}
+
+.floating {
+    border: 1px solid #dedfe3;
+}
+
+.floating .MuiBox-root {
+    margin-right: 0 !important
+}
+
+.floating input {
+    border: 1px solid #dedfe3;
+    box-sizing: border-box;
+    margin-right: 5px;
+    margin-left: 0;
+    outline: none;
+    padding: 6px 12px;
+    height: 30px;
+}
+
+.floating input:active {
+    border-color: #3389ff;
+}
+
+.floating input,
+.floating .MuiButtonBase-root {
+    height: 30px;
+}

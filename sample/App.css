@@ -1,0 +1,10 @@
+body {
+  padding: 50px;
+}
+
+textarea {
+  border-color: #dedfe3 !important;
+  margin-top: 10px;
+  margin-bottom: 50px;
+  width: 100%;
+}
