@@ -21,7 +21,7 @@ function useLinkShortcut() {
 
 function useFloatingLinkState() {
     const { isEditing, linkShortcut, setIsEditing } = useLinkShortcut();
-    const updateReason = useUpdateReason();;
+    const updateReason = useUpdateReason();
     const chain = useChainedCommands();
     const attrSet = useAttrs();
     const attrLink = attrSet.link();
@@ -67,7 +67,7 @@ function useFloatingLinkState() {
 
     const clickEdit = React.useCallback(() => {
         setIsEditing(true);
-    }, [chain, selection.empty, setIsEditing]);
+    }, [setIsEditing]);
 
     return React.useMemo(() => ({
         href,
@@ -81,7 +81,7 @@ function useFloatingLinkState() {
     }), [href, linkShortcut, isEditing, clickEdit, onRemove, submitHref, cancelHref]);
 }
 
-const DelayAutoFocusInput = ({ autoFocus, ...rest }: React.HTMLProps<HTMLInputElement>) => {
+const DelayAutoFocusInput = (props: React.HTMLProps<HTMLInputElement>) => {
     const inputRef = React.useRef<HTMLInputElement>(null);
 
     React.useEffect(() => {
@@ -95,7 +95,7 @@ const DelayAutoFocusInput = ({ autoFocus, ...rest }: React.HTMLProps<HTMLInputEl
     }, []);
 
     return (
-        <input ref={inputRef} {...rest} />
+        <input ref={inputRef} {...props} />
     );
 };
 
@@ -121,7 +121,7 @@ export const FloatingLinkToolbar = (props: React.PropsWithChildren) => {
     }, [cancelHref, submitHref]);
 
     return (
-        <FloatingToolbar className='floating'>
+        <FloatingToolbar className='squidex-editor-floating'>
             {isEditing &&
                 <CommandButtonGroup>
                     <DelayAutoFocusInput placeholder='Enter link...'
@@ -138,15 +138,15 @@ export const FloatingLinkToolbar = (props: React.PropsWithChildren) => {
                 </CommandButtonGroup>
             }
 
-            {!isEditing && 
+            {!isEditing &&
                 <CommandButtonGroup>
                     {props.children}
-                    
+
                     {activeLink ? (
                         <>
                             <CommandButton commandName='updateLink' enabled
                                 onSelect={clickEdit} icon='pencilLine' />
-                
+
                             <CommandButton commandName='removeLink' enabled
                                 onSelect={onRemove} icon='linkUnlink' />
                         </>

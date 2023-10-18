@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { useHelpers, useRemirrorContext } from "@remirror/react";
-import { EditorState } from "remirror";
-import { EditorMode, OnChange } from "./props";
+import { useHelpers, useRemirrorContext } from '@remirror/react';
+import { EditorState } from 'remirror';
+import { EditorMode, OnChange } from './props';
 
 export const OnChangeLink = ({ mode, onChange, state, value }: { mode: EditorMode, onChange?: OnChange, state: EditorState, value?: string }) => {
     const { setContent } = useRemirrorContext();
@@ -39,7 +39,7 @@ export const OnChangeLink = ({ mode, onChange, state, value }: { mode: EditorMod
 
             onChange(value);
         }
-    }, [mode, onChange, state]);
+    }, [getHTML, getMarkdown, mode, onChange, state]);
 
     return null;
 };

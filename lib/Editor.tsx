@@ -7,6 +7,8 @@ import { FloatingLinkToolbar } from './LinkExtension';
 import { AddAssetsButton} from './AddAssetsButton';
 import { AddContentsButton} from './AddContentsButton';
 import { OnChangeLink} from './OnChangeLink';
+import { CountExtension } from '@remirror/extension-count';
+import { Counter } from './Counter';
 import './Editor.css';
 
 export const Editor = (props: EditorProps) => {
@@ -29,6 +31,7 @@ export const Editor = (props: EditorProps) => {
             new BulletListExtension({ enableSpine: true }),
             new CodeBlockExtension(),
             new CodeExtension(),
+            new CountExtension(),
             new HardBreakExtension(),
             new HeadingExtension(),
             new HorizontalRuleExtension(),
@@ -107,6 +110,8 @@ export const Editor = (props: EditorProps) => {
                     </FloatingLinkToolbar>
 
                     <EditorComponent />
+
+                    <Counter />
                 </Remirror>
             </ThemeProvider>
         </AllStyledComponent>

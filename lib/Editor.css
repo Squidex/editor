@@ -2,6 +2,14 @@
     width: 100%;
 }
 
+.remirror-theme * {
+    box-sizing: border-box;
+}
+
+.remirror-editor {
+    max-height: 500px;
+}
+
 .menu {
     border: 1px solid #dedfe3;
     border-bottom: 0;
@@ -55,29 +63,40 @@
     padding: .5rem;
 }
 
-.floating {
+.squidex-editor-floating {
     border: 1px solid #dedfe3;
 }
 
-.floating .MuiBox-root {
+.squidex-editor-floating .MuiBox-root {
     margin-right: 0 !important
 }
 
-.floating input {
+.squidex-editor-floating input {
     border: 1px solid #dedfe3;
+    border-radius: 0;
     box-sizing: border-box;
-    margin-right: 5px;
+    height: 30px;
     margin-left: 0;
+    margin-right: 5px;
     outline: none;
     padding: 6px 12px;
-    height: 30px;
 }
 
-.floating input:active {
+.squidex-editor-floating input:active {
     border-color: #3389ff;
 }
 
-.floating input,
-.floating .MuiButtonBase-root {
+.squidex-editor-floating .MuiButtonBase-root {
     height: 30px;
+}
+
+.squidex-editor-counter {
+    border: 1px solid #dedfe3;
+    border-top: 0;
+    font-size: 85%;
+    font-weight: normal;
+    opacity: .8;
+    padding: 4px;
+    padding-right: 10px;
+    text-align: right;
 }

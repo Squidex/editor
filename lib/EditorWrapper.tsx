@@ -1,6 +1,6 @@
 import * as  ReactDOM from 'react-dom/client';
 import { Editor } from './Editor';
-import { EditorProps } from "./props";
+import { EditorProps } from './props';
 
 export class EditorWrapper {
     constructor(
