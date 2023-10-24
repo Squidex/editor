@@ -6,15 +6,16 @@ import { EditorMode, OnChange } from './props';
 export const OnChangeLink = ({ mode, onChange, state, value }: { mode: EditorMode, onChange?: OnChange, state: EditorState, value?: string }) => {
     const { setContent } = useRemirrorContext();
     const { getMarkdown, getHTML } = useHelpers();
-    const previousValue = React.useRef('');
+    const valueCurrent = React.useRef<string | undefined>(null!);
+    const valueWasSet = React.useRef(false);
 
     React.useEffect(() => {
-        const actualValue = value || '';
+        valueWasSet.current = !!value && value.length > 0;
+    
+        if (valueCurrent.current !== value) {
+            valueCurrent.current = value;
 
-        if (previousValue.current !== actualValue) {
-            previousValue.current = actualValue;
-
-            setContent(actualValue);
+            setContent(value || '');
         }
     }, [setContent, value]);
 
@@ -32,13 +33,24 @@ export const OnChangeLink = ({ mode, onChange, state, value }: { mode: EditorMod
             }
         }
 
-        const value = getExport();
+        let value = getExport().trim();
 
-        if (previousValue.current !== value) {
-            previousValue.current = value;
+        if (value === '<p></p>') {
+            value = '';
+        }
 
+        if (valueCurrent.current === value) {
+            return;
+        }
+
+        if (!valueWasSet.current && value.length === 0) {
+            onChange(undefined);
+        } else {
             onChange(value);
         }
+
+        valueCurrent.current = value;
+        valueWasSet.current = !!value && value.length > 0;
     }, [getHTML, getMarkdown, mode, onChange, state]);
 
     return null;

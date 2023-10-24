@@ -1,55 +1,61 @@
 import { BlockquoteExtension, BoldExtension, BulletListExtension, CodeBlockExtension, CodeExtension, HardBreakExtension, HorizontalRuleExtension, HeadingExtension, ImageExtension, ItalicExtension, LinkExtension, ListItemExtension, MarkdownExtension, OrderedListExtension, StrikeExtension, TrailingNodeExtension, UnderlineExtension } from 'remirror/extensions';
 import { CommandButtonGroup, EditorComponent, HeadingLevelButtonGroup, HistoryButtonGroup, InsertHorizontalRuleButton, Remirror, ThemeProvider, ToggleBlockquoteButton, ToggleBoldButton, ToggleBulletListButton, ToggleCodeBlockButton, ToggleCodeButton, ToggleItalicButton, ToggleOrderedListButton, ToggleUnderlineButton, Toolbar, useRemirror } from '@remirror/react';
-import { useCallback } from 'react';
+import * as React from 'react';
 import { AllStyledComponent } from '@remirror/styles/emotion';
 import { EditorProps } from './props';
 import { FloatingLinkToolbar } from './LinkExtension';
-import { AddAssetsButton} from './AddAssetsButton';
-import { AddContentsButton} from './AddContentsButton';
-import { OnChangeLink} from './OnChangeLink';
+import { AddAITextButton } from './AddAITextButton';
+import { AddAssetsButton } from './AddAssetsButton';
+import { AddContentsButton } from './AddContentsButton';
+import { OnChangeLink } from './OnChangeLink';
 import { CountExtension } from '@remirror/extension-count';
 import { Counter } from './Counter';
+import { HtmlCopyExtension } from './HtmlCopyExtension';
 import './Editor.css';
 
 export const Editor = (props: EditorProps) => {
     const {
+        canSelectAIText,
         canSelectAssets,
         canSelectContents,
         isDisabled,
         mode,
         onChange,
+        onSelectAIText,
         onSelectAssets,
         onSelectContents,
         onUpload,
         value,
     } = props;
 
-    const extensions = useCallback(() => {
+    const extensions = React.useCallback(() => {
         return [
             new BlockquoteExtension(),
-            new BoldExtension(),
+            new BoldExtension({}),
             new BulletListExtension({ enableSpine: true }),
-            new CodeBlockExtension(),
+            new CodeBlockExtension({}),
             new CodeExtension(),
-            new CountExtension(),
+            new CountExtension({}),
             new HardBreakExtension(),
-            new HeadingExtension(),
+            new HeadingExtension({}),
             new HorizontalRuleExtension(),
+            new HtmlCopyExtension({ copyAsHtml: mode === 'Html' }),
             new ImageExtension({ uploadHandler: onUpload }),
             new ItalicExtension(),
             new LinkExtension({ autoLink: true }),
             new ListItemExtension({ enableCollapsible: true }),
-            new MarkdownExtension({ copyAsMarkdown: false }),
+            new MarkdownExtension({ copyAsMarkdown: mode === 'Markdown' }),
             new OrderedListExtension(),
             new StrikeExtension(),
             new TrailingNodeExtension(),
             new UnderlineExtension(),
         ];
-    }, [onUpload]);
+    }, [mode, onUpload]);
 
     const { manager, state, setState } = useRemirror({
         extensions,
         stringHandler: mode === 'Markdown' ? 'markdown' : 'html',
+        content: value
     });
 
     return (
@@ -62,7 +68,7 @@ export const Editor = (props: EditorProps) => {
                     }
                 }
             }}>
-                <Remirror classNames={isDisabled ? ['editor-disabled'] : []} manager={manager} state={state} onChange={event => setState(event.state)}>
+                <Remirror classNames={isDisabled ? ['squidex-editor-disabled'] : []} manager={manager} state={state} onChange={event => setState(event.state)}>
                     <div className='menu'>
                         <Toolbar>
                             <HistoryButtonGroup />
@@ -89,12 +95,16 @@ export const Editor = (props: EditorProps) => {
                             </CommandButtonGroup>
 
                             <CommandButtonGroup>
-                                {canSelectAssets &&
+                                {canSelectAssets && onSelectAssets &&
                                     <AddAssetsButton onSelectAssets={onSelectAssets} />
                                 }
 
-                                {canSelectContents &&
+                                {canSelectContents && onSelectContents &&
                                     <AddContentsButton onSelectContents={onSelectContents} />
+                                }
+
+                                {canSelectAIText && onSelectAIText &&
+                                    <AddAITextButton onSelectAIText={onSelectAIText} />
                                 }
                             </CommandButtonGroup>
                         </Toolbar>

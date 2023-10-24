@@ -10,7 +10,18 @@ export const AddAssetsButton = ({ onSelectAssets }: { onSelectAssets: OnSelectAs
         const assets = await onSelectAssets();
 
         for (const asset of assets) {
-            chained.insertImage(asset);
+            if (asset.type.startsWith('image/')) {
+                chained.insertImage(asset);
+            } else {
+                chained.insertText(asset.fileName, {
+                    marks: {
+                        link: {
+                            href: asset.src
+                        }
+                    }
+                });
+            }
+            
             chained.insertText(' ');
         }
 

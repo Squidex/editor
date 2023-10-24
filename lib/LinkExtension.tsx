@@ -23,11 +23,10 @@ function useFloatingLinkState() {
     const { isEditing, linkShortcut, setIsEditing } = useLinkShortcut();
     const updateReason = useUpdateReason();
     const chain = useChainedCommands();
-    const attrSet = useAttrs();
-    const attrLink = attrSet.link();
-    const attrUrl = attrLink?.href as string ?? '';
+    const linkAttr = useAttrs(true).link();
+    const linkHref = linkAttr?.href as string ?? '';
     const selection = useCurrentSelection();
-    const [href, setHref] = React.useState<string>(attrUrl);
+    const [href, setHref] = React.useState<string>(linkHref);
 
     const onRemove = React.useCallback(() => {
         chain.removeLink().focus().run();
@@ -44,8 +43,8 @@ function useFloatingLinkState() {
     }, [isEditing, setIsEditing, updateReason.doc, updateReason.selection]);
 
     React.useEffect(() => {
-        setHref(attrUrl);
-    }, [attrUrl]);
+        setHref(linkHref);
+    }, [linkHref, selection]);
 
     const submitHref = React.useCallback(() => {
         setIsEditing(false);
@@ -61,24 +60,24 @@ function useFloatingLinkState() {
         chain.focus(range?.to ?? selection.to).run();
     }, [setIsEditing, linkShortcut, chain, href, selection]);
 
-    const cancelHref = React.useCallback(() => {
+    const stopEdit = React.useCallback(() => {
         setIsEditing(false);
     }, [setIsEditing]);
 
-    const clickEdit = React.useCallback(() => {
+    const startEdit = React.useCallback(() => {
         setIsEditing(true);
     }, [setIsEditing]);
 
     return React.useMemo(() => ({
         href,
-        setHref,
-        linkShortcut,
         isEditing,
-        clickEdit,
+        linkShortcut,
         onRemove,
+        setHref,
+        startEdit,
+        stopEdit,
         submitHref,
-        cancelHref,
-    }), [href, linkShortcut, isEditing, clickEdit, onRemove, submitHref, cancelHref]);
+    }), [href, linkShortcut, isEditing, onRemove, startEdit, stopEdit, submitHref]);
 }
 
 const DelayAutoFocusInput = (props: React.HTMLProps<HTMLInputElement>) => {
@@ -100,7 +99,7 @@ const DelayAutoFocusInput = (props: React.HTMLProps<HTMLInputElement>) => {
 };
 
 export const FloatingLinkToolbar = (props: React.PropsWithChildren) => {
-    const { isEditing, clickEdit, onRemove, submitHref, href, setHref, cancelHref } = useFloatingLinkState();
+    const { isEditing, onRemove, href, setHref, startEdit, stopEdit, submitHref } = useFloatingLinkState();
     const activeMarks = useActive();
     const activeLink = activeMarks.link();
 
@@ -116,9 +115,9 @@ export const FloatingLinkToolbar = (props: React.PropsWithChildren) => {
         }
 
         if (code === 'Escape') {
-            cancelHref();
+            stopEdit();
         }
-    }, [cancelHref, submitHref]);
+    }, [stopEdit, submitHref]);
 
     return (
         <FloatingToolbar className='squidex-editor-floating'>
@@ -127,14 +126,14 @@ export const FloatingLinkToolbar = (props: React.PropsWithChildren) => {
                     <DelayAutoFocusInput placeholder='Enter link...'
                         value={href}
                         onChange={doSetHref}
-                        onKeyPress={doComplete}
+                        onKeyDown={doComplete}
                     />
 
                     <CommandButton commandName='submitLink' enabled
                         onSelect={submitHref} icon={<Icon type='Check' />} />
 
                     <CommandButton commandName='cancelLink' enabled
-                        onSelect={cancelHref} icon={<Icon type='Cancel' />} />
+                        onSelect={stopEdit} icon={<Icon type='Cancel' />} />
                 </CommandButtonGroup>
             }
 
@@ -145,7 +144,7 @@ export const FloatingLinkToolbar = (props: React.PropsWithChildren) => {
                     {activeLink ? (
                         <>
                             <CommandButton commandName='updateLink' enabled
-                                onSelect={clickEdit} icon='pencilLine' />
+                                onSelect={startEdit} icon='pencilLine' />
 
                             <CommandButton commandName='removeLink' enabled
                                 onSelect={onRemove} icon='linkUnlink' />
@@ -153,7 +152,7 @@ export const FloatingLinkToolbar = (props: React.PropsWithChildren) => {
                     ) : (
                         <>
                             <CommandButton commandName='updateLink' enabled
-                                onSelect={clickEdit} icon='link' />
+                                onSelect={startEdit} icon='link' />
                         </>
                     )}
                 </CommandButtonGroup>

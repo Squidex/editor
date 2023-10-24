@@ -14,21 +14,49 @@
     textarea {
       box-sizing: border-box;
       border: 1px solid #dedfe3;
-      margin-top: 10px;
-      margin-bottom: 50px;
       outline: none;
+      overflow-y: auto;
       height: 100px;
       width: 100%;
+    }
+
+    .preview {
+      margin-top: 10px;
+      margin-bottom: 50px;
+      position: relative;
+    }
+
+    .unset-button {
+      border: 1px solid #dedfe3;
+      border-radius: 2px;
+      right: 10px;
+      padding: 4px 6px;
+      position: absolute;
+      top: 10px;
+    }
+
+    h2 {
+        font-family: sans-serif;
     }
   </style>
 </head>
 
 <body>
+  <h2>MARKDOWN</h2>
   <div id="editor1"></div>
-  <textarea id="textarea1"></textarea>
 
+  <div class="preview">
+    <textarea id="textarea1"></textarea>
+    <button class="unset-button" id="unset1">Unset</button>
+  </div>
+
+  <h2>HTML</h2>
   <div id="editor2"></div>
-  <textarea id="textarea2"></textarea>
+
+  <div class="preview">
+    <textarea id="textarea2"></textarea>
+    <button class="unset-button" id="unset2">Unset</button>
+  </div>
 
   <script type="module" src="/src/main"></script>
   <script type="module" src="/test-script.js"></script>

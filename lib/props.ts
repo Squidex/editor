@@ -5,11 +5,11 @@ export type Asset = {
     // The src to the asset.
     src: string;
 
-    // The title of the asset link.
-    title?: string;
+    // The mime type.
+    type: string;
 
-    // The file name of the content item.
-    fileName?: string;
+    // The file name of the asset.
+    fileName: string;
 };
 
 export type Content = {
@@ -20,10 +20,11 @@ export type Content = {
     title: string;
 };
 
+export type OnSelectAIText = () => Promise<string | undefined | null>;
 export type OnSelectAssets = () => Promise<Asset[]>;
 export type OnSelectContents = () => Promise<Content[]>;
 
-export type OnChange = (value: string) => void;
+export type OnChange = (value: string | undefined) => void;
 
 export type EditorMode = 'Html' | 'Markdown';
 
@@ -45,16 +46,23 @@ export interface EditorProps {
     // Called when the value has been changed.
     onChange?: OnChange;
 
+    // Called when AI text selected.
+    onSelectAIText?: OnSelectAIText;
+
     // Called when assets are selected.
-    onSelectAssets: OnSelectAssets;
+    onSelectAssets?: OnSelectAssets;
 
     // Called when content items should be selected.
-    onSelectContents: OnSelectContents;
+    onSelectContents?: OnSelectContents;
 
+    // Called when a file needs to be uploaded.
     onUpload?: (images: UploadRequest[]) => DelayedPromiseCreator<Asset>[];
 
     // True, if disabled.
     isDisabled?: boolean;
+    
+    // Indicates whether AI text can be selected.
+    canSelectAIText?: boolean;
     
     // Indicates whether assets can be selected.
     canSelectAssets?: boolean;

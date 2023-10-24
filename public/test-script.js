@@ -21,25 +21,66 @@ const selectContents = () => {
     ]));
 };
 
-const textarea1 = document.getElementById('textarea1');
-const textarea2 = document.getElementById('textarea2');
+const selectAIText = () => {
+    return new Promise(resolve => resolve('Text from AI'));
+};
 
-new SquidexEditorWrapper(document.getElementById('editor1'), {
+const editor1Preview = document.getElementById('textarea1');
+const editor2Preview = document.getElementById('textarea2');
+
+let value1 = '';
+let value2 = '';
+
+function updateValue1(value) {
+    if (value1 !== value) {
+        value1 = value;
+        
+        editor1Wrapper.setValue(value);
+        editor1Preview.value = `${value}`;
+
+        console.log(`Value1 changed to ${value1}`);
+    }
+}
+
+function updateValue2(value) {
+    if (value2 !== value) {
+        value2 = value;
+        
+        editor2Wrapper.setValue(value);
+        editor2Preview.value = `${value}`;
+
+        console.log(`Value2 changed to ${value1}`);
+    }
+}
+
+const editor1Wrapper = new SquidexEditorWrapper(document.getElementById('editor1'), {
     mode: 'Markdown',
+    canSelectAIText: true,
     canSelectAssets: true,
+    onSelectAIText: selectAIText,
     onSelectAssets: selectAsset,
     onSelectContents: selectContents,
     onChange: value => {
-        textarea1.value = value;
+        updateValue1(value);
     }
 });
 
-new SquidexEditorWrapper(document.getElementById('editor2'), {
+document.getElementById('unset1').addEventListener('click', () => {
+    updateValue1(undefined);
+});
+
+const editor2Wrapper = new SquidexEditorWrapper(document.getElementById('editor2'), {
     mode: 'Html',
+    canSelectAIText: true,
     canSelectContents: true,
+    onSelectAIText: selectAIText,
     onSelectAssets: selectAsset,
     onSelectContents: selectContents,
     onChange: value => {
-        textarea2.value = value;
+        updateValue2(value);
     }
+});
+
+document.getElementById('unset2').addEventListener('click', () => {
+    updateValue2(undefined);
 });
