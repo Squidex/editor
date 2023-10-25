@@ -15,7 +15,7 @@ import { LinkModal } from './LinkModal';
 import { OnChangeLink } from './OnChangeLink';
 import { TitleModal } from './TitleModal';
 import { EditorProps } from './props';
-import { EditableNode } from './utils';
+import { EditableNode, htmlToMarkdown } from './utils';
 import './Editor.css';
 
 export const Editor = (props: EditorProps) => {
@@ -64,7 +64,7 @@ export const Editor = (props: EditorProps) => {
             new ItalicExtension(),
             new LinkExtension({ autoLink: true }),
             new ListItemExtension({ enableCollapsible: true }),
-            new MarkdownExtension({ copyAsMarkdown: mode === 'Markdown' }),
+            new MarkdownExtension({ copyAsMarkdown: mode === 'Markdown', htmlToMarkdown }),
             new NodeFormattingExtension(),
             new OrderedListExtension(),
             new StrikeExtension(),

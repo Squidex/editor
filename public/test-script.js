@@ -69,7 +69,8 @@ const editor1Wrapper = new SquidexEditorWrapper(document.getElementById('editor1
     onSelectContents: selectContents,
     onChange: value => {
         updateValue1(value);
-    }
+    },
+    value: 'Line1\n\n---\n\nLine2'
 });
 
 document.getElementById('unset1').addEventListener('click', () => {
