@@ -2,10 +2,14 @@
 const selectAsset = () => {
     return new Promise(resolve => resolve([
         {
-            src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Adams_The_Tetons_and_the_Snake_River.jpg/1280px-Adams_The_Tetons_and_the_Snake_River.jpg'
+            src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Adams_The_Tetons_and_the_Snake_River.jpg/1280px-Adams_The_Tetons_and_the_Snake_River.jpg',
+            type: 'image/jpeg',
+            fileName: 'My Image'
         },
         {
-            src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Adams_The_Tetons_and_the_Snake_River.jpg/1280px-Adams_The_Tetons_and_the_Snake_River.jpg'
+            src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Adams_The_Tetons_and_the_Snake_River.jpg/1280px-Adams_The_Tetons_and_the_Snake_River.jpg',
+            type: 'image/jpeg',
+            fileName: 'My Image'
         }
     ]));
 };
@@ -13,10 +17,12 @@ const selectAsset = () => {
 const selectContents = () => {
     return new Promise(resolve => resolve([
         {
-            href: 'https://squidex.io', title: 'Squidex'
+            href: 'https://squidex.io',
+            title: 'Squidex'
         },
         {
-            href: 'https://squidex.io', title: 'Squidex'
+            href: 'https://squidex.io',
+            title: 'Squidex'
         }
     ]));
 };
@@ -56,6 +62,7 @@ function updateValue2(value) {
 const editor1Wrapper = new SquidexEditorWrapper(document.getElementById('editor1'), {
     mode: 'Markdown',
     canSelectAIText: true,
+    canSelectContents: true,
     canSelectAssets: true,
     onSelectAIText: selectAIText,
     onSelectAssets: selectAsset,
@@ -73,6 +80,7 @@ const editor2Wrapper = new SquidexEditorWrapper(document.getElementById('editor2
     mode: 'Html',
     canSelectAIText: true,
     canSelectContents: true,
+    canSelectAssets: true,
     onSelectAIText: selectAIText,
     onSelectAssets: selectAsset,
     onSelectContents: selectContents,

@@ -1,16 +1,21 @@
-import { BlockquoteExtension, BoldExtension, BulletListExtension, CodeBlockExtension, CodeExtension, HardBreakExtension, HorizontalRuleExtension, HeadingExtension, ImageExtension, ItalicExtension, LinkExtension, ListItemExtension, MarkdownExtension, OrderedListExtension, StrikeExtension, TrailingNodeExtension, UnderlineExtension } from 'remirror/extensions';
-import { CommandButtonGroup, EditorComponent, HeadingLevelButtonGroup, HistoryButtonGroup, InsertHorizontalRuleButton, Remirror, ThemeProvider, ToggleBlockquoteButton, ToggleBoldButton, ToggleBulletListButton, ToggleCodeBlockButton, ToggleCodeButton, ToggleItalicButton, ToggleOrderedListButton, ToggleUnderlineButton, Toolbar, useRemirror } from '@remirror/react';
-import * as React from 'react';
+import { CountExtension } from '@remirror/extension-count';
+import { CommandButtonGroup, EditorComponent, FloatingToolbar, HeadingLevelButtonGroup, HistoryButtonGroup, InsertHorizontalRuleButton, Remirror, ThemeProvider, ToggleBlockquoteButton, ToggleBoldButton, ToggleBulletListButton, ToggleCodeBlockButton, ToggleCodeButton, ToggleItalicButton, ToggleOrderedListButton, ToggleUnderlineButton, Toolbar, useRemirror } from '@remirror/react';
 import { AllStyledComponent } from '@remirror/styles/emotion';
-import { EditorProps } from './props';
-import { FloatingLinkToolbar } from './LinkExtension';
+import * as React from 'react';
+import { BlockquoteExtension, BoldExtension, BulletListExtension, CodeBlockExtension, CodeExtension, HardBreakExtension, HeadingExtension, HorizontalRuleExtension, ItalicExtension, LinkExtension, ListItemExtension, MarkdownExtension, NodeFormattingExtension, OrderedListExtension, StrikeExtension, TrailingNodeExtension, UnderlineExtension } from 'remirror/extensions';
 import { AddAITextButton } from './AddAITextButton';
 import { AddAssetsButton } from './AddAssetsButton';
 import { AddContentsButton } from './AddContentsButton';
-import { OnChangeLink } from './OnChangeLink';
-import { CountExtension } from '@remirror/extension-count';
+import { AlignmentButtons} from './AlignmentButtons';
 import { Counter } from './Counter';
+import { EditableImageExtension } from './EditableImageExtension';
 import { HtmlCopyExtension } from './HtmlCopyExtension';
+import { LinkButtons } from './LinkButtons';
+import { LinkModal } from './LinkModal';
+import { OnChangeLink } from './OnChangeLink';
+import { TitleModal } from './TitleModal';
+import { EditorProps } from './props';
+import { EditableNode } from './utils';
 import './Editor.css';
 
 export const Editor = (props: EditorProps) => {
@@ -28,6 +33,21 @@ export const Editor = (props: EditorProps) => {
         value,
     } = props;
 
+    const [modalTitle, setModalTitle] = React.useState<EditableNode | undefined | null>();
+    const [modalLink, setModalLink] = React.useState<boolean>(false);
+
+    const doOpenModalLink = React.useCallback(() => {
+        setModalLink(true);
+    }, []);
+
+    const doCloseModalLink = React.useCallback(() => {
+        setModalLink(false);
+    }, []);
+
+    const doCloseModalTitle = React.useCallback(() => {
+        setModalTitle(null);
+    }, []);
+
     const extensions = React.useCallback(() => {
         return [
             new BlockquoteExtension(),
@@ -40,11 +60,12 @@ export const Editor = (props: EditorProps) => {
             new HeadingExtension({}),
             new HorizontalRuleExtension(),
             new HtmlCopyExtension({ copyAsHtml: mode === 'Html' }),
-            new ImageExtension({ uploadHandler: onUpload }),
+            new EditableImageExtension({ uploadHandler: onUpload, onEdit: setModalTitle }),
             new ItalicExtension(),
             new LinkExtension({ autoLink: true }),
             new ListItemExtension({ enableCollapsible: true }),
             new MarkdownExtension({ copyAsMarkdown: mode === 'Markdown' }),
+            new NodeFormattingExtension(),
             new OrderedListExtension(),
             new StrikeExtension(),
             new TrailingNodeExtension(),
@@ -95,6 +116,16 @@ export const Editor = (props: EditorProps) => {
                             </CommandButtonGroup>
 
                             <CommandButtonGroup>
+                                <LinkButtons onEdit={doOpenModalLink} />
+                            </CommandButtonGroup>
+
+                            {mode === 'Html' &&
+                                <CommandButtonGroup>
+                                    <AlignmentButtons />
+                                </CommandButtonGroup>
+                            }
+
+                            <CommandButtonGroup>
                                 {canSelectAssets && onSelectAssets &&
                                     <AddAssetsButton onSelectAssets={onSelectAssets} />
                                 }
@@ -112,14 +143,22 @@ export const Editor = (props: EditorProps) => {
 
                     <OnChangeLink mode={mode} onChange={onChange} state={state} value={value} />
 
-                    <FloatingLinkToolbar>
-                        <ToggleBoldButton />
-                        <ToggleItalicButton />
-                        <ToggleUnderlineButton />
-                        <ToggleCodeButton />
-                    </FloatingLinkToolbar>
-
                     <EditorComponent />
+                    
+                    {modalLink ? (
+                        <LinkModal onClose={doCloseModalLink} />
+                    ) : modalTitle ? (
+                        <TitleModal node={modalTitle} onClose={doCloseModalTitle} />
+                    ) : (
+                        <FloatingToolbar className='squidex-editor-floating'>
+                            <ToggleBoldButton />
+                            <ToggleItalicButton />
+                            <ToggleUnderlineButton />
+                            <ToggleCodeButton />
+
+                            <LinkButtons onEdit={doOpenModalLink} />
+                        </FloatingToolbar>
+                    )}
 
                     <Counter />
                 </Remirror>

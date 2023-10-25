@@ -8,7 +8,10 @@ module.exports = {
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
-  plugins: ['react-refresh'],
+  plugins: [
+    'eslint-plugin-import',
+    'react-refresh'
+  ],
   rules: {
     'react-refresh/only-export-components': [
       'warn',
@@ -18,6 +21,19 @@ module.exports = {
     '@typescript-eslint/indent': [
       'warn',
       4
-    ]
+    ],
+    'import/order': ['error', {
+        'pathGroupsExcludedImportTypes': ['builtin'],
+        'alphabetize': {
+            'order': 'asc'
+        }
+    }],
+    'sort-imports': [
+        'error',
+        {
+            'ignoreCase': true,
+            'ignoreDeclarationSort': true
+        }
+    ],
   },
 }

@@ -1,5 +1,5 @@
-import { useExtension } from '@remirror/react';
 import { CountExtension } from '@remirror/extension-count';
+import { useExtension } from '@remirror/react';
 
 export const Counter = () => {
     const extension = useExtension(CountExtension);

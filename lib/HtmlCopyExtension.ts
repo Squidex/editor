@@ -1,5 +1,5 @@
-import { DOMSerializer } from "@remirror/pm/model";
-import { CreateExtensionPlugin, PlainExtension, Slice } from "remirror";
+import { DOMSerializer } from '@remirror/pm/model';
+import { CreateExtensionPlugin, PlainExtension, Slice } from 'remirror';
 
 export interface HtmlCopyOptions {
     copyAsHtml: boolean

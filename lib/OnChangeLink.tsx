@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { useHelpers, useRemirrorContext } from '@remirror/react';
+import * as React from 'react';
 import { EditorState } from 'remirror';
 import { EditorMode, OnChange } from './props';
 

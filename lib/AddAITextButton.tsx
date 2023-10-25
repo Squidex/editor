@@ -1,5 +1,5 @@
+import { CommandButton, useChainedCommands } from '@remirror/react';
 import * as React from 'react';
-import { useChainedCommands, CommandButton } from '@remirror/react';
 import { OnSelectAIText } from './props';
 
 export const AddAITextButton = ({ onSelectAIText }: { onSelectAIText: OnSelectAIText }) => {
@@ -16,7 +16,7 @@ export const AddAITextButton = ({ onSelectAIText }: { onSelectAIText: OnSelectAI
     }, [chained, onSelectAIText]);
 
     return (
-        <CommandButton commandName='addImage' enabled={true} onSelect={doSelectText} label='Select AI Text' icon={
+        <CommandButton commandName='addImage' enabled={true} onSelect={doSelectText} label='Add AI generated Text' icon={
             <span style={{ height: '16px', lineHeight: '16px' }}>AI</span>
         } />
     );
