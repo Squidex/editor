@@ -1,0 +1,258 @@
+@import '_mixins';
+
+$color-theme: #3284f4;
+$color-border: #dedfe3;
+
+.remirror-theme {
+    width: 100%;
+}
+
+.remirror-theme {
+    position: relative;
+}
+
+.remirror-theme * {
+    box-sizing: border-box;
+}
+
+.remirror-editor {
+    min-height: 300px !important;
+    max-height: 500px;
+}
+
+.MuiStack-root {
+    padding: 5px;
+}
+
+.MuiStack-root>.MuiBox-root {
+    margin-right: 5px;
+}
+
+.MuiBox-root>.MuiButtonBase-root {
+    border-color: #dedfe3 !important;
+    border-radius: 0;
+}
+
+.MuiBox-root>.MuiButtonBase-root {
+    border-left-width: 0;   
+}
+
+.MuiBox-root>.MuiBox-root:first-child>.MuiButtonBase-root {
+    border-left-width: 1px;   
+}
+
+.MuiButtonBase-root.Mui-selected:hover {
+    background-color: #3284f4 !important;
+}
+
+.remirror-editor-wrapper {
+    padding-top: 0 !important;
+}
+
+.custom-icon path {
+    fill: rgba(0, 0, 0, 0.54);
+}
+
+.remirror-theme div.ProseMirror {
+    border: 1px solid $color-border !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+.MuiTooltip-popper>div {
+    background-color: #1a2129;
+    border-radius: 0;
+    font-size: 85%;
+    font-weight: normal;
+    padding: .5rem;
+}
+
+.squidex-editor {
+    &-disabled {
+        pointer-events: none;
+    }
+
+    /*
+     * MENU
+     */
+    &-menu {
+        border: 1px solid $color-border;
+        border-bottom: 0;
+    }
+
+    /*
+     * COUNTER
+     */
+    &-counter {
+        border: 1px solid $color-border;
+        border-top: 0;
+        font-size: 85%;
+        font-weight: normal;
+        opacity: .8;
+        padding: 4px;
+        padding-right: 10px;
+        text-align: right;
+    }
+
+    /*
+     * IMAGE
+     */
+    &-image {
+        &-view {
+            border: 1px solid $color-border;
+            border-radius: 0;
+            display: inline-block;
+            margin-top: 15px;
+            margin-bottom: 15px;
+
+            .squidex-editor-button {
+                @include absolute(null, null, 10px, 10px);
+            }
+        }
+
+        &-element {
+            display: block;
+            max-width: 400px;
+            max-height: 400px;
+        }
+
+        &-info {
+            @include absolute(10px, null, null, 10px);
+            background-color: $color-theme;
+            border-radius: 2px;
+            border: 1px solid $color-border;
+            color: white;
+            font-size: 85%;
+            font-weight: normal;
+            padding: 2px 6px;
+        }
+    }
+
+    /*
+     * CONTENT LINK
+     */
+    &-content {
+        &-link {
+            align-items: center;
+            border-radius: 2px;
+            border: 1px solid $color-border;
+            padding: 10px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        &-schema {
+            @include truncate;
+            border-right: 1px solid darken($color-border, 10%);
+            color: darken($color-border, 30%);
+            flex-shrink: 0;
+            padding-left: 10px;
+            padding-right: 10px;
+            width: 200px;
+        }
+
+        &-name {
+            @include truncate;
+            padding-left: 10px;
+            padding-right: 0;
+        }
+    }
+
+    /*
+     * BUTTON
+     */
+    &-button {
+        background-color: white;
+        border-radius: 0;
+        border: 1px solid $color-border;
+        bottom: 10px;
+        font-size: 85%;
+        font-weight: normal;
+        line-height: 1;
+        padding: 6px 12px;
+
+        &:hover {
+            background-color: #f5f5f5;
+        }
+    }
+    
+    &-input {
+        border: 1px solid $color-border;
+        border-radius: 0;
+        box-sizing: border-box;
+        height: 30px;
+        margin-left: 0;
+        margin-right: 5px;
+        outline: none;
+        padding: 6px 12px;
+    
+        &:active {
+            border-color: $color-theme;
+        }
+    }
+
+    /*
+    * FLOATING
+    */
+    &-floating {
+        border: 1px solid $color-border;
+
+        .MuiBox-root {
+            margin-right: 0 !important
+        }
+        
+        .MuiButtonBase-root {
+            height: 30px;
+        }
+    }
+
+    
+    /*
+     * MODAL
+     */
+    &-modal {
+        &-wrapper,
+        &-backdrop {
+            @include absolute(0, 0, 0, 0);
+        }
+
+        &-backdrop {
+            background-color: rgba(0, 0, 0, 0.01);
+        }
+
+        &-window {
+            @include absolute(50%, null, null, 50%);
+            background-color: white;
+            border: 1px solid $color-border;
+            border-radius: 0;
+            box-sizing: border-box;
+            margin-top: -50px;
+            margin-left: -150px;
+            position: absolute;
+            width: 350px;
+        }
+
+        &-body {
+            display: flex;
+            flex-direction: row;
+            flex-grow: 1;
+            padding-top: 0 !important;
+        }
+    
+        &-body,
+        &-title {
+            padding: 15px;
+        }
+    
+        &-title {
+            font-size: 85%;
+        }
+    
+        &-window input {
+            flex-grow: 1;
+        }
+    }
+}

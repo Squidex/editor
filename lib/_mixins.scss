@@ -1,0 +1,23 @@
+@mixin position($t: null, $r: null, $b: null, $l: null) {
+    bottom: $b; left: $l; right: $r; top: $t;
+}
+
+@mixin absolute($t: null, $r: null, $b: null, $l: null) {
+    @include position($t, $r, $b, $l);
+    position: absolute;
+}
+
+@mixin truncate-nowidth {
+    display: block;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@mixin truncate {
+    @include truncate-nowidth;
+    max-width: 100%;
+    min-width: 0;
+    width: auto;
+}

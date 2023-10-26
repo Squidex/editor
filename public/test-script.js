@@ -7,7 +7,7 @@ const selectAsset = () => {
             fileName: 'My Image'
         },
         {
-            src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Adams_The_Tetons_and_the_Snake_River.jpg/1280px-Adams_The_Tetons_and_the_Snake_River.jpg',
+            src: 'https://cloud.squidex.io/api/assets/squidex-website/18b271cf-67c8-4bac-82a9-d85d662168f7/administration-tools-in-squidex.jpg?version=0',
             type: 'image/jpeg',
             fileName: 'My Image'
         }
@@ -17,12 +17,14 @@ const selectAsset = () => {
 const selectContents = () => {
     return new Promise(resolve => resolve([
         {
-            href: 'https://squidex.io',
+            id: '123',
+            schemaName: 'my-short-schema',
             title: 'Squidex'
         },
         {
-            href: 'https://squidex.io',
-            title: 'Squidex'
+            id: '456',
+            schemaName: 'my-very-long-schema-name-that-does-not-fit',
+            title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua'
         }
     ]));
 };
@@ -59,14 +61,20 @@ function updateValue2(value) {
     }
 }
 
-const editor1Wrapper = new SquidexEditorWrapper(document.getElementById('editor1'), {
-    mode: 'Markdown',
+const baseOptions = {
+    appName: 'squidex-website',
+    baseUrl: 'https://cloud.squidex.io',
     canSelectAIText: true,
     canSelectContents: true,
     canSelectAssets: true,
     onSelectAIText: selectAIText,
     onSelectAssets: selectAsset,
     onSelectContents: selectContents,
+};
+
+const editor1Wrapper = new SquidexEditorWrapper(document.getElementById('editor1'), {
+    ...baseOptions,
+    mode: 'Markdown',
     onChange: value => {
         updateValue1(value);
     },
@@ -78,16 +86,12 @@ document.getElementById('unset1').addEventListener('click', () => {
 });
 
 const editor2Wrapper = new SquidexEditorWrapper(document.getElementById('editor2'), {
-    mode: 'Html',
-    canSelectAIText: true,
-    canSelectContents: true,
-    canSelectAssets: true,
-    onSelectAIText: selectAIText,
-    onSelectAssets: selectAsset,
-    onSelectContents: selectContents,
+    ...baseOptions,
+    mode: 'HTML',
     onChange: value => {
         updateValue2(value);
-    }
+    },
+    value: '<a href="https://cloud.squidex.io/api/content/squidex-website/my-schema/ID">Foo</a>'
 });
 
 document.getElementById('unset2').addEventListener('click', () => {

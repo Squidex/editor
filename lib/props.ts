@@ -13,8 +13,11 @@ export type Asset = {
 };
 
 export type Content = {
-    // The link of the content item. 
-    href: string;
+    // The title of the content.
+    id: string;
+
+    // The name of the schema.
+    schemaName: string;
 
     // The title of the content item.
     title: string;
@@ -42,6 +45,12 @@ export interface EditorProps {
 
     // The incoming value.
     value?: string;
+
+    // The base url.
+    baseUrl: string;
+
+    // The name to the app.
+    appName: string;
 
     // Called when the value has been changed.
     onChange?: OnChange;

@@ -1,14 +1,15 @@
 import { CountExtension } from '@remirror/extension-count';
-import { CommandButtonGroup, EditorComponent, FloatingToolbar, HeadingLevelButtonGroup, HistoryButtonGroup, InsertHorizontalRuleButton, Remirror, ThemeProvider, ToggleBlockquoteButton, ToggleBoldButton, ToggleBulletListButton, ToggleCodeBlockButton, ToggleCodeButton, ToggleItalicButton, ToggleOrderedListButton, ToggleUnderlineButton, Toolbar, useRemirror } from '@remirror/react';
+import { CommandButtonGroup, EditorComponent, FloatingToolbar, HeadingLevelButtonGroup, HistoryButtonGroup, InsertHorizontalRuleButton, NodeViewComponentProps, Remirror, ThemeProvider, ToggleBlockquoteButton, ToggleBoldButton, ToggleBulletListButton, ToggleCodeBlockButton, ToggleCodeButton, ToggleItalicButton, ToggleOrderedListButton, ToggleUnderlineButton, Toolbar, useRemirror } from '@remirror/react';
 import { AllStyledComponent } from '@remirror/styles/emotion';
 import * as React from 'react';
-import { BlockquoteExtension, BoldExtension, BulletListExtension, CodeBlockExtension, CodeExtension, HardBreakExtension, HeadingExtension, HorizontalRuleExtension, ItalicExtension, LinkExtension, ListItemExtension, MarkdownExtension, NodeFormattingExtension, OrderedListExtension, StrikeExtension, TrailingNodeExtension, UnderlineExtension } from 'remirror/extensions';
+import { BlockquoteExtension, BoldExtension, BulletListExtension, CodeBlockExtension, CodeExtension, HardBreakExtension, HeadingExtension, HorizontalRuleExtension, ImageExtension, ItalicExtension, LinkExtension, ListItemExtension, MarkdownExtension, NodeFormattingExtension, OrderedListExtension, StrikeExtension, TrailingNodeExtension, UnderlineExtension } from 'remirror/extensions';
 import { AddAITextButton } from './AddAITextButton';
 import { AddAssetsButton } from './AddAssetsButton';
 import { AddContentsButton } from './AddContentsButton';
 import { AlignmentButtons} from './AlignmentButtons';
 import { Counter } from './Counter';
-import { EditableImageExtension } from './EditableImageExtension';
+import { CustomImageView } from './CustomImageView';
+import { CustomLinkExtension} from './CustomLinkExtension';
 import { HtmlCopyExtension } from './HtmlCopyExtension';
 import { LinkButtons } from './LinkButtons';
 import { LinkModal } from './LinkModal';
@@ -16,10 +17,12 @@ import { OnChangeLink } from './OnChangeLink';
 import { TitleModal } from './TitleModal';
 import { EditorProps } from './props';
 import { EditableNode, htmlToMarkdown } from './utils';
-import './Editor.css';
+import './Editor.scss';
 
 export const Editor = (props: EditorProps) => {
     const {
+        appName,
+        baseUrl,
         canSelectAIText,
         canSelectAssets,
         canSelectContents,
@@ -29,7 +32,7 @@ export const Editor = (props: EditorProps) => {
         onSelectAIText,
         onSelectAssets,
         onSelectContents,
-        onUpload,
+        onUpload: uploadHandler,
         value,
     } = props;
 
@@ -56,12 +59,14 @@ export const Editor = (props: EditorProps) => {
             new CodeBlockExtension({}),
             new CodeExtension(),
             new CountExtension({}),
+            new CustomLinkExtension({ appName, baseUrl }),
             new HardBreakExtension(),
             new HeadingExtension({}),
             new HorizontalRuleExtension(),
             new HtmlCopyExtension({ copyAsHtml: mode === 'Html' }),
-            new EditableImageExtension({ uploadHandler: onUpload, onEdit: setModalTitle }),
+            new ImageExtension({ uploadHandler }),
             new ItalicExtension(),
+            new LinkExtension({ autoLink: true }),
             new LinkExtension({ autoLink: true }),
             new ListItemExtension({ enableCollapsible: true }),
             new MarkdownExtension({ copyAsMarkdown: mode === 'Markdown', htmlToMarkdown }),
@@ -71,12 +76,19 @@ export const Editor = (props: EditorProps) => {
             new TrailingNodeExtension(),
             new UnderlineExtension(),
         ];
-    }, [mode, onUpload]);
+    }, [appName, baseUrl, mode, uploadHandler]);
 
     const { manager, state, setState } = useRemirror({
         extensions,
         stringHandler: mode === 'Markdown' ? 'markdown' : 'html',
-        content: value
+        content: value,
+        nodeViewComponents: {
+            'image': (props: NodeViewComponentProps) => {
+                return (
+                    <CustomImageView {...props} appName={appName} baseUrl={baseUrl} onEdit={setModalTitle} />
+                );
+            }
+        }
     });
 
     return (
@@ -90,7 +102,7 @@ export const Editor = (props: EditorProps) => {
                 }
             }}>
                 <Remirror classNames={isDisabled ? ['squidex-editor-disabled'] : []} manager={manager} state={state} onChange={event => setState(event.state)}>
-                    <div className='menu'>
+                    <div className='squidex-editor-menu'>
                         <Toolbar>
                             <HistoryButtonGroup />
 
