@@ -3,12 +3,12 @@ const selectAsset = () => {
     return new Promise(resolve => resolve([
         {
             src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Adams_The_Tetons_and_the_Snake_River.jpg/1280px-Adams_The_Tetons_and_the_Snake_River.jpg',
-            type: 'image/jpeg',
+            mimeType: 'image/jpeg',
             fileName: 'My Image'
         },
         {
             src: 'https://cloud.squidex.io/api/assets/squidex-website/18b271cf-67c8-4bac-82a9-d85d662168f7/administration-tools-in-squidex.jpg?version=0',
-            type: 'image/jpeg',
+            mimeType: 'image/jpeg',
             fileName: 'My Image'
         }
     ]));
@@ -70,6 +70,7 @@ const baseOptions = {
     onSelectAIText: selectAIText,
     onSelectAssets: selectAsset,
     onSelectContents: selectContents,
+    classNames: ['text-left', 'price-alarm']
 };
 
 const editor1Wrapper = new SquidexEditorWrapper(document.getElementById('editor1'), {
@@ -78,7 +79,7 @@ const editor1Wrapper = new SquidexEditorWrapper(document.getElementById('editor1
     onChange: value => {
         updateValue1(value);
     },
-    value: 'Line1\n\n---\n\nLine2'
+    value: 'Hello\n\n---\n\nWorld'
 });
 
 document.getElementById('unset1').addEventListener('click', () => {
@@ -87,11 +88,10 @@ document.getElementById('unset1').addEventListener('click', () => {
 
 const editor2Wrapper = new SquidexEditorWrapper(document.getElementById('editor2'), {
     ...baseOptions,
-    mode: 'HTML',
+    mode: 'Html',
     onChange: value => {
         updateValue2(value);
-    },
-    value: '<a href="https://cloud.squidex.io/api/content/squidex-website/my-schema/ID">Foo</a>'
+    }
 });
 
 document.getElementById('unset2').addEventListener('click', () => {

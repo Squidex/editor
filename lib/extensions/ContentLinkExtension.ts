@@ -1,17 +1,26 @@
-import { NodeViewComponentProps } from '@remirror/react';
-import * as React from 'react';
-import { ExtensionTag, NodeExtension, NodeExtensionSpec } from 'remirror';
-import { Icon } from './Icon';
-import { getContentId } from './utils';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { command, CommandFunction, extension, ExtensionTag, isElementDomNode, NodeExtension, NodeExtensionSpec, PrimitiveSelection } from 'remirror';
+import { Content } from './../props';
+import { getContentId } from './../utils';
+import { ContentLinkRenderView } from './ContentLinkRenderView';
 
-type EditingOptions = { baseUrl: string, appName: string };
+export interface ContentLinkExtensionOptions {
+    // The base url.
+    baseUrl: string;
 
-export class CustomLinkExtension extends NodeExtension<EditingOptions> {
+    // The name to the app.
+    appName: string;
+}
+
+@extension<ContentLinkExtensionOptions>({
+    defaultOptions: { baseUrl: '', appName: '' }
+})
+export class ContentLinkExtension extends NodeExtension<ContentLinkExtensionOptions> {
     public get name(): string {
         return 'content-link' as const;
     }
 
-    constructor(options: EditingOptions) {
+    constructor(options: ContentLinkExtensionOptions) {
         super({ ...options, disableExtraAttributes: true });
     }
     
@@ -35,16 +44,20 @@ export class CustomLinkExtension extends NodeExtension<EditingOptions> {
                 {
                     tag: 'a[href]',
                     getAttrs: (dom) => {
+                        if (!isElementDomNode(dom)) {
+                            return false;
+                        }
+                        
                         const href = (dom as HTMLAnchorElement).getAttribute('href');
 
                         if (!href) {
-                            return null;
+                            return false;
                         }
 
                         const content = getContentId(href, this.options.baseUrl, this.options.appName);
                         
                         if (!content) {
-                            return null;
+                            return false;
                         }
 
                         return {
@@ -59,30 +72,17 @@ export class CustomLinkExtension extends NodeExtension<EditingOptions> {
         };
     }
 
-    ReactComponent = (props: NodeViewComponentProps) => {
-        return (
-            <RenderView {...props} {...this.options} />
-        );
-    };
+    public ReactComponent = ContentLinkRenderView;
+    
+    @command({})
+    public addContent(content: Content, selection?: PrimitiveSelection): CommandFunction {
+        return this.store.commands.insertNode.original(this.type, {
+            attrs: {
+                contentId: content,
+                contentTitle: content.title,
+                schemaName: content.schemaName,
+            },
+            selection
+        });
+    }
 }
-
-export const RenderView = ({ appName, baseUrl, node }: NodeViewComponentProps & EditingOptions) => {
-    const contentId = node.attrs.contentId;
-    const contentTitle = node.attrs.contentTitle;
-    const schemaName = node.attrs.schemaName;
-
-    const url = React.useMemo(() => {
-        return `${baseUrl}/app/${appName}/content/${schemaName}/${contentId}`;
-    }, [appName, baseUrl, contentId, schemaName]);
-
-    return (
-        <div className='squidex-editor-content-link'>
-            <a href={url} target='_blank' className='squidex-editor-button'>
-                <Icon type='Contents' />
-            </a>
-            
-            <div className='squidex-editor-content-schema'>{schemaName}</div>
-            <div className='squidex-editor-content-name'>{contentTitle}</div>
-        </div>
-    );
-};

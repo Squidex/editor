@@ -11,6 +11,8 @@ export default defineConfig({
                 entryFileNames: `assets/squidex-editor.js`,
                 assetFileNames: `assets/squidex-editor.css`
             }
-        }
-    }
+        },
+
+        chunkSizeWarningLimit: 5000
+    },
 });

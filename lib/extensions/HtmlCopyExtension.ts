@@ -7,7 +7,7 @@ export interface HtmlCopyOptions {
 
 export class HtmlCopyExtension extends PlainExtension<HtmlCopyOptions> {
     get name() {
-        return 'html-copy' as const;
+        return 'htmlCopy' as const;
     }
 
     public createPlugin(): CreateExtensionPlugin {

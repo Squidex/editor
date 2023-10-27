@@ -1,14 +1,13 @@
 import { CommandButton, CommandButtonGroup, useAttrs, useChainedCommands, useCurrentSelection } from '@remirror/react';
 import * as React from 'react';
-import { DelayedAutoFocusInput } from './DelayedAutoFocusInput';
-import { Icon } from './Icon';
-import { Modal } from './Modal';
-import { useStateWithRef } from './utils';
+import { LinkExtension } from 'remirror/extensions';
+import { useStateWithRef } from './../utils';
+import { DelayedAutoFocusInput, Icon, Modal } from './internal';
 
 export const LinkModal = ({ onClose }: { onClose: () => void }) => {
     const [href, setHref, hrefRef] = useStateWithRef<string>('');
     const chain = useChainedCommands();
-    const linkAttr = useAttrs(true)['link']();
+    const linkAttr = useAttrs<LinkExtension>(true).link();
     const linkHref = linkAttr?.href as string ?? '';
     const selection = useCurrentSelection();
 

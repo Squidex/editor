@@ -1,6 +1,6 @@
 import { CommandButton, useChainedCommands } from '@remirror/react';
 import * as React from 'react';
-import { OnSelectAIText } from './props';
+import { OnSelectAIText } from './../props';
 
 export const AddAITextButton = ({ onSelectAIText }: { onSelectAIText: OnSelectAIText }) => {
     const chained = useChainedCommands();

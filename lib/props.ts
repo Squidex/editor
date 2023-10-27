@@ -6,7 +6,7 @@ export type Asset = {
     src: string;
 
     // The mime type.
-    type: string;
+    mimeType: string;
 
     // The file name of the asset.
     fileName: string;
@@ -51,6 +51,9 @@ export interface EditorProps {
 
     // The name to the app.
     appName: string;
+
+    // The class names.
+    classNames?: string[];
 
     // Called when the value has been changed.
     onChange?: OnChange;

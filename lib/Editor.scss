@@ -20,10 +20,6 @@ $color-border: #dedfe3;
     max-height: 500px;
 }
 
-.MuiStack-root {
-    padding: 5px;
-}
-
 .MuiStack-root>.MuiBox-root {
     margin-right: 5px;
 }
@@ -38,6 +34,10 @@ $color-border: #dedfe3;
 }
 
 .MuiBox-root>.MuiBox-root:first-child>.MuiButtonBase-root {
+    border-left-width: 1px;   
+}
+
+.MuiStack-root>.MuiBox-root>.MuiButtonBase-root:first-child {
     border-left-width: 1px;   
 }
 
@@ -67,6 +67,10 @@ $color-border: #dedfe3;
     padding: .5rem;
 }
 
+.MuiMenu-paper {
+    transform: none !important;
+}
+
 .squidex-editor {
     &-disabled {
         pointer-events: none;
@@ -78,6 +82,7 @@ $color-border: #dedfe3;
     &-menu {
         border: 1px solid $color-border;
         border-bottom: 0;
+        padding: 5px;
     }
 
     /*
@@ -104,6 +109,7 @@ $color-border: #dedfe3;
             display: inline-block;
             margin-top: 15px;
             margin-bottom: 15px;
+            overflow: hidden;
 
             .squidex-editor-button {
                 @include absolute(null, null, 10px, 10px);
@@ -119,8 +125,6 @@ $color-border: #dedfe3;
         &-info {
             @include absolute(10px, null, null, 10px);
             background-color: $color-theme;
-            border-radius: 2px;
-            border: 1px solid $color-border;
             color: white;
             font-size: 85%;
             font-weight: normal;
@@ -158,6 +162,30 @@ $color-border: #dedfe3;
             @include truncate;
             padding-left: 10px;
             padding-right: 0;
+        }
+    }
+
+    /*
+     * HTML
+     */
+    &-html {
+        & {
+            margin-bottom: 10px;
+            margin-top: 10px;
+            position: relative;
+        }
+
+        &-label {
+            @include absolute(0px, null, null, 6px);
+            color: darken($color-border, 30%);
+            font-size: 85%;
+            font-weight: normal;
+        }
+
+        textarea {
+            font-family: monospace;
+            padding: 20px;
+            padding-top: 30px;
         }
     }
 
@@ -254,5 +282,19 @@ $color-border: #dedfe3;
         &-window input {
             flex-grow: 1;
         }
+    }
+}
+
+.b {
+    &::before {
+        content: '<a>';
+        font-family: monospace;
+        font-size: 90%;
+    }
+    
+    &::after {
+        content: '</a>';
+        font-family: monospace;
+        font-size: 90%;
     }
 }

@@ -1,9 +1,7 @@
 import { CommandButton, CommandButtonGroup, useCommands } from '@remirror/react';
 import * as React from 'react';
-import { DelayedAutoFocusInput } from './DelayedAutoFocusInput';
-import { Icon } from './Icon';
-import { Modal } from './Modal';
-import { EditableNode, useStateWithRef } from './utils';
+import { EditableNode, useStateWithRef } from './../utils';
+import { DelayedAutoFocusInput, Icon, Modal } from './internal';
 
 export const TitleModal = ({ onClose, node }: { onClose: () => void, node: EditableNode }) => {
     const [title, setTitle, titleRef] = useStateWithRef<string>('');

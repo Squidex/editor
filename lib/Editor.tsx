@@ -2,27 +2,17 @@ import { CountExtension } from '@remirror/extension-count';
 import { CommandButtonGroup, EditorComponent, FloatingToolbar, HeadingLevelButtonGroup, HistoryButtonGroup, InsertHorizontalRuleButton, NodeViewComponentProps, Remirror, ThemeProvider, ToggleBlockquoteButton, ToggleBoldButton, ToggleBulletListButton, ToggleCodeBlockButton, ToggleCodeButton, ToggleItalicButton, ToggleOrderedListButton, ToggleUnderlineButton, Toolbar, useRemirror } from '@remirror/react';
 import { AllStyledComponent } from '@remirror/styles/emotion';
 import * as React from 'react';
-import { BlockquoteExtension, BoldExtension, BulletListExtension, CodeBlockExtension, CodeExtension, HardBreakExtension, HeadingExtension, HorizontalRuleExtension, ImageExtension, ItalicExtension, LinkExtension, ListItemExtension, MarkdownExtension, NodeFormattingExtension, OrderedListExtension, StrikeExtension, TrailingNodeExtension, UnderlineExtension } from 'remirror/extensions';
-import { AddAITextButton } from './AddAITextButton';
-import { AddAssetsButton } from './AddAssetsButton';
-import { AddContentsButton } from './AddContentsButton';
-import { AlignmentButtons} from './AlignmentButtons';
-import { Counter } from './Counter';
-import { CustomImageView } from './CustomImageView';
-import { CustomLinkExtension} from './CustomLinkExtension';
-import { HtmlCopyExtension } from './HtmlCopyExtension';
-import { LinkButtons } from './LinkButtons';
-import { LinkModal } from './LinkModal';
-import { OnChangeLink } from './OnChangeLink';
-import { TitleModal } from './TitleModal';
+import { BlockquoteExtension, BoldExtension, BulletListExtension, CodeBlockExtension, CodeExtension, FontSizeExtension, HardBreakExtension, HeadingExtension, HorizontalRuleExtension, ImageExtension, ItalicExtension, LinkExtension, ListItemExtension, MarkdownExtension, NodeFormattingExtension, OrderedListExtension, StrikeExtension, TrailingNodeExtension, UnderlineExtension } from 'remirror/extensions';
+import { ClassNameExtension, ContentLinkExtension, CustomImageView, HtmlCopyExtension, OnChangeLink, PlainHtmlExtension } from './extensions';
 import { EditorProps } from './props';
+import { AddAITextButton, AddAssetsButton, AddContentsButton, AddHtmlButton, ClassNameButton, Counter, LinkButtons, LinkModal, TitleModal } from './ui';
 import { EditableNode, htmlToMarkdown } from './utils';
 import './Editor.scss';
 
 export const Editor = (props: EditorProps) => {
     const {
         appName,
-        baseUrl,
+        classNames,
         canSelectAIText,
         canSelectAssets,
         canSelectContents,
@@ -35,6 +25,16 @@ export const Editor = (props: EditorProps) => {
         onUpload: uploadHandler,
         value,
     } = props;
+
+    const baseUrl = React.useMemo(() => {
+        let result = props.baseUrl;
+
+        if (result.endsWith('/')) {
+            result = result.substring(0, result.length - 1);
+        }
+
+        return result;
+    }, [props.baseUrl]);
 
     const [modalTitle, setModalTitle] = React.useState<EditableNode | undefined | null>();
     const [modalLink, setModalLink] = React.useState<boolean>(false);
@@ -56,10 +56,12 @@ export const Editor = (props: EditorProps) => {
             new BlockquoteExtension(),
             new BoldExtension({}),
             new BulletListExtension({ enableSpine: true }),
+            new ClassNameExtension({ classNames }),
             new CodeBlockExtension({}),
             new CodeExtension(),
+            new ContentLinkExtension({ appName, baseUrl }),
             new CountExtension({}),
-            new CustomLinkExtension({ appName, baseUrl }),
+            new FontSizeExtension(),
             new HardBreakExtension(),
             new HeadingExtension({}),
             new HorizontalRuleExtension(),
@@ -72,11 +74,12 @@ export const Editor = (props: EditorProps) => {
             new MarkdownExtension({ copyAsMarkdown: mode === 'Markdown', htmlToMarkdown }),
             new NodeFormattingExtension(),
             new OrderedListExtension(),
+            new PlainHtmlExtension(),
             new StrikeExtension(),
             new TrailingNodeExtension(),
             new UnderlineExtension(),
         ];
-    }, [appName, baseUrl, mode, uploadHandler]);
+    }, [appName, baseUrl, classNames, mode, uploadHandler]);
 
     const { manager, state, setState } = useRemirror({
         extensions,
@@ -126,16 +129,16 @@ export const Editor = (props: EditorProps) => {
                                 <ToggleBulletListButton />
                                 <ToggleOrderedListButton />
                             </CommandButtonGroup>
+                            
+                            {mode === 'Html' && classNames && classNames.length > 0 &&
+                                <CommandButtonGroup>
+                                    <ClassNameButton />
+                                </CommandButtonGroup>
+                            }
 
                             <CommandButtonGroup>
                                 <LinkButtons onEdit={doOpenModalLink} />
                             </CommandButtonGroup>
-
-                            {mode === 'Html' &&
-                                <CommandButtonGroup>
-                                    <AlignmentButtons />
-                                </CommandButtonGroup>
-                            }
 
                             <CommandButtonGroup>
                                 {canSelectAssets && onSelectAssets &&
@@ -150,13 +153,19 @@ export const Editor = (props: EditorProps) => {
                                     <AddAITextButton onSelectAIText={onSelectAIText} />
                                 }
                             </CommandButtonGroup>
+
+                            {mode === 'Html' &&
+                                <CommandButtonGroup>
+                                    <AddHtmlButton />
+                                </CommandButtonGroup>
+                            }
                         </Toolbar>
                     </div>
 
                     <OnChangeLink mode={mode} onChange={onChange} state={state} value={value} />
 
                     <EditorComponent />
-                    
+
                     {modalLink ? (
                         <LinkModal onClose={doCloseModalLink} />
                     ) : modalTitle ? (

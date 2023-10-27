@@ -1,10 +1,11 @@
 import { CommandButton, useActive, useChainedCommands, useCurrentSelection } from '@remirror/react';
 import * as React from 'react';
+import { LinkExtension } from 'remirror/extensions';
 
 export const LinkButtons = ({ onEdit }: { onEdit: () => void }) => {
     const chain = useChainedCommands();
-    const activeMarks = useActive();
-    const activeLink = activeMarks['link']();
+    const activeMarks = useActive<LinkExtension>();
+    const activeLink = activeMarks.link();
     const selection = useCurrentSelection();
 
     const removeLink = React.useCallback(() => {

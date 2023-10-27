@@ -1,7 +1,7 @@
 import { CommandButton, useChainedCommands } from '@remirror/react';
 import * as React from 'react';
-import { Icon } from './Icon';
-import { OnSelectAssets } from './props';
+import { OnSelectAssets } from './../props';
+import { Icon } from './internal';
 
 export const AddAssetsButton = ({ onSelectAssets }: { onSelectAssets: OnSelectAssets }) => {
     const chained = useChainedCommands();
@@ -10,18 +10,12 @@ export const AddAssetsButton = ({ onSelectAssets }: { onSelectAssets: OnSelectAs
         const assets = await onSelectAssets();
 
         for (const asset of assets) {
-            if (asset.type.startsWith('image/')) {
-                const image = { ...asset, title: asset.fileName };
-                console.log(image);
+            if (asset.mimeType.startsWith('image/')) {
+                const image = { src: asset.src, alt: asset.alt, title: asset.fileName };
+
                 chained.insertImage(image);
             } else {
-                chained.insertText(asset.fileName, {
-                    marks: {
-                        link: {
-                            href: asset.src
-                        }
-                    }
-                });
+                chained.insertAsset(asset);
             }
             
             chained.insertText(' ');

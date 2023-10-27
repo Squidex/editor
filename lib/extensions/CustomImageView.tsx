@@ -1,6 +1,6 @@
 import { NodeViewComponentProps } from '@remirror/react';
-import { Icon } from './Icon';
-import { EditableNode, getAssetId } from './utils';
+import { Icon } from './../ui/internal/Icon';
+import { EditableNode, getAssetId } from './../utils';
 
 export const CustomImageView = ({ appName, baseUrl, node, onEdit, getPosition }: NodeViewComponentProps & { onEdit: (node: EditableNode) => void, baseUrl: string, appName: string }) => {
     const asset = getAssetId(node.attrs.src, baseUrl, appName);
