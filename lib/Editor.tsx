@@ -19,6 +19,8 @@ export const Editor = (props: EditorProps) => {
         isDisabled,
         mode,
         onChange,
+        onEditAsset,
+        onEditContent,
         onSelectAIText,
         onSelectAssets,
         onSelectContents,
@@ -59,7 +61,7 @@ export const Editor = (props: EditorProps) => {
             new ClassNameExtension({ classNames }),
             new CodeBlockExtension({}),
             new CodeExtension(),
-            new ContentLinkExtension({ appName, baseUrl }),
+            new ContentLinkExtension({ appName, baseUrl, onEditContent }),
             new CountExtension({}),
             new FontSizeExtension(),
             new HardBreakExtension(),
@@ -68,7 +70,6 @@ export const Editor = (props: EditorProps) => {
             new HtmlCopyExtension({ copyAsHtml: mode === 'Html' }),
             new ImageExtension({ uploadHandler }),
             new ItalicExtension(),
-            new LinkExtension({ autoLink: true }),
             new LinkExtension({ autoLink: true }),
             new ListItemExtension({ enableCollapsible: true }),
             new MarkdownExtension({ copyAsMarkdown: mode === 'Markdown', htmlToMarkdown }),
@@ -79,19 +80,19 @@ export const Editor = (props: EditorProps) => {
             new TrailingNodeExtension(),
             new UnderlineExtension(),
         ];
-    }, [appName, baseUrl, classNames, mode, uploadHandler]);
+    }, [appName, baseUrl, classNames, mode, onEditContent, uploadHandler]);
 
     const { manager, state, setState } = useRemirror({
-        extensions,
         stringHandler: mode === 'Markdown' ? 'markdown' : 'html',
         content: value,
         nodeViewComponents: {
             'image': (props: NodeViewComponentProps) => {
                 return (
-                    <CustomImageView {...props} appName={appName} baseUrl={baseUrl} onEdit={setModalTitle} />
+                    <CustomImageView {...props} appName={appName} baseUrl={baseUrl} onEditNode={setModalTitle} onEditAsset={onEditAsset} />
                 );
             }
-        }
+        },
+        extensions,
     });
 
     return (

@@ -53,7 +53,7 @@ export interface EditorProps {
     appName: string;
 
     // The class names.
-    classNames?: string[];
+    classNames?: ReadonlyArray<string>;
 
     // Called when the value has been changed.
     onChange?: OnChange;
@@ -66,6 +66,12 @@ export interface EditorProps {
 
     // Called when content items should be selected.
     onSelectContents?: OnSelectContents;
+
+    // Called when an asset is to be edited.
+    onEditAsset: (assetId: string) => void;
+
+    // Called when a content is to be edited.
+    onEditContent: (schemaName: string, contentId: string) => void;
 
     // Called when a file needs to be uploaded.
     onUpload?: (images: UploadRequest[]) => DelayedPromiseCreator<Asset>[];

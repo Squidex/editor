@@ -10,13 +10,7 @@ export const AddContentsButton = ({ onSelectContents }: { onSelectContents: OnSe
         const contents = await onSelectContents();
 
         for (const content of contents) {
-            chained.insertNode('content-link', {
-                attrs: {
-                    contentId: content.id,
-                    contentTitle: content.title,
-                    schemaName: content.schemaName,
-                }
-            });
+            chained.addContent(content);
             chained.insertText(' ');
         }
 

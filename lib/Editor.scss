@@ -30,15 +30,15 @@ $color-border: #dedfe3;
 }
 
 .MuiBox-root>.MuiButtonBase-root {
-    border-left-width: 0;   
+    border-left-width: 0 !important;   
 }
 
 .MuiBox-root>.MuiBox-root:first-child>.MuiButtonBase-root {
-    border-left-width: 1px;   
+    border-left-width: 1px !important;   
 }
 
 .MuiStack-root>.MuiBox-root>.MuiButtonBase-root:first-child {
-    border-left-width: 1px;   
+    border-left-width: 1px !important;   
 }
 
 .MuiButtonBase-root.Mui-selected:hover {
@@ -110,10 +110,10 @@ $color-border: #dedfe3;
             margin-top: 15px;
             margin-bottom: 15px;
             overflow: hidden;
+        }
 
-            .squidex-editor-button {
-                @include absolute(null, null, 10px, 10px);
-            }
+        &-buttons {
+            @include absolute(null, null, 10px, 10px);
         }
 
         &-element {
@@ -193,13 +193,15 @@ $color-border: #dedfe3;
      * BUTTON
      */
     &-button {
+        align-items: center;
         background-color: white;
         border-radius: 0;
         border: 1px solid $color-border;
         bottom: 10px;
+        display: inline-flex;
         font-size: 85%;
         font-weight: normal;
-        line-height: 1;
+        margin-right: 5px;
         padding: 6px 12px;
 
         &:hover {
@@ -254,9 +256,10 @@ $color-border: #dedfe3;
         &-window {
             @include absolute(50%, null, null, 50%);
             background-color: white;
-            border: 1px solid $color-border;
-            border-radius: 0;
+            border: 0;
+            border-radius: .25rem;
             box-sizing: border-box;
+            box-shadow: 0 3px 16px rgba(0, 0, 0, .2);
             margin-top: -50px;
             margin-left: -150px;
             position: absolute;

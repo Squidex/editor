@@ -3,15 +3,17 @@ import { addClassStyle } from './class-name-styles';
 
 export interface ClassNameOptions {
     // The class names.
-    classNames?: string[];
+    classNames?: ReadonlyArray<string>;
 }
 
 export interface ClassNameAttributes {
     className?: string;
 }
 
+const PREFIX = '__editor_';
+
 @extension<ClassNameOptions>({ 
-    defaultOptions: { classNames: [] }
+    defaultOptions: {} as never
 })
 export class ClassNameExtension extends MarkExtension<ClassNameOptions> {
     public get name() {
@@ -22,7 +24,7 @@ export class ClassNameExtension extends MarkExtension<ClassNameOptions> {
         super(options);
 
         for (const className of options.classNames || []) {
-            addClassStyle(className);
+            addClassStyle(className, PREFIX);
         }
 
     }
@@ -46,7 +48,11 @@ export class ClassNameExtension extends MarkExtension<ClassNameOptions> {
                             return false;
                         }
 
-                        for (const className of dom.classList) {
+                        for (let className of dom.classList) {
+                            if (className.startsWith(PREFIX)) {
+                                className = className.substring(PREFIX.length);
+                            }
+
                             if (this.options.classNames.indexOf(className) >= 0) {
                                 return { ...extra.parse(dom), className };
                             }
@@ -81,7 +87,7 @@ export class ClassNameExtension extends MarkExtension<ClassNameOptions> {
 
 function joinClasses(lhs: string | undefined | null, rhs: string | undefined | null) {
     if (lhs) {
-        lhs = `__editor_${lhs}`;
+        lhs = `${PREFIX}${lhs}`;
     }
     
     if (lhs && rhs) {

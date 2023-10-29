@@ -5,11 +5,7 @@ export const AddHtmlButton = () => {
     const chained = useChainedCommands();
 
     const doSelectText = React.useCallback(async () => {
-        chained.insertNode('plain-html', {
-            attrs: {
-                content: ''
-            }
-        }).run();
+        chained.insertPlainHtml().run();
     }, [chained]);
 
     return (

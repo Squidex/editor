@@ -47,6 +47,12 @@ function updateValue1(value) {
         editor1Preview.value = `${value}`;
 
         console.log(`Value1 changed to ${value1}`);
+
+        if (value) {
+            localStorage.setItem('value1', value);
+        } else {
+            localStorage.removeItem('value1');
+        }
     }
 }
 
@@ -58,6 +64,12 @@ function updateValue2(value) {
         editor2Preview.value = `${value}`;
 
         console.log(`Value2 changed to ${value1}`);
+
+        if (value) {
+            localStorage.setItem('value2', value);
+        } else {
+            localStorage.removeItem('value2');
+        }
     }
 }
 
@@ -70,6 +82,8 @@ const baseOptions = {
     onSelectAIText: selectAIText,
     onSelectAssets: selectAsset,
     onSelectContents: selectContents,
+    onEditAsset: () => console.log('Edit Asset'),
+    onEditContent: () => console.log('Edit Asset'),
     classNames: ['text-left', 'price-alarm']
 };
 
@@ -79,7 +93,7 @@ const editor1Wrapper = new SquidexEditorWrapper(document.getElementById('editor1
     onChange: value => {
         updateValue1(value);
     },
-    value: 'Hello\n\n---\n\nWorld'
+    value: localStorage.getItem('value1')
 });
 
 document.getElementById('unset1').addEventListener('click', () => {
@@ -91,7 +105,8 @@ const editor2Wrapper = new SquidexEditorWrapper(document.getElementById('editor2
     mode: 'Html',
     onChange: value => {
         updateValue2(value);
-    }
+    },
+    value: localStorage.getItem('value2')
 });
 
 document.getElementById('unset2').addEventListener('click', () => {

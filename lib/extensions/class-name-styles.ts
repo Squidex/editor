@@ -1,6 +1,6 @@
 const ADDED_CLASSES: Record<string, boolean> = {};
 
-export function addClassStyle(className: string) {
+export function addClassStyle(className: string, prefix: string) {
     if (ADDED_CLASSES[className]) {
         return;
     }
@@ -13,14 +13,14 @@ export function addClassStyle(className: string) {
 
     styleElement.type = "text/css";
     styleElement.textContent = `
-        .remirror-editor-wrapper .__editor_${className}::before {
+        .remirror-editor-wrapper .${prefix}${className}::before {
             content: '[${className}]';
             font-family: monospace;
             font-size: 90%;
             color: ${colorHex};
         }
         
-        .remirror-editor-wrapper .__editor_${className}::after {
+        .remirror-editor-wrapper .${prefix}${className}::after {
             content: '[/${className}]';
             font-family: monospace;
             font-size: 90%;

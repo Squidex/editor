@@ -1,9 +1,14 @@
-import { DOMCompatibleAttributes, DOMOutputSpec, ExtensionTag, NodeExtension, NodeExtensionSpec } from 'remirror';
+import { command, CommandFunction, DOMCompatibleAttributes, DOMOutputSpec, extension, ExtensionTag, NodeExtension, NodeExtensionSpec, PrimitiveSelection } from 'remirror';
 import { PlainHtmlRenderView } from './PlainHtmlRenderView';
 
-export class PlainHtmlExtension extends NodeExtension {
+interface PlainHtmlOptions {}
+
+@extension<PlainHtmlOptions>({
+    defaultOptions: {} as never
+})
+export class PlainHtmlExtension extends NodeExtension<PlainHtmlOptions> {
     public get name(): string {
-        return 'plain-html' as const;
+        return 'plainHtml' as const;
     }
 
     constructor() {
@@ -11,7 +16,7 @@ export class PlainHtmlExtension extends NodeExtension {
     }
     
     public createTags() {
-        return [ExtensionTag.Block];
+        return [ExtensionTag.Block, ExtensionTag.TextBlock, ExtensionTag.FormattingNode];
     }
 
     public createNodeSpec(): NodeExtensionSpec {
@@ -22,11 +27,11 @@ export class PlainHtmlExtension extends NodeExtension {
             toDOM: node => {
                 const content = node.attrs.html;
 
-                return ['div', { class: 'raw-content' }, ...parseDOM(content)];
+                return ['div', { class: '__editor_html' }, ...parseDOM(content)];
             },
             parseDOM: [
                 {
-                    tag: 'div[class~=raw-content]',
+                    tag: 'div[class~=__editor_html]',
                     getAttrs: (dom) => {
                         return {
                             content: (dom as HTMLDivElement).innerHTML
@@ -38,7 +43,17 @@ export class PlainHtmlExtension extends NodeExtension {
         };
     }
 
-    ReactComponent = PlainHtmlRenderView;
+    public ReactComponent = PlainHtmlRenderView;
+    
+    @command({})
+    public insertPlainHtml(selection?: PrimitiveSelection): CommandFunction {
+        return this.store.commands.insertNode.original(this.type, {
+            attrs: {
+                content: '',
+            },
+            selection
+        });
+    }
 }
 
 function parseDOM(innerHtml: string): DOMOutputSpec[] {

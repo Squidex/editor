@@ -26,13 +26,17 @@
       position: relative;
     }
 
-    .unset-button {
-      border: 1px solid #dedfe3;
-      border-radius: 2px;
+    .preview-buttons {
       right: 10px;
-      padding: 4px 6px;
       position: absolute;
       top: 10px;
+    }
+
+    .preview-button {
+      border: 1px solid #dedfe3;
+      border-radius: 2px;
+      margin-left: 5px;
+      padding: 4px 6px;
     }
 
     h2 {
@@ -47,7 +51,9 @@
 
   <div class="preview">
     <textarea id="textarea1"></textarea>
-    <button class="unset-button" id="unset1">Unset</button>
+    <div class="preview-buttons">
+        <button class="preview-button" id="unset1">Unset</button>
+    </div>
   </div>
 
   <h2>HTML</h2>
@@ -55,7 +61,9 @@
 
   <div class="preview">
     <textarea id="textarea2"></textarea>
-    <button class="unset-button" id="unset2">Unset</button>
+    <div class="preview-buttons">
+        <button class="preview-button" id="unset2">Unset</button>
+    </div>
   </div>
 
   <script type="module" src="/src/main"></script>

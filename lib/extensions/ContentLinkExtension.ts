@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { command, CommandFunction, extension, ExtensionTag, isElementDomNode, NodeExtension, NodeExtensionSpec, PrimitiveSelection } from 'remirror';
+import { command, CommandFunction, extension, ExtensionTag, NodeExtension, NodeExtensionSpec, PrimitiveSelection } from 'remirror';
 import { Content } from './../props';
 import { getContentId } from './../utils';
 import { ContentLinkRenderView } from './ContentLinkRenderView';
@@ -10,14 +9,17 @@ export interface ContentLinkExtensionOptions {
 
     // The name to the app.
     appName: string;
+
+    // Called when a content is to be edited.
+    onEditContent: (schemaName: string, id: string) => void;
 }
 
 @extension<ContentLinkExtensionOptions>({
-    defaultOptions: { baseUrl: '', appName: '' }
+    defaultOptions: {} as never
 })
 export class ContentLinkExtension extends NodeExtension<ContentLinkExtensionOptions> {
     public get name(): string {
-        return 'content-link' as const;
+        return 'contentLink' as const;
     }
 
     constructor(options: ContentLinkExtensionOptions) {
@@ -25,11 +27,12 @@ export class ContentLinkExtension extends NodeExtension<ContentLinkExtensionOpti
     }
     
     public createTags() {
-        return [ExtensionTag.Block];
+        return [ExtensionTag.InlineNode, ExtensionTag.Media];
     }
 
     public createNodeSpec(): NodeExtensionSpec {
         return {
+            inline: true,
             attrs: {
                 contentId: { default: '' },
                 contentTitle: { default: '' },
@@ -43,11 +46,7 @@ export class ContentLinkExtension extends NodeExtension<ContentLinkExtensionOpti
             parseDOM: [
                 {
                     tag: 'a[href]',
-                    getAttrs: (dom) => {
-                        if (!isElementDomNode(dom)) {
-                            return false;
-                        }
-                        
+                    getAttrs: (dom) => {                        
                         const href = (dom as HTMLAnchorElement).getAttribute('href');
 
                         if (!href) {
@@ -66,7 +65,7 @@ export class ContentLinkExtension extends NodeExtension<ContentLinkExtensionOpti
                             schemaName: content.schemaName,
                         };
                     },
-                    priority: 10000,
+                    priority: 100000,
                 },
             ],
         };
@@ -78,7 +77,7 @@ export class ContentLinkExtension extends NodeExtension<ContentLinkExtensionOpti
     public addContent(content: Content, selection?: PrimitiveSelection): CommandFunction {
         return this.store.commands.insertNode.original(this.type, {
             attrs: {
-                contentId: content,
+                contentId: content.id,
                 contentTitle: content.title,
                 schemaName: content.schemaName,
             },
