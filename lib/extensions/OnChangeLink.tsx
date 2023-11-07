@@ -49,7 +49,7 @@ export const OnChangeLink = ({ mode, onChange, state, value }: { mode: EditorMod
 
         let value = getExport().trim();
 
-        if (value === '<p></p>') {
+        if (value && value.length > 0 && EMPTY_RESULTS.indexOf(value) >= 0) {
             value = '';
         }
 
@@ -69,3 +69,9 @@ export const OnChangeLink = ({ mode, onChange, state, value }: { mode: EditorMod
 
     return null;
 };
+
+const EMPTY_RESULTS = [
+    '<p></p>',
+    '<p style=""></p>',
+    '<p class=""></p>'
+]

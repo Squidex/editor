@@ -2,7 +2,7 @@ import { CountExtension } from '@remirror/extension-count';
 import { CommandButtonGroup, EditorComponent, FloatingToolbar, HeadingLevelButtonGroup, HistoryButtonGroup, InsertHorizontalRuleButton, NodeViewComponentProps, Remirror, ThemeProvider, ToggleBlockquoteButton, ToggleBoldButton, ToggleBulletListButton, ToggleCodeBlockButton, ToggleCodeButton, ToggleItalicButton, ToggleOrderedListButton, ToggleUnderlineButton, Toolbar, useRemirror } from '@remirror/react';
 import { AllStyledComponent } from '@remirror/styles/emotion';
 import * as React from 'react';
-import { BlockquoteExtension, BoldExtension, BulletListExtension, CodeBlockExtension, CodeExtension, FontSizeExtension, HardBreakExtension, HeadingExtension, HorizontalRuleExtension, ImageExtension, ItalicExtension, LinkExtension, ListItemExtension, MarkdownExtension, NodeFormattingExtension, OrderedListExtension, StrikeExtension, TrailingNodeExtension, UnderlineExtension } from 'remirror/extensions';
+import { BlockquoteExtension, BoldExtension, BulletListExtension, CodeBlockExtension, CodeExtension, HardBreakExtension, HeadingExtension, HorizontalRuleExtension, ImageExtension, ItalicExtension, LinkExtension, ListItemExtension, MarkdownExtension, OrderedListExtension, StrikeExtension, TrailingNodeExtension, UnderlineExtension } from 'remirror/extensions';
 import { ClassNameExtension, ContentLinkExtension, CustomImageView, HtmlCopyExtension, OnChangeLink, PlainHtmlExtension } from './extensions';
 import { EditorProps } from './props';
 import { AddAITextButton, AddAssetsButton, AddContentsButton, AddHtmlButton, ClassNameButton, Counter, LinkButtons, LinkModal, TitleModal } from './ui';
@@ -63,7 +63,6 @@ export const Editor = (props: EditorProps) => {
             new CodeExtension(),
             new ContentLinkExtension({ appName, baseUrl, onEditContent }),
             new CountExtension({}),
-            new FontSizeExtension(),
             new HardBreakExtension(),
             new HeadingExtension({}),
             new HorizontalRuleExtension(),
@@ -73,7 +72,6 @@ export const Editor = (props: EditorProps) => {
             new LinkExtension({ autoLink: true }),
             new ListItemExtension({ enableCollapsible: true }),
             new MarkdownExtension({ copyAsMarkdown: mode === 'Markdown', htmlToMarkdown }),
-            new NodeFormattingExtension(),
             new OrderedListExtension(),
             new PlainHtmlExtension(),
             new StrikeExtension(),
