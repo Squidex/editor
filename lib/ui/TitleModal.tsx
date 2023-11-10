@@ -1,3 +1,10 @@
+/*
+ * Squidex Headless CMS
+ *
+ * @license
+ * Copyright (c) Squidex UG (haftungsbeschränkt). All rights reserved.
+ */
+
 import { CommandButton, CommandButtonGroup, useCommands } from '@remirror/react';
 import * as React from 'react';
 import { EditableNode, useStateWithRef } from './../utils';

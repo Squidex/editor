@@ -1,3 +1,10 @@
+/*
+ * Squidex Headless CMS
+ *
+ * @license
+ * Copyright (c) Squidex UG (haftungsbeschränkt). All rights reserved.
+ */
+
 import { CountExtension } from '@remirror/extension-count';
 import { useExtension } from '@remirror/react';
 

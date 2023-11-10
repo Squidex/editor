@@ -1,3 +1,10 @@
+/*
+ * Squidex Headless CMS
+ *
+ * @license
+ * Copyright (c) Squidex UG (haftungsbeschränkt). All rights reserved.
+ */
+
 import * as  ReactDOM from 'react-dom/client';
 import { Editor } from './Editor';
 import { EditorProps } from './props';

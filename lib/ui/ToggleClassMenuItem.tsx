@@ -1,3 +1,10 @@
+/*
+ * Squidex Headless CMS
+ *
+ * @license
+ * Copyright (c) Squidex UG (haftungsbeschränkt). All rights reserved.
+ */
+
 import { CommandMenuItem, CommandMenuItemProps } from '@remirror/react';
 import { useActive, useCommands } from '@remirror/react-core';
 import * as React from 'react';

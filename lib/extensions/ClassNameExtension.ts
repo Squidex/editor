@@ -1,3 +1,10 @@
+/*
+ * Squidex Headless CMS
+ *
+ * @license
+ * Copyright (c) Squidex UG (haftungsbeschränkt). All rights reserved.
+ */
+
 import { ApplySchemaAttributes, command, CommandFunction, extension, ExtensionTag, isElementDomNode, Mark, MarkExtension, MarkExtensionSpec, MarkSpecOverride, omitExtraAttributes, PrimitiveSelection } from "remirror";
 import { addClassStyle } from './class-name-styles';
 
@@ -53,7 +60,7 @@ export class ClassNameExtension extends MarkExtension<ClassNameOptions> {
                                 className = className.substring(PREFIX.length);
                             }
 
-                            if (this.options.classNames.indexOf(className) >= 0) {
+                            if (this.options.classNames?.indexOf(className) >= 0) {
                                 return { ...extra.parse(dom), className };
                             }
                         }

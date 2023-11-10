@@ -1,3 +1,10 @@
+/*
+ * Squidex Headless CMS
+ *
+ * @license
+ * Copyright (c) Squidex UG (haftungsbeschränkt). All rights reserved.
+ */
+
 import { useHelpers, useRemirrorContext, useUpdateReason } from '@remirror/react';
 import * as React from 'react';
 import { EditorState } from 'remirror';
@@ -74,4 +81,4 @@ const EMPTY_RESULTS = [
     '<p></p>',
     '<p style=""></p>',
     '<p class=""></p>'
-]
+];

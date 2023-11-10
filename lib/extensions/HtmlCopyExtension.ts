@@ -1,3 +1,10 @@
+/*
+ * Squidex Headless CMS
+ *
+ * @license
+ * Copyright (c) Squidex UG (haftungsbeschränkt). All rights reserved.
+ */
+
 import { DOMSerializer } from '@remirror/pm/model';
 import { CreateExtensionPlugin, PlainExtension, Slice } from 'remirror';
 

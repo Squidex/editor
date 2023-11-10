@@ -1,3 +1,10 @@
+/*
+ * Squidex Headless CMS
+ *
+ * @license
+ * Copyright (c) Squidex UG (haftungsbeschränkt). All rights reserved.
+ */
+
 const ADDED_CLASSES: Record<string, boolean> = {};
 
 export function addClassStyle(className: string, prefix: string) {

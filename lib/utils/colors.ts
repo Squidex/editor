@@ -1,3 +1,10 @@
+/*
+ * Squidex Headless CMS
+ *
+ * @license
+ * Copyright (c) Squidex UG (haftungsbeschränkt). All rights reserved.
+ */
+
 export function hsvToRgb({ h, s, v }: HSVColor): RGBColor {
     h /= 60;
 

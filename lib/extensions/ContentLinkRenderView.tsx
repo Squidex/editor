@@ -1,3 +1,10 @@
+/*
+ * Squidex Headless CMS
+ *
+ * @license
+ * Copyright (c) Squidex UG (haftungsbeschränkt). All rights reserved.
+ */
+
 import { NodeViewComponentProps, useExtension } from '@remirror/react';
 import { Icon } from './../ui/internal/Icon';
 import { ContentLinkExtension } from './ContentLinkExtension';

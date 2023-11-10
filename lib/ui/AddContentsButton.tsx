@@ -1,3 +1,10 @@
+/*
+ * Squidex Headless CMS
+ *
+ * @license
+ * Copyright (c) Squidex UG (haftungsbeschränkt). All rights reserved.
+ */
+
 import { CommandButton, useChainedCommands } from '@remirror/react';
 import * as React from 'react';
 import { OnSelectContents } from './../props';
@@ -11,7 +18,6 @@ export const AddContentsButton = ({ onSelectContents }: { onSelectContents: OnSe
 
         for (const content of contents) {
             chained.addContent(content);
-            chained.insertText(' ');
         }
 
         chained.run();

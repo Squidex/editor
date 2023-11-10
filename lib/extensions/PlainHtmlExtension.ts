@@ -1,3 +1,10 @@
+/*
+ * Squidex Headless CMS
+ *
+ * @license
+ * Copyright (c) Squidex UG (haftungsbeschränkt). All rights reserved.
+ */
+
 import { command, CommandFunction, DOMCompatibleAttributes, DOMOutputSpec, extension, ExtensionTag, NodeExtension, NodeExtensionSpec, PrimitiveSelection } from 'remirror';
 import { PlainHtmlRenderView } from './PlainHtmlRenderView';
 

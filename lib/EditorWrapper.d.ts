@@ -1,3 +1,10 @@
+/*
+ * Squidex Headless CMS
+ *
+ * @license
+ * Copyright (c) Squidex UG (haftungsbeschränkt). All rights reserved.
+ */
+
 declare class SquidexEditorWrapper {
     constructor(element: HTMLElement, props: EditorProps);
 
