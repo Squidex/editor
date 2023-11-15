@@ -7,9 +7,9 @@ const selectAsset = () => {
             fileName: 'My Image'
         },
         {
-            src: 'https://cloud.squidex.io/api/assets/squidex-website/18b271cf-67c8-4bac-82a9-d85d662168f7/administration-tools-in-squidex.jpg?version=0',
-            mimeType: 'image/jpeg',
-            fileName: 'My Image'
+            src: 'https://squidex.io',
+            mimeType: 'text/raw',
+            fileName: 'My Text'
         }
     ]));
 };

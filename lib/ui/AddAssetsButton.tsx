@@ -22,7 +22,13 @@ export const AddAssetsButton = ({ onSelectAssets }: { onSelectAssets: OnSelectAs
 
                 chained.insertImage(image);
             } else {
-                chained.insertAsset(asset);
+                chained.insertText(asset.fileName, {
+                    marks: {
+                        link: {
+                            href: asset.src
+                        }
+                    }
+                });
             }
             
             chained.insertText(' ');
@@ -32,7 +38,7 @@ export const AddAssetsButton = ({ onSelectAssets }: { onSelectAssets: OnSelectAs
     }, [chained, onSelectAssets]);
 
     return (
-        <CommandButton commandName='addImage' enabled={true} onSelect={doSelectAsset} label='Add Asset' icon={
+        <CommandButton commandName='addImage' enabled onSelect={doSelectAsset} label='Add Asset' icon={
             <Icon type='Assets' />
         } />
     );

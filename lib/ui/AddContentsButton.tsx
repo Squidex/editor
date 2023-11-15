@@ -24,7 +24,7 @@ export const AddContentsButton = ({ onSelectContents }: { onSelectContents: OnSe
     }, [chained, onSelectContents]);
 
     return (
-        <CommandButton commandName='addContent' enabled={true} onSelect={doSelectContent} label='Add Content' icon={
+        <CommandButton commandName='addContent' enabled onSelect={doSelectContent} label='Add Content' icon={
             <Icon type='Contents' />
         } />
     );
