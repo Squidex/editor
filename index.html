@@ -2,72 +2,15 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Squidex Editor</title>
-
-  <style>
-    body {
-      padding: 50px;
-    }
-
-    textarea {
-      box-sizing: border-box;
-      border: 1px solid #dedfe3;
-      outline: none;
-      overflow-y: auto;
-      height: 100px;
-      width: 100%;
-    }
-
-    .preview {
-      margin-top: 10px;
-      margin-bottom: 50px;
-      position: relative;
-    }
-
-    .preview-buttons {
-      right: 10px;
-      position: absolute;
-      top: 10px;
-    }
-
-    .preview-button {
-      border: 1px solid #dedfe3;
-      border-radius: 2px;
-      margin-left: 5px;
-      padding: 4px 6px;
-    }
-
-    h2 {
-        font-family: sans-serif;
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Squidex Editor</title>
 </head>
 
 <body>
-  <h2>MARKDOWN</h2>
-  <div id="editor1"></div>
-
-  <div class="preview">
-    <textarea id="textarea1"></textarea>
-    <div class="preview-buttons">
-        <button class="preview-button" id="unset1">Unset</button>
-    </div>
-  </div>
-
-  <h2>HTML</h2>
-  <div id="editor2"></div>
-
-  <div class="preview">
-    <textarea id="textarea2"></textarea>
-    <div class="preview-buttons">
-        <button class="preview-button" id="unset2">Unset</button>
-    </div>
-  </div>
-
-  <script type="module" src="/src/main"></script>
-  <script type="module" src="/test-script.js"></script>
+    <div id="app"></div>
+    <script type="module" src="/src/squidex-editor"></script>
+    <script type="module" src="/src/preview"></script>
 </body>
 
 </html>

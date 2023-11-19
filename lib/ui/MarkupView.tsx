@@ -7,14 +7,14 @@
 
 import * as React from 'react';
 import AceEditor from 'react-ace';
-import { EditorMode } from './../props';
+import { SquidexEditorMode } from './../props';
 import 'ace-builds/src-noconflict/mode-markdown';
 import 'ace-builds/src-noconflict/mode-html';
 import 'ace-builds/src-noconflict/theme-github';
 
 export interface MarkupViewProps {
     // The mode of the editor.
-    mode: EditorMode;
+    mode: SquidexEditorMode;
 
     // The value to show.
     value?: string;

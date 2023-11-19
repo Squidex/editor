@@ -17,6 +17,8 @@
     "@remirror/pm": "^2.0.8",
     "@remirror/react": "^2.0.35",
     "@remirror/react-editors": "^1.0.38",
+    "class-names": "^1.0.0",
+    "classnames": "^2.3.2",
     "marked": "^9.1.6",
     "react": "^18.2.0",
     "react-ace": "^10.1.0",

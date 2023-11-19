@@ -5,7 +5,7 @@
  * Copyright (c) Squidex UG (haftungsbeschränkt). All rights reserved.
  */
 
-declare class SquidexEditorWrapper {
+declare class EditorWrapper {
     constructor(element: HTMLElement, props: EditorProps);
 
     update(newProps: Partial<EditorProps>): void;
@@ -39,12 +39,18 @@ type Content = {
     title: string;
 };
 
-type OnSelectAssets = () => Promise<Asset[]>;
-type OnSelectContents = () => Promise<Content[]>;
+export type OnAnnotationCreate = (annotation: AnnotationSelection) => void;
+export type OnAnnotationUpdate = (annotation: ReadonlyArray<Annotation>) => void;
+export type OnAnnotationFocus = (annotation: ReadonlyArray<string>) => void;
+export type OnAssetEdit = (id: string) => void;
+export type OnAssetUpload = (images: UploadRequest[]) => DelayedPromiseCreator<Asset>[];
+export type OnChange = (value: string | undefined) => void;
+export type OnContentEdit = (schemaName: string, contentId: string) => void;
+export type OnSelectAIText = () => Promise<string | undefined | null>;
+export type OnSelectAssets = () => Promise<Asset[]>;
+export type OnSelectContents = () => Promise<Content[]>;
 
-type OnChange = (value: string | undefined) => void;
-
-type EditorMode = 'Html' | 'Markdown';
+type SquidexEditorMode = 'Html' | 'Markdown';
 
 interface UploadRequest {
     // The file to upload.
@@ -56,31 +62,77 @@ interface UploadRequest {
 
 interface EditorProps {
     // The mode of the editor.
-    mode: EditorMode;
+    mode: SquidexEditorMode;
 
     // The incoming value.
     value?: string;
 
+    // The base url.
+    baseUrl: string;
+
+    // The name to the app.
+    appName: string;
+
+    // The class names.
+    classNames?: ReadonlyArray<string>;
+
     // Called when the value has been changed.
     onChange?: OnChange;
 
+    // Called when AI text selected.
+    onSelectAIText?: OnSelectAIText;
+
     // Called when assets are selected.
-    onSelectAssets: OnSelectAssets;
+    onSelectAssets?: OnSelectAssets;
 
     // Called when content items should be selected.
-    onSelectContents: OnSelectContents;
+    onSelectContents?: OnSelectContents;
+
+    // Called when an asset is to be edited.
+    onEditAsset: OnAssetEdit;
+
+    // Called when a content is to be edited.
+    onEditContent: OnContentEdit;
 
     // Called when a file needs to be uploaded.
-    onUpload?: (images: UploadRequest[]) => DelayedPromiseCreator<Asset>[];
+    onUpload?: OnAssetUpload;
+
+    // Triggered, when an annotation is clicked.
+    onAnnotationsFocus?: OnAnnotationFocus;
+
+    // Triggered, when an annotation are updated.
+    onAnnotationsUpdate?: OnAnnotationUpdate;
+
+    // Triggered, when an annotation is created.
+    onAnnotationCreate?: OnAnnotationCreate;
 
     // True, if disabled.
     isDisabled?: boolean;
+    
+    // Indicates whether AI text can be selected.
+    canSelectAIText?: boolean;
     
     // Indicates whether assets can be selected.
     canSelectAssets?: boolean;
 
     // Indicates whether content items can be selected.
     canSelectContents?: boolean;
+
+    // Annotation 
+    annotations?: ReadonlyArray<Annotation>;
+}
+
+export interface AnnotationSelection {
+    // The start of the annotation selection.
+    from: number;
+
+    // The end of the annotation selection.
+    to: number;
+}
+
+export interface Annotation extends AnnotationSelection {
+    // The ID of the annotation.
+    id: string;
 }
 
 type DelayedPromiseCreator<T> = (context: unknown) => Promise<T>;

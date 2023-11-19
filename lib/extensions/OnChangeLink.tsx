@@ -7,16 +7,22 @@
 
 import { useHelpers, useRemirrorContext, useUpdateReason } from '@remirror/react';
 import * as React from 'react';
-import { EditorState } from 'remirror';
-import { EditorMode, OnChange } from './../props';
+import { EditorProps } from './../props';
 
-export const OnChangeLink = ({ mode, onChange, state, value }: { mode: EditorMode, onChange?: OnChange, state: EditorState, value?: string }) => {
-    const { setContent } = useRemirrorContext();
+export const OnChangeLink = (props: Pick<EditorProps, 'mode' | 'onChange' | 'value'>) => {
+    const {
+        mode,
+        onChange,
+        value,
+    } = props;
+
+    const { setContent, getState } = useRemirrorContext();
     const { getMarkdown, getHTML } = useHelpers();
     const valueCurrent = React.useRef<string | undefined>(null!);
     const valueWasSet = React.useRef(false);
     const updateCount = React.useRef<number>(0);
     const updateReason = useUpdateReason();
+    const { doc } = getState();
 
     React.useEffect(() => {
         updateCount.current += 1;
@@ -43,9 +49,9 @@ export const OnChangeLink = ({ mode, onChange, state, value }: { mode: EditorMod
         function getExport() {
             switch (mode) {
                 case 'Markdown':
-                    return getMarkdown(state);
+                    return getMarkdown({ doc } as never);
                 default:
-                    return getHTML(state);
+                    return getHTML({ doc } as never);
             }
         }
 
@@ -54,11 +60,7 @@ export const OnChangeLink = ({ mode, onChange, state, value }: { mode: EditorMod
             return;
         }
 
-        let value = getExport().trim();
-
-        if (value && value.length > 0 && EMPTY_RESULTS.indexOf(value) >= 0) {
-            value = '';
-        }
+        const value = clearValue(getExport());
 
         if (valueCurrent.current === value) {
             return;
@@ -72,10 +74,20 @@ export const OnChangeLink = ({ mode, onChange, state, value }: { mode: EditorMod
 
         valueCurrent.current = value;
         valueWasSet.current = !!value && value.length > 0;
-    }, [getHTML, getMarkdown, mode, onChange, state]);
+    }, [doc, mode, getHTML, getMarkdown, onChange]);
 
     return null;
 };
+
+function clearValue(value: string) {
+    value = value.trim();
+
+    if (value && value.length > 0 && EMPTY_RESULTS.indexOf(value) >= 0) {
+        value = '';
+    }
+
+    return value;
+}
 
 const EMPTY_RESULTS = [
     '<p></p>',

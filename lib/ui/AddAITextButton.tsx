@@ -10,7 +10,11 @@ import * as React from 'react';
 import { OnSelectAIText } from './../props';
 import { Icon } from './internal';
 
-export const AddAITextButton = ({ onSelectAIText }: { onSelectAIText: OnSelectAIText }) => {
+export const AddAITextButton = (props: { onSelectAIText: OnSelectAIText }) => {
+    const {
+        onSelectAIText,
+    } = props;
+
     const chained = useChainedCommands();
 
     const doSelectText = React.useCallback(async () => {

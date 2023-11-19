@@ -9,6 +9,8 @@ export * from './AddAITextButton';
 export * from './AddAssetsButton';
 export * from './AddContentsButton';
 export * from './AddHtmlButton';
+export * from './AnnotateButton';
+export * from './AnnotationView';
 export * from './ClassNameButton';
 export * from './Counter';
 export * from './LinkButtons';

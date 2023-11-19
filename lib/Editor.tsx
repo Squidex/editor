@@ -11,30 +11,34 @@ import { CommandButton, CommandButtonGroup, EditorComponent, FloatingToolbar, He
 import { AllStyledComponent } from '@remirror/styles/emotion';
 import * as React from 'react';
 import { cx, ExtensionCodeBlockTheme } from 'remirror';
-import { BlockquoteExtension, BoldExtension, BulletListExtension, CodeBlockExtension, CodeExtension, HardBreakExtension, HeadingExtension, HorizontalRuleExtension, ImageExtension, ItalicExtension, LinkExtension, ListItemExtension, MarkdownExtension, OrderedListExtension, StrikeExtension, TrailingNodeExtension, UnderlineExtension } from 'remirror/extensions';
+import { AnnotationExtension, BlockquoteExtension, BoldExtension, BulletListExtension, CodeBlockExtension, CodeExtension, HardBreakExtension, HeadingExtension, HorizontalRuleExtension, ImageExtension, ItalicExtension, LinkExtension, ListItemExtension, MarkdownExtension, OrderedListExtension, StrikeExtension, TrailingNodeExtension, UnderlineExtension } from 'remirror/extensions';
 import { ClassNameExtension, ContentLinkExtension, CustomImageView, HtmlCopyExtension, OnChangeLink, PlainHtmlExtension } from './extensions';
 import { EditorProps } from './props';
-import { AddAITextButton, AddAssetsButton, AddContentsButton, AddHtmlButton, ClassNameButton, Counter, LinkButtons, LinkModal, MarkupView, TitleModal } from './ui';
+import { AddAITextButton, AddAssetsButton, AddContentsButton, AddHtmlButton, AnnotateButton, AnnotationView, ClassNameButton, Counter, LinkButtons, LinkModal, MarkupView, TitleModal } from './ui';
 import { Icon } from './ui/internal';
 import { EditableNode, htmlToMarkdown, markdownToHtml, supportedLanguages } from './utils';
 import './Editor.scss';
 
 export const Editor = (props: EditorProps) => {
     const {
+        annotations,
         appName,
-        classNames,
         canSelectAIText,
         canSelectAssets,
         canSelectContents,
+        classNames,
         isDisabled,
         mode,
+        onAnnotationCreate,
+        onAnnotationsFocus,
+        onAnnotationsUpdate,
         onChange,
         onEditAsset,
         onEditContent,
         onSelectAIText,
         onSelectAssets,
         onSelectContents,
-        onUpload: uploadHandler,
+        onUpload,
         value,
     } = props;
 
@@ -70,6 +74,7 @@ export const Editor = (props: EditorProps) => {
 
     const extensions = React.useCallback(() => {
         return [
+            new AnnotationExtension(),
             new BlockquoteExtension(),
             new BoldExtension({}),
             new BulletListExtension({ enableSpine: true }),
@@ -82,7 +87,7 @@ export const Editor = (props: EditorProps) => {
             new HeadingExtension({}),
             new HorizontalRuleExtension(),
             new HtmlCopyExtension({ copyAsHtml: mode === 'Html' }),
-            new ImageExtension({ uploadHandler }),
+            new ImageExtension({ uploadHandler: onUpload }),
             new ItalicExtension(),
             new LinkExtension({ autoLink: true }),
             new ListItemExtension({ enableCollapsible: true }),
@@ -93,9 +98,9 @@ export const Editor = (props: EditorProps) => {
             new TrailingNodeExtension(),
             new UnderlineExtension(),
         ];
-    }, [appName, baseUrl, classNames, mode, onEditContent, uploadHandler]);
+    }, [appName, baseUrl, classNames, mode, onEditContent, onUpload]);
 
-    const { manager, state, setState } = useRemirror({
+    const { manager } = useRemirror({
         stringHandler: mode === 'Markdown' ? 'markdown' : 'html',
         content: value,
         nodeViewComponents: {
@@ -118,7 +123,7 @@ export const Editor = (props: EditorProps) => {
                     }
                 }
             }}>
-                <Remirror classNames={isDisabled ? ['squidex-editor-disabled'] : []} manager={manager} state={state} onChange={event => setState(event.state)}>
+                <Remirror classNames={isDisabled ? ['squidex-editor-disabled'] : []} manager={manager}>
                     <div className='squidex-editor-menu'>
                         <Toolbar>
                             <fieldset disabled={markup} className='MuiStack-root'>
@@ -169,6 +174,12 @@ export const Editor = (props: EditorProps) => {
                                     }
                                 </CommandButtonGroup>
 
+                                {onAnnotationCreate &&
+                                    <CommandButtonGroup>
+                                        <AnnotateButton onAnnotationCreate={onAnnotationCreate} />
+                                    </CommandButtonGroup>
+                                }
+
                                 {mode === 'Html' &&
                                     <CommandButtonGroup>
                                         <AddHtmlButton />
@@ -183,7 +194,7 @@ export const Editor = (props: EditorProps) => {
                     </div>
 
                     <div className='squidex-editor-main'>
-                        <OnChangeLink mode={mode} onChange={onChange} state={state} value={value} />
+                        <OnChangeLink mode={mode} onChange={onChange} value={value} />
 
                         <EditorComponent />
 
@@ -205,6 +216,12 @@ export const Editor = (props: EditorProps) => {
                                 ExtensionCodeBlockTheme.LANGUAGE_SELECT_POSITIONER,
                                 ExtensionCodeBlockTheme.LANGUAGE_SELECT_WIDTH,
                             )}
+                        />
+
+                        <AnnotationView
+                            annotations={annotations}
+                            onAnnotationsFocus={onAnnotationsFocus}
+                            onAnnotationsUpdate={onAnnotationsUpdate}
                         />
                     </div>
 

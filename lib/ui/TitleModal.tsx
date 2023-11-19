@@ -10,7 +10,12 @@ import * as React from 'react';
 import { EditableNode, useStateWithRef } from './../utils';
 import { DelayedAutoFocusInput, Icon, Modal } from './internal';
 
-export const TitleModal = ({ onClose, node }: { onClose: () => void, node: EditableNode }) => {
+export const TitleModal = (props: { onClose: () => void, node: EditableNode }) => {
+    const {
+        onClose,
+        node,
+    } = props;
+
     const [title, setTitle, titleRef] = useStateWithRef<string>('');
     const cmd = useCommands();
     

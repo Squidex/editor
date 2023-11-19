@@ -10,7 +10,11 @@ import * as React from 'react';
 import { OnSelectContents } from './../props';
 import { Icon } from './internal';
 
-export const AddContentsButton = ({ onSelectContents }: { onSelectContents: OnSelectContents }) => {
+export const AddContentsButton = (props: { onSelectContents: OnSelectContents }) => {
+    const {
+        onSelectContents,
+    } = props;
+
     const chained = useChainedCommands();
 
     const doSelectContent = React.useCallback(async () => {

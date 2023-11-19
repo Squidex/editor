@@ -30,13 +30,18 @@ export type Content = {
     title: string;
 };
 
+export type OnAnnotationCreate = (annotation: AnnotationSelection) => void;
+export type OnAnnotationUpdate = (annotation: ReadonlyArray<Annotation>) => void;
+export type OnAnnotationFocus = (annotation: ReadonlyArray<string>) => void;
+export type OnAssetEdit = (id: string) => void;
+export type OnAssetUpload = (images: UploadRequest[]) => DelayedPromiseCreator<Asset>[];
+export type OnChange = (value: string | undefined) => void;
+export type OnContentEdit = (schemaName: string, contentId: string) => void;
 export type OnSelectAIText = () => Promise<string | undefined | null>;
 export type OnSelectAssets = () => Promise<Asset[]>;
 export type OnSelectContents = () => Promise<Content[]>;
 
-export type OnChange = (value: string | undefined) => void;
-
-export type EditorMode = 'Html' | 'Markdown';
+export type SquidexEditorMode = 'Html' | 'Markdown';
 
 export interface UploadRequest {
     // The file to upload.
@@ -48,7 +53,7 @@ export interface UploadRequest {
 
 export interface EditorProps {
     // The mode of the editor.
-    mode: EditorMode;
+    mode: SquidexEditorMode;
 
     // The incoming value.
     value?: string;
@@ -75,13 +80,22 @@ export interface EditorProps {
     onSelectContents?: OnSelectContents;
 
     // Called when an asset is to be edited.
-    onEditAsset: (assetId: string) => void;
+    onEditAsset: OnAssetEdit;
 
     // Called when a content is to be edited.
-    onEditContent: (schemaName: string, contentId: string) => void;
+    onEditContent: OnContentEdit;
 
     // Called when a file needs to be uploaded.
-    onUpload?: (images: UploadRequest[]) => DelayedPromiseCreator<Asset>[];
+    onUpload?: OnAssetUpload;
+
+    // Triggered, when an annotation is clicked.
+    onAnnotationsFocus?: OnAnnotationFocus;
+
+    // Triggered, when an annotation are updated.
+    onAnnotationsUpdate?: OnAnnotationUpdate;
+
+    // Triggered, when an annotation is created.
+    onAnnotationCreate?: OnAnnotationCreate;
 
     // True, if disabled.
     isDisabled?: boolean;
@@ -94,6 +108,22 @@ export interface EditorProps {
 
     // Indicates whether content items can be selected.
     canSelectContents?: boolean;
+
+    // Annotation 
+    annotations?: ReadonlyArray<Annotation>;
+}
+
+export interface AnnotationSelection {
+    // The start of the annotation selection.
+    from: number;
+
+    // The end of the annotation selection.
+    to: number;
+}
+
+export interface Annotation extends AnnotationSelection {
+    // The ID of the annotation.
+    id: string;
 }
 
 type DelayedPromiseCreator<T> = (context: unknown) => Promise<T>;

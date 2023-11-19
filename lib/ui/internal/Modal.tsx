@@ -7,7 +7,12 @@
 
 import * as React from 'react';
 
-export const Modal = ({ children, title }: { title?: string } & React.PropsWithChildren) => {
+export const Modal = (props: { title?: string } & React.PropsWithChildren) => {
+    const {
+        children,
+        title,
+    } = props;
+
     return (
         <div className='squidex-editor-modal-wrapper'>
             <div className='squidex-editor-modal-backdrop'></div>

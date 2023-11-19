@@ -6,7 +6,7 @@
  */
 
 export interface IconProps {
-    type: 'Assets' | 'Contents' | 'Check' | 'Cancel' | 'Edit' | 'Preview' | string;
+    type: 'Assets' | 'Comment' | 'Contents' | 'Check' | 'Cancel' | 'Edit' | 'Preview' | string;
 }
 
 export const Icon = (props: IconProps) => {
@@ -35,9 +35,17 @@ export const Icon = (props: IconProps) => {
         );
     }
 
+    if (type === 'Comment') {
+        return (
+            <svg className='custom-icon' version='1.1' xmlns='http://www.w3.org/2000/svg' width='1rem' height='1rem'  viewBox='0 0 24 24'>
+                <path d='M20.016 15.984v-12h-16.031v14.016l2.016-2.016h14.016zM20.016 2.016c1.078 0 1.969 0.891 1.969 1.969v12c0 1.078-0.891 2.016-1.969 2.016h-14.016l-3.984 3.984v-18c0-1.078 0.891-1.969 1.969-1.969h16.031z'></path>
+            </svg>
+        );
+    }
+
     if (type === 'Check') {
         return (
-            <svg className='custom-icon' version='1.1' xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960' width='1rem' height='1rem'>
+            <svg className='custom-icon' version='1.1' xmlns='http://www.w3.org/2000/svg' width='1rem' height='1rem' viewBox='0 -960 960 960'>
                 <path d='M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z' />
             </svg>
         );
@@ -45,7 +53,7 @@ export const Icon = (props: IconProps) => {
 
     if (type === 'Cancel') {
         return (
-            <svg className='custom-icon' version='1.1' xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960' width='1rem' height='1rem'>
+            <svg className='custom-icon' version='1.1' xmlns='http://www.w3.org/2000/svg' width='1rem' height='1rem' viewBox='0 -960 960 960'>
                 <path d='m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z' />
             </svg>
         );
@@ -53,7 +61,7 @@ export const Icon = (props: IconProps) => {
 
     if (type === 'Edit') {
         return (
-            <svg className='custom-icon' version='1.1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='1rem' height='1rem'>
+            <svg className='custom-icon' version='1.1' xmlns='http://www.w3.org/2000/svg' width='1rem' height='1rem' viewBox='0 0 24 24'>
                 <path d='M15.728 9.686l-1.414-1.414L5 17.586V19h1.414l9.314-9.314zm1.414-1.414l1.414-1.414-1.414-1.414-1.414 1.414 1.414 1.414zM7.242 21H3v-4.243L16.435 3.322a1 1 0 0 1 1.414 0l2.829 2.829a1 1 0 0 1 0 1.414L7.243 21z'></path>
             </svg>
         );
@@ -61,7 +69,7 @@ export const Icon = (props: IconProps) => {
 
     if (type === 'Preview') {
         return (
-            <svg className='custom-icon' version='1.1' xmlns='http://www.w3.org/2000/svg' viewBox='200 200 724 724' width='1.2rem' height='1rem'>
+            <svg className='custom-icon' version='1.1' xmlns='http://www.w3.org/2000/svg' width='1rem' height='1rem' viewBox='200 200 724 724'>
                 <path d='M545 793.6H243.8c-11 0-20-9-20-20V250.4c0-11 9-20 20-20h432.4c11 0 20 9 20 20v131.8c0 11 9 20 20 20s20-9 20-20V250.4c0-33.1-26.9-60-60-60H243.8c-33.1 0-60 26.9-60 60v523.2c0 33.1 26.9 60 60 60H545c11 0 20-9 20-20s-8.9-20-20-20z' /><path d='M834.6 789.8l-88.8-91.7c23.4-28.7 37.5-65.4 37.5-105.3 0-92.1-74.9-167-167-167s-167 74.9-167 167 74.9 167 167 167c37.8 0 72.7-12.6 100.7-33.9l89 91.8c3.9 4 9.1 6 14.3 6 5 0 10.1-1.9 14-5.7 7.8-7.6 8-20.3 0.3-28.2z m-218.4-69.9c-70 0-127-57-127-127s57-127 127-127 127 57 127 127-57 127-127 127zM565 382.2c0-11-9-20-20-20H308.7c-11 0-20 9-20 20s9 20 20 20H545c11.1 0 20-9 20-20zM443.5 493.5c0-11-9-20-20-20H308.7c-11 0-20 9-20 20s9 20 20 20h114.8c11.1 0 20-8.9 20-20zM308.7 584.8c-11 0-20 9-20 20s9 20 20 20h61.7c11 0 20-9 20-20s-9-20-20-20h-61.7z' />
             </svg>
         );

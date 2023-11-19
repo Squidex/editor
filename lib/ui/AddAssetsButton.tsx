@@ -10,7 +10,11 @@ import * as React from 'react';
 import { OnSelectAssets } from './../props';
 import { Icon } from './internal';
 
-export const AddAssetsButton = ({ onSelectAssets }: { onSelectAssets: OnSelectAssets }) => {
+export const AddAssetsButton = (props: { onSelectAssets: OnSelectAssets }) => {
+    const {
+        onSelectAssets,
+    } = props;
+
     const chained = useChainedCommands();
 
     const doSelectAsset = React.useCallback(async () => {

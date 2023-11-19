@@ -12,7 +12,7 @@ import { ClassNameExtension } from './../extensions';
 
 export interface ToggleNoClassMenuItemProps extends Omit<CommandMenuItemProps, 'commandName' | 'active' | 'enabled' | 'attrs' | 'onSelect'> {}
 
-export const ToggleNoClassMenuItem = ({ ...rest }: ToggleNoClassMenuItemProps) => {
+export const ToggleNoClassMenuItem = (props: ToggleNoClassMenuItemProps) => {
     const { removeClassName } = useCommands<ClassNameExtension>();
 
     const handleSelect = React.useCallback(() => {
@@ -22,7 +22,7 @@ export const ToggleNoClassMenuItem = ({ ...rest }: ToggleNoClassMenuItemProps) =
     const active = !useActive<ClassNameExtension>().className();
 
     return (
-        <CommandMenuItem {...rest}
+        <CommandMenuItem {...props}
             commandName='removeClass'
             active={active}
             attrs={{}}

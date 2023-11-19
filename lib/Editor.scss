@@ -94,9 +94,14 @@ $color-border: #dedfe3;
             display: flex;
             outline: 0;
             padding: 0;
-            pointer-events: none;
 
-            &:disabled {
+            &:disabled, 
+            &.disabled {
+                pointer-events: none;
+            }
+
+            &:disabled, 
+            &.disabled {
                 opacity: .5;
             }
         }

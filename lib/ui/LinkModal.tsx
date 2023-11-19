@@ -11,12 +11,16 @@ import { LinkExtension } from 'remirror/extensions';
 import { useStateWithRef } from './../utils';
 import { DelayedAutoFocusInput, Icon, Modal } from './internal';
 
-export const LinkModal = ({ onClose }: { onClose: () => void }) => {
-    const [href, setHref, hrefRef] = useStateWithRef<string>('');
+export const LinkModal = (props: { onClose: () => void }) => {
+    const {
+        onClose,
+    } = props;
+
     const chain = useChainedCommands();
     const linkAttr = useAttrs<LinkExtension>(true).link();
     const linkHref = linkAttr?.href as string ?? '';
     const selection = useCurrentSelection();
+    const [href, setHref, hrefRef] = useStateWithRef<string>('');
 
     React.useEffect(() => {
         setHref(linkHref);

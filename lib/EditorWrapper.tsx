@@ -7,7 +7,7 @@
 
 import * as  ReactDOM from 'react-dom/client';
 import { Editor } from './Editor';
-import { EditorProps } from './props';
+import { Annotation, EditorProps } from './props';
 
 export class EditorWrapper {
     private readonly root: ReactDOM.Root;
@@ -28,6 +28,10 @@ export class EditorWrapper {
 
     public setValue(value: string) {
         this.update({ value });
+    }
+
+    public setAnnotations(annotations?: ReadonlyArray<Annotation>) {
+        this.update({ annotations });
     }
 
     public setIsDisabled(isDisabled: boolean) {

@@ -14,7 +14,12 @@ export interface ToggleClassMenuItemProps extends Omit<CommandMenuItemProps, 'co
     attrs: { className: string };
 }
 
-export const ToggleClassMenuItem = ({ attrs, ...rest }: ToggleClassMenuItemProps) => {
+export const ToggleClassMenuItem = (props: ToggleClassMenuItemProps) => {
+    const {
+        attrs,
+        ...rest
+    } = props;
+
     const { setClassName } = useCommands<ClassNameExtension>();
 
     const handleSelect = React.useCallback(() => {
