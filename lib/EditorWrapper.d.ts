@@ -32,23 +32,26 @@ type Asset = {
 };
 
 type Content = {
-    // The link of the content item.
-    href: string;
+    // The title of the content.
+    id: string;
+
+    // The name of the schema.
+    schemaName: string;
 
     // The title of the content item.
     title: string;
 };
 
-export type OnAnnotationCreate = (annotation: AnnotationSelection) => void;
-export type OnAnnotationUpdate = (annotation: ReadonlyArray<Annotation>) => void;
-export type OnAnnotationFocus = (annotation: ReadonlyArray<string>) => void;
-export type OnAssetEdit = (id: string) => void;
-export type OnAssetUpload = (images: UploadRequest[]) => DelayedPromiseCreator<Asset>[];
-export type OnChange = (value: string | undefined) => void;
-export type OnContentEdit = (schemaName: string, contentId: string) => void;
-export type OnSelectAIText = () => Promise<string | undefined | null>;
-export type OnSelectAssets = () => Promise<Asset[]>;
-export type OnSelectContents = () => Promise<Content[]>;
+type OnAnnotationCreate = (annotation: AnnotationSelection) => void;
+type OnAnnotationUpdate = (annotation: ReadonlyArray<Annotation>) => void;
+type OnAnnotationFocus = (annotation: ReadonlyArray<string>) => void;
+type OnAssetEdit = (id: string) => void;
+type OnAssetUpload = (images: UploadRequest[]) => DelayedPromiseCreator<Asset>[];
+type OnChange = (value: string | undefined) => void;
+type OnContentEdit = (schemaName: string, contentId: string) => void;
+type OnSelectAIText = () => Promise<string | undefined | null>;
+type OnSelectAssets = () => Promise<Asset[]>;
+type OnSelectContents = () => Promise<Content[]>;
 
 type SquidexEditorMode = 'Html' | 'Markdown';
 
@@ -122,7 +125,7 @@ interface EditorProps {
     annotations?: ReadonlyArray<Annotation>;
 }
 
-export interface AnnotationSelection {
+interface AnnotationSelection {
     // The start of the annotation selection.
     from: number;
 
@@ -130,7 +133,7 @@ export interface AnnotationSelection {
     to: number;
 }
 
-export interface Annotation extends AnnotationSelection {
+interface Annotation extends AnnotationSelection {
     // The ID of the annotation.
     id: string;
 }
