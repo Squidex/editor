@@ -43,7 +43,7 @@ export const CustomImageView = (props: NodeViewComponentProps & CustomImageViewP
                 <button type='button' className='squidex-editor-button' onClick={() => onEditNode({ node, getPos })}>
                     <Icon type='Edit' />
                 </button>
-                
+
                 {asset &&
                     <button type='button' className='squidex-editor-button' onClick={() => onEditAsset(asset.id)}>
                         <Icon type='Assets' />

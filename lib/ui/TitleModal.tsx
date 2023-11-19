@@ -18,7 +18,7 @@ export const TitleModal = (props: { onClose: () => void, node: EditableNode }) =
 
     const [title, setTitle, titleRef] = useStateWithRef<string>('');
     const cmd = useCommands();
-    
+
     React.useEffect(() => {
         setTitle(node.node.attrs.title || '');
     }, [node, setTitle]);

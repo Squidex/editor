@@ -30,7 +30,7 @@ export const OnChangeLink = (props: Pick<EditorProps, 'mode' | 'onChange' | 'val
 
     React.useEffect(() => {
         valueWasSet.current = !!value && value.length > 0;
-    
+
         if (valueCurrent.current !== value) {
             valueCurrent.current = value;
 

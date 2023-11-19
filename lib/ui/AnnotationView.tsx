@@ -31,11 +31,11 @@ export const AnnotationView = (props: Pick<EditorProps, 'annotations' | 'onAnnot
         // Debounce the update rate of the annotations a little bit.
         const timer = setTimeout(() => {
             const selected = editorAnnotations.selected;
-    
+
             if (equals(currentSelection.current, selected)) {
                 return;
             }
-            
+
             currentSelection.current = selected;
             onAnnotationsFocus?.(selected);
         }, 200);
@@ -49,11 +49,11 @@ export const AnnotationView = (props: Pick<EditorProps, 'annotations' | 'onAnnot
         // Debounce the update rate of the annotations a little bit.
         const timer = setTimeout(() => {
             const available = editorAnnotations.available;
-    
+
             if (equals(currentAnnotations.current, available)) {
                 return;
             }
-            
+
             currentAnnotations.current = available;
             onAnnotationsUpdate?.(available);
         }, 200);

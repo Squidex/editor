@@ -149,7 +149,7 @@ export const Editor = (props: EditorProps) => {
                                     <ToggleBulletListButton />
                                     <ToggleOrderedListButton />
                                 </CommandButtonGroup>
-                                
+
                                 {mode === 'Html' && classNames && classNames.length > 0 &&
                                     <CommandButtonGroup>
                                         <ClassNameButton />

@@ -28,6 +28,7 @@ module.exports = {
             'order': 'asc'
         }
     }],
+    "no-trailing-spaces": "error",
     'sort-imports': [
         'error',
         {

@@ -29,14 +29,14 @@ export const EditorTester = (props: { mode: SquidexEditorMode }) => {
 
     const doUpdateValue = React.useCallback((value: string | undefined) => {
         console.log('Update: Value');
-        
+
         setState(state => ({ ...state, value }));
     }, []);
 
     const doUpdateAnnotations = React.useCallback((annotations: ReadonlyArray<Annotation>) => {
         console.log(`Update Annotations: ${annotations.length}`);
 
-        setState(state => ({ 
+        setState(state => ({
             ...state,
             annotations }));
     }, []);
@@ -44,8 +44,8 @@ export const EditorTester = (props: { mode: SquidexEditorMode }) => {
     const doSelectAnnotations = React.useCallback((selected: ReadonlyArray<string>) => {
         console.log(`Select Annotations: ${selected.length}`);
 
-        setState(state => ({ 
-            ...state, 
+        setState(state => ({
+            ...state,
             selected
         }));
     }, []);
@@ -53,14 +53,14 @@ export const EditorTester = (props: { mode: SquidexEditorMode }) => {
     const doCreateAnnotation = React.useCallback((annotation: AnnotationSelection) => {
         console.log('Create Annotation');
 
-        setState(state => ({ 
-            ...state, 
+        setState(state => ({
+            ...state,
             annotations: [...state.annotations || [], { ...annotation, id: new Date().getTime().toString() }] }));
     }, []);
 
     const doSetEditor = React.useCallback((editor: HTMLDivElement) => {
         if (!editor) {
-            return;   
+            return;
         }
 
         const wrapper = new EditorWrapper(editor, {
@@ -100,13 +100,13 @@ export const EditorTester = (props: { mode: SquidexEditorMode }) => {
                 <div className='editor-view'>
                     <div ref={doSetEditor}></div>
                 </div>
-                
+
                 <div className='annotations'>
-                    {(state.annotations || []).map(x => 
+                    {(state.annotations || []).map(x =>
                         <div className={classNames('annotation', { selected: state.selected && state.selected?.indexOf(x.id) >= 0 })} key={x.id}>
                             <div>Id: {x.id}</div>
                             <div>From: {x.from}, To: {x.to}</div>
-                        </div> 
+                        </div>
                     )}
                 </div>
             </div>

@@ -46,8 +46,8 @@ function format(html: string) {
 
         result += indent + '<' + element + '>\r\n';
 
-        if (element.match( /^<?\w[^>]*[^/]$/ ) && !element.startsWith("input")  ) { 
-            indent += HTML_TAB;              
+        if (element.match( /^<?\w[^>]*[^/]$/ ) && !element.startsWith("input")  ) {
+            indent += HTML_TAB;
         }
     });
 

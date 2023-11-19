@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "lint-fix": "eslint . --fix",
+    "build": "node vite.build.mjs",
+    "lint:fix": "eslint . --fix",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -25,6 +25,7 @@
     "react-dom": "^18.2.0",
     "refractor": "^4.8.1",
     "remirror": "^2.0.36",
+    "rimraf": "^5.0.5",
     "turndown": "^7.1.2"
   },
   "devDependencies": {

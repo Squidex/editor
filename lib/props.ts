@@ -99,17 +99,17 @@ export interface EditorProps {
 
     // True, if disabled.
     isDisabled?: boolean;
-    
+
     // Indicates whether AI text can be selected.
     canSelectAIText?: boolean;
-    
+
     // Indicates whether assets can be selected.
     canSelectAssets?: boolean;
 
     // Indicates whether content items can be selected.
     canSelectContents?: boolean;
 
-    // Annotation 
+    // Annotation
     annotations?: ReadonlyArray<Annotation>;
 }
 

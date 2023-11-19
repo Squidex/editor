@@ -28,7 +28,7 @@ export const LinkModal = (props: { onClose: () => void }) => {
 
     const submitHref = React.useCallback(() => {
         const href = hrefRef.current;
-        
+
         if (!href) {
             chain.removeLink();
         } else {

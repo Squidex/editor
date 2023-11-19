@@ -21,7 +21,7 @@ export class PlainHtmlExtension extends NodeExtension<PlainHtmlOptions> {
     constructor() {
         super({ disableExtraAttributes: true });
     }
-    
+
     public createTags() {
         return [ExtensionTag.Block, ExtensionTag.TextBlock, ExtensionTag.FormattingNode];
     }
@@ -51,7 +51,7 @@ export class PlainHtmlExtension extends NodeExtension<PlainHtmlOptions> {
     }
 
     public ReactComponent = PlainHtmlRenderView;
-    
+
     @command({})
     public insertPlainHtml(selection?: PrimitiveSelection): CommandFunction {
         return this.store.commands.insertNode.original(this.type, {

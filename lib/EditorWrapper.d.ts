@@ -32,7 +32,7 @@ type Asset = {
 };
 
 type Content = {
-    // The link of the content item. 
+    // The link of the content item.
     href: string;
 
     // The title of the content item.
@@ -108,17 +108,17 @@ interface EditorProps {
 
     // True, if disabled.
     isDisabled?: boolean;
-    
+
     // Indicates whether AI text can be selected.
     canSelectAIText?: boolean;
-    
+
     // Indicates whether assets can be selected.
     canSelectAssets?: boolean;
 
     // Indicates whether content items can be selected.
     canSelectContents?: boolean;
 
-    // Annotation 
+    // The annotations.
     annotations?: ReadonlyArray<Annotation>;
 }
 

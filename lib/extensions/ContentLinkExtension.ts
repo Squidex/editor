@@ -32,7 +32,7 @@ export class ContentLinkExtension extends NodeExtension<ContentLinkExtensionOpti
     constructor(options: ContentLinkExtensionOptions) {
         super({ ...options, disableExtraAttributes: true });
     }
-    
+
     public createTags() {
         return [ExtensionTag.InlineNode, ExtensionTag.Media];
     }
@@ -53,7 +53,7 @@ export class ContentLinkExtension extends NodeExtension<ContentLinkExtensionOpti
             parseDOM: [
                 {
                     tag: 'a[href]',
-                    getAttrs: (dom) => {                        
+                    getAttrs: (dom) => {
                         const href = (dom as HTMLAnchorElement).getAttribute('href');
 
                         if (!href) {
@@ -61,7 +61,7 @@ export class ContentLinkExtension extends NodeExtension<ContentLinkExtensionOpti
                         }
 
                         const content = getContentId(href, this.options.baseUrl, this.options.appName);
-                        
+
                         if (!content) {
                             return false;
                         }
@@ -79,7 +79,7 @@ export class ContentLinkExtension extends NodeExtension<ContentLinkExtensionOpti
     }
 
     public ReactComponent = ContentLinkRenderView;
-    
+
     @command({})
     public addContent(content: Content, selection?: PrimitiveSelection): CommandFunction {
         return this.store.commands.insertNode.original(this.type, {

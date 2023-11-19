@@ -22,7 +22,7 @@ export const ContentLinkRenderView = ({ node }: NodeViewComponentProps) => {
             <button type='button' className='squidex-editor-button' onClick={() => onEditContent(schemaName, contentId)}>
                 <Icon type='Contents' />
             </button>
-            
+
             <div className='squidex-editor-content-schema'>{schemaName}</div>
             <div className='squidex-editor-content-name'>{contentTitle}</div>
         </div>

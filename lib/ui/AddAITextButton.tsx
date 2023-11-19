@@ -20,7 +20,7 @@ export const AddAITextButton = (props: { onSelectAIText: OnSelectAIText }) => {
     const doSelectText = React.useCallback(async () => {
         const text = await onSelectAIText();
 
-        if (isString(text) && text.length > 0) {      
+        if (isString(text) && text.length > 0) {
             chained.insertText(text);
         }
 

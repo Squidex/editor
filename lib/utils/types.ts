@@ -3,7 +3,7 @@
  *
  * @license
  * Copyright (c) Squidex UG (haftungsbeschränkt). All rights reserved.
- */ 
+ */
 
 export function isArray(value: unknown): value is Array<unknown> {
     return Array.isArray(value);

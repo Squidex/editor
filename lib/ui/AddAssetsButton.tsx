@@ -34,7 +34,7 @@ export const AddAssetsButton = (props: { onSelectAssets: OnSelectAssets }) => {
                     }
                 });
             }
-            
+
             chained.insertText(' ');
         }
 

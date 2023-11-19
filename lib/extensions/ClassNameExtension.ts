@@ -19,7 +19,7 @@ export interface ClassNameAttributes {
 
 const PREFIX = '__editor_';
 
-@extension<ClassNameOptions>({ 
+@extension<ClassNameOptions>({
     defaultOptions: {} as never
 })
 export class ClassNameExtension extends MarkExtension<ClassNameOptions> {
@@ -80,12 +80,12 @@ export class ClassNameExtension extends MarkExtension<ClassNameOptions> {
             },
         };
     }
-    
+
     @command({})
     public setClassName(className: string, selection?: PrimitiveSelection): CommandFunction {
         return this.store.commands.applyMark.original(this.type, { className }, selection);
     }
-    
+
     @command({})
     public removeClassName(selection?: PrimitiveSelection): CommandFunction {
         return this.store.commands.removeMark.original({ type: this.type, selection, expand: true });
@@ -96,7 +96,7 @@ function joinClasses(lhs: string | undefined | null, rhs: string | undefined | n
     if (lhs) {
         lhs = `${PREFIX}${lhs}`;
     }
-    
+
     if (lhs && rhs) {
         return `${lhs} ${rhs}`;
     }

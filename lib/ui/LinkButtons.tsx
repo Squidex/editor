@@ -22,7 +22,7 @@ export const LinkButtons = (props: { onEdit: () => void }) => {
     const removeLink = React.useCallback(() => {
         chain.removeLink().focus().run();
     }, [chain]);
-    
+
     return (
         <>
             <CommandButton commandName='updateLink' enabled={!selection.empty} label='Add or Edit Link'

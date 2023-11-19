@@ -16,14 +16,14 @@ export const ClassNameButton = () => {
     if (!extension.options.classNames || extension.options.classNames.length === 0) {
         return null;
     }
-    
+
     return (
         <DropdownButton aria-label='Class Name'icon={
             <span style={{ height: '14px', lineHeight: '14px', fontSize: '14px' }}>Class</span>
         }>
             <ToggleNoClassMenuItem />
 
-            {extension.options.classNames.map(c => 
+            {extension.options.classNames.map(c =>
                 <ToggleClassMenuItem key={c} attrs={{ className: c }} />
             )}
         </DropdownButton>
