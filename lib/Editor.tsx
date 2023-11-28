@@ -23,6 +23,7 @@ export const Editor = (props: EditorProps) => {
     const {
         annotations,
         appName,
+        canAddAnnotation,
         canSelectAIText,
         canSelectAssets,
         canSelectContents,
@@ -174,7 +175,7 @@ export const Editor = (props: EditorProps) => {
                                     }
                                 </CommandButtonGroup>
 
-                                {onAnnotationCreate &&
+                                {canAddAnnotation && onAnnotationCreate &&
                                     <CommandButtonGroup>
                                         <AnnotateButton onAnnotationCreate={onAnnotationCreate} />
                                     </CommandButtonGroup>

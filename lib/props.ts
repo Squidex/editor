@@ -109,8 +109,11 @@ export interface EditorProps {
     // Indicates whether content items can be selected.
     canSelectContents?: boolean;
 
+    // Indicates whether annotations can be added.
+    canAddAnnotation?: boolean;
+
     // Annotation
-    annotations?: ReadonlyArray<Annotation>;
+    annotations?: ReadonlyArray<Annotation> | null;
 }
 
 export interface AnnotationSelection {
