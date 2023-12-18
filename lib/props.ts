@@ -30,18 +30,23 @@ export type Content = {
     title: string;
 };
 
+type Node = object;
+
+export type EditorValue = string | Node | undefined | null;
+
 export type OnAnnotationCreate = (annotation: AnnotationSelection) => void;
 export type OnAnnotationUpdate = (annotation: ReadonlyArray<Annotation>) => void;
 export type OnAnnotationFocus = (annotation: ReadonlyArray<string>) => void;
 export type OnAssetEdit = (id: string) => void;
 export type OnAssetUpload = (images: UploadRequest[]) => DelayedPromiseCreator<Asset>[];
-export type OnChange = (value: string | undefined) => void;
+export type OnChange = (value: EditorValue) => void;
+export type OnStateChange = (value: unknown) => void;
 export type OnContentEdit = (schemaName: string, contentId: string) => void;
 export type OnSelectAIText = () => Promise<string | undefined | null>;
 export type OnSelectAssets = () => Promise<Asset[]>;
 export type OnSelectContents = () => Promise<Content[]>;
 
-export type SquidexEditorMode = 'Html' | 'Markdown';
+export type SquidexEditorMode = 'Html' | 'Markdown' | 'State';
 
 export interface UploadRequest {
     // The file to upload.
@@ -56,7 +61,7 @@ export interface EditorProps {
     mode: SquidexEditorMode;
 
     // The incoming value.
-    value?: string;
+    value?: EditorValue;
 
     // The base url.
     baseUrl: string;
@@ -69,6 +74,9 @@ export interface EditorProps {
 
     // Called when the value has been changed.
     onChange?: OnChange;
+
+    // Called when the state has been changed.
+    onStateChange?: OnStateChange;
 
     // Called when AI text selected.
     onSelectAIText?: OnSelectAIText;

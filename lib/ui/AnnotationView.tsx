@@ -8,8 +8,8 @@
 import { useCommands } from '@remirror/react';
 import * as React from 'react';
 import { AnnotationExtension } from 'remirror/extensions';
-import { Annotation, EditorProps } from './../props';
-import { equals, useSelectedAnnotations } from './../utils';
+import { Annotation, EditorProps } from '../props';
+import { equals, useSelectedAnnotations } from '../utils';
 
 export const AnnotationView = (props: Pick<EditorProps, 'annotations' | 'onAnnotationsFocus' | 'onAnnotationsUpdate'>) => {
     const {

@@ -7,9 +7,10 @@
 
 import classNames from 'classnames';
 import * as React from 'react';
-import { Annotation, AnnotationSelection, Asset, Content, EditorWrapper, SquidexEditorMode } from '../lib';
+import { Annotation, AnnotationSelection, Asset, Content, EditorValue, EditorWrapper, SquidexEditorMode } from '../lib';
+import { isString } from '../lib/utils';
 
-type State = { value?: string, annotations?: ReadonlyArray<Annotation>, selected?: ReadonlyArray<string> };
+type State = { value?: EditorValue, annotations?: ReadonlyArray<Annotation>, selected?: ReadonlyArray<string> };
 
 export const EditorTester = (props: { mode: SquidexEditorMode }) => {
     const {
@@ -27,7 +28,7 @@ export const EditorTester = (props: { mode: SquidexEditorMode }) => {
         setState(state => ({ ...state, value: undefined }));
     }, []);
 
-    const doUpdateValue = React.useCallback((value: string | undefined) => {
+    const doUpdateValue = React.useCallback((value: EditorValue) => {
         console.log('Update: Value');
 
         setState(state => ({ ...state, value }));
@@ -87,12 +88,22 @@ export const EditorTester = (props: { mode: SquidexEditorMode }) => {
     }, [doCreateAnnotation, doSelectAnnotations, doUpdateAnnotations, doUpdateValue, mode]);
 
     React.useEffect(() => {
-        view?.setValue(state.value || '');
+        view?.setValue(state.value);
     }, [state.value, view]);
 
     React.useEffect(() => {
         view?.setAnnotations(state.annotations);
     }, [state.annotations, view]);
+
+    const formattedValue = React.useMemo(() => {
+        if (!state.value) {
+            return '';
+        } else if (isString(state.value)) {
+            return state.value;
+        } else {
+            return JSON.stringify(state.value, undefined, 2);
+        }
+    }, [state.value]);
 
     return (
         <div>
@@ -112,7 +123,7 @@ export const EditorTester = (props: { mode: SquidexEditorMode }) => {
             </div>
 
             <div className='preview'>
-                <textarea value={state.value || ''} readOnly></textarea>
+                <textarea value={formattedValue} readOnly></textarea>
 
                 <div className='preview-buttons'>
                     <button className='preview-button' onClick={doUnset}>Unset</button>

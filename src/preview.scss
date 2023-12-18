@@ -13,6 +13,7 @@ textarea {
     border: 1px solid $color-border;
     height: 100px;
     outline: none;
+    resize: vertical;
     overflow-x: hidden;
     overflow-y: auto;
     width: 100%;
@@ -65,7 +66,7 @@ textarea {
 }
 
 .preview-buttons {
-    right: 10px;
+    right: 25px;
     position: absolute;
     top: 10px;
 }

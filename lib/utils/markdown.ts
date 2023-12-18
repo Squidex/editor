@@ -14,7 +14,11 @@ const TurndownService = defaultImport(_TurndownService);
 
 const turnDownService = new TurndownService({
     hr: '---',
-    codeBlockStyle: 'fenced'
+    codeBlockStyle: 'fenced',
+    // Dash character repeated.
+    headingStyle: 'atx',
+    // Use single star for italic.
+    emDelimiter: '*'
 });
 
 turnDownService.addRule('link2', {
@@ -32,7 +36,7 @@ turnDownService.addRule('link2', {
         const linkTitle = cleanAttribute(linkElement.getAttribute('title'));
 
         if (linkTitle) {
-            return `[${content}](${linkHref} '${linkTitle}')`;
+            return `[${content}](${linkHref} "${linkTitle}")`;
         } else {
             return `[${content}](${linkHref})`;
         }
@@ -53,7 +57,7 @@ turnDownService.addRule('img2', {
         const imageTitle = cleanAttribute(imageElement.getAttribute('title'));
 
         if (imageTitle) {
-            return `![${imageAlt}](${imageSrc} '${imageTitle}')`;
+            return `![${imageAlt}](${imageSrc} "${imageTitle}")`;
         } else {
             return `![${imageAlt}](${imageSrc})`;
         }

@@ -6,8 +6,8 @@
  */
 
 import { NodeViewComponentProps } from '@remirror/react';
-import { Icon } from './../ui/internal/Icon';
-import { EditableNode, getAssetId } from './../utils';
+import { Icon } from '../ui/internal/Icon';
+import { EditableNode, getAssetId } from '../utils';
 
 export interface CustomImageViewProps {
     // The base url.

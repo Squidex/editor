@@ -7,7 +7,9 @@
 
 import { useHelpers, useRemirrorContext, useUpdateReason } from '@remirror/react';
 import * as React from 'react';
-import { EditorProps } from './../props';
+import { values } from 'remirror';
+import { EditorProps, EditorValue } from '../props';
+import { equals, isString } from '../utils';
 
 export const OnChangeLink = (props: Pick<EditorProps, 'mode' | 'onChange' | 'value'>) => {
     const {
@@ -18,7 +20,7 @@ export const OnChangeLink = (props: Pick<EditorProps, 'mode' | 'onChange' | 'val
 
     const { setContent, getState } = useRemirrorContext();
     const { getMarkdown, getHTML } = useHelpers();
-    const valueCurrent = React.useRef<string | undefined>(null!);
+    const valueCurrent = React.useRef<unknown>(null!);
     const valueWasSet = React.useRef(false);
     const updateCount = React.useRef<number>(0);
     const updateReason = useUpdateReason();
@@ -29,12 +31,12 @@ export const OnChangeLink = (props: Pick<EditorProps, 'mode' | 'onChange' | 'val
     }, [updateReason]);
 
     React.useEffect(() => {
-        valueWasSet.current = !!value && value.length > 0;
+        valueWasSet.current = isSet(value);
 
-        if (valueCurrent.current !== value) {
+        if (!equals(valueCurrent.current, value)) {
             valueCurrent.current = value;
 
-            setContent(value || '');
+            setContent((value || '') as never);
 
             // Reset the update count to prevent noop updates of the original value.
             updateCount.current = -1;
@@ -46,12 +48,14 @@ export const OnChangeLink = (props: Pick<EditorProps, 'mode' | 'onChange' | 'val
             return;
         }
 
-        function getExport() {
+        function getExport(): EditorValue {
             switch (mode) {
                 case 'Markdown':
                     return getMarkdown({ doc } as never);
-                default:
+                case 'Html':
                     return getHTML({ doc } as never);
+                default:
+                    return doc;
             }
         }
 
@@ -60,24 +64,34 @@ export const OnChangeLink = (props: Pick<EditorProps, 'mode' | 'onChange' | 'val
             return;
         }
 
-        const value = clearValue(getExport());
+        let value = getExport();
+
+        if (isString(value)) {
+            value = clearValue(value);
+        }
 
         if (valueCurrent.current === value) {
             return;
         }
 
-        if (!valueWasSet.current && value.length === 0) {
+        const isValueSet = isSet(value);
+
+        if (!valueWasSet.current && !isValueSet) {
             onChange(undefined);
         } else {
             onChange(value);
         }
 
         valueCurrent.current = value;
-        valueWasSet.current = !!value && value.length > 0;
+        valueWasSet.current = isValueSet;
     }, [doc, mode, getHTML, getMarkdown, onChange]);
 
     return null;
 };
+
+function isSet(value: unknown) {
+    return !!value && (!isString(value) || values.length > 0);
+}
 
 function clearValue(value: string) {
     value = value.trim();

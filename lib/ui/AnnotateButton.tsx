@@ -7,7 +7,7 @@
 
 import { CommandButton, useRemirrorContext } from '@remirror/react';
 import * as React from 'react';
-import { OnAnnotationCreate } from './../props';
+import { OnAnnotationCreate } from '../props';
 import { Icon } from './internal';
 
 export const AnnotateButton = (props: { onAnnotationCreate: OnAnnotationCreate }) => {

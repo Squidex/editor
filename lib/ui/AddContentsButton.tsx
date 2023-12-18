@@ -7,7 +7,7 @@
 
 import { CommandButton, useChainedCommands } from '@remirror/react';
 import * as React from 'react';
-import { OnSelectContents } from './../props';
+import { OnSelectContents } from '../props';
 import { Icon } from './internal';
 
 export const AddContentsButton = (props: { onSelectContents: OnSelectContents }) => {

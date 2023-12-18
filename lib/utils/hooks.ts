@@ -9,7 +9,7 @@ import { useRemirrorContext } from '@remirror/react';
 import * as React from 'react';
 import { getTextSelection, ProsemirrorNode, within } from 'remirror';
 import { AnnotationExtension } from 'remirror/extensions';
-import { Annotation } from './../props';
+import { Annotation } from '../props';
 
 export type EditableNode = { node: ProsemirrorNode, getPos: () => number | undefined };
 

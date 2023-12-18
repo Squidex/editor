@@ -103,7 +103,7 @@ export const Editor = (props: EditorProps) => {
 
     const { manager } = useRemirror({
         stringHandler: mode === 'Markdown' ? 'markdown' : 'html',
-        content: value,
+        content: value as never,
         nodeViewComponents: {
             'image': (props: NodeViewComponentProps) => {
                 return (
@@ -151,7 +151,7 @@ export const Editor = (props: EditorProps) => {
                                     <ToggleOrderedListButton />
                                 </CommandButtonGroup>
 
-                                {mode === 'Html' && classNames && classNames.length > 0 &&
+                                {mode !== 'Markdown' && classNames && classNames.length > 0 &&
                                     <CommandButtonGroup>
                                         <ClassNameButton />
                                     </CommandButtonGroup>

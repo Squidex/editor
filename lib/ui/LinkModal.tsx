@@ -8,7 +8,7 @@
 import { CommandButton, CommandButtonGroup, useAttrs, useChainedCommands, useCurrentSelection } from '@remirror/react';
 import * as React from 'react';
 import { LinkExtension } from 'remirror/extensions';
-import { useStateWithRef } from './../utils';
+import { useStateWithRef } from '../utils';
 import { DelayedAutoFocusInput, Icon, Modal } from './internal';
 
 export const LinkModal = (props: { onClose: () => void }) => {

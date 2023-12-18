@@ -8,7 +8,7 @@
 import { CommandMenuItem, CommandMenuItemProps } from '@remirror/react';
 import { useActive, useCommands } from '@remirror/react-core';
 import * as React from 'react';
-import { ClassNameExtension } from './../extensions';
+import { ClassNameExtension } from '../extensions';
 
 export interface ToggleClassMenuItemProps extends Omit<CommandMenuItemProps, 'commandName' | 'active' | 'enabled' | 'attrs' | 'onSelect'> {
     attrs: { className: string };

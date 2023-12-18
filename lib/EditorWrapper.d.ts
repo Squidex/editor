@@ -10,7 +10,7 @@ declare class EditorWrapper {
 
     update(newProps: Partial<EditorProps>): void;
 
-    setValue(value: string): void;
+    setValue(value: EditorValue): void;
 
     setIsDisabled(isDisabled: boolean): void;
 
@@ -18,6 +18,8 @@ declare class EditorWrapper {
 
     destroy(): void;
 }
+
+type EditorValue = string | Node | undefined | null;
 
 type Asset = {
     // The alternative text of the image.
@@ -49,13 +51,13 @@ type OnAnnotationUpdate = (annotation: ReadonlyArray<Annotation>) => void;
 type OnAnnotationFocus = (annotation: ReadonlyArray<string>) => void;
 type OnAssetEdit = (id: string) => void;
 type OnAssetUpload = (images: UploadRequest[]) => DelayedPromiseCreator<Asset>[];
-type OnChange = (value: string | undefined) => void;
+type OnChange = (value: EditorValue) => void;
 type OnContentEdit = (schemaName: string, contentId: string) => void;
 type OnSelectAIText = () => Promise<string | undefined | null>;
 type OnSelectAssets = () => Promise<Asset[]>;
 type OnSelectContents = () => Promise<Content[]>;
 
-type SquidexEditorMode = 'Html' | 'Markdown';
+type SquidexEditorMode = 'Html' | 'Markdown' | 'State';
 
 interface UploadRequest {
     // The file to upload.
@@ -70,7 +72,7 @@ interface EditorProps {
     mode: SquidexEditorMode;
 
     // The incoming value.
-    value?: string;
+    value?: EditorValue;
 
     // The base url.
     baseUrl: string;

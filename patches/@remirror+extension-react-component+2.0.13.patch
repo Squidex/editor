@@ -1,0 +1,24 @@
+diff --git a/node_modules/@remirror/extension-react-component/dist/remirror-extension-react-component.cjs b/node_modules/@remirror/extension-react-component/dist/remirror-extension-react-component.cjs
+index df0e01a..db6b620 100644
+--- a/node_modules/@remirror/extension-react-component/dist/remirror-extension-react-component.cjs
++++ b/node_modules/@remirror/extension-react-component/dist/remirror-extension-react-component.cjs
+@@ -144,6 +144,7 @@ var RemirrorPortals = (props) => {
+ function usePortals(portalContainer) {
+   const [portals, setPortals] = (0, import_react.useState)(() => Array.from(portalContainer.portals.entries()));
+   (0, import_react.useEffect)(() => {
++    setPortals(Array.from(portalContainer.portals.entries()));
+     return portalContainer.on((portalMap) => {
+       setPortals(Array.from(portalMap.entries()));
+     });
+diff --git a/node_modules/@remirror/extension-react-component/dist/remirror-extension-react-component.js b/node_modules/@remirror/extension-react-component/dist/remirror-extension-react-component.js
+index 05057e1..d5e306e 100644
+--- a/node_modules/@remirror/extension-react-component/dist/remirror-extension-react-component.js
++++ b/node_modules/@remirror/extension-react-component/dist/remirror-extension-react-component.js
+@@ -109,6 +109,7 @@ var RemirrorPortals = (props) => {
+ function usePortals(portalContainer) {
+   const [portals, setPortals] = useState(() => Array.from(portalContainer.portals.entries()));
+   useEffect(() => {
++    setPortals(Array.from(portalContainer.portals.entries()));
+     return portalContainer.on((portalMap) => {
+       setPortals(Array.from(portalMap.entries()));
+     });

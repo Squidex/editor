@@ -11,6 +11,11 @@ export const PreviewView = () => {
     return (
         <div>
             <div>
+                <h2>State</h2>
+
+            </div>
+
+            <div>
                 <h1>Markdown</h1>
 
                 <EditorTester mode='Markdown' />
@@ -19,7 +24,6 @@ export const PreviewView = () => {
             <div>
                 <h2>HTML</h2>
 
-                <EditorTester mode='Html' />
             </div>
         </div>
     );

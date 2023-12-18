@@ -7,7 +7,7 @@
 
 import { CommandButton, useChainedCommands } from '@remirror/react';
 import * as React from 'react';
-import { OnSelectAIText } from './../props';
+import { OnSelectAIText } from '../props';
 import { Icon } from './internal';
 
 export const AddAITextButton = (props: { onSelectAIText: OnSelectAIText }) => {

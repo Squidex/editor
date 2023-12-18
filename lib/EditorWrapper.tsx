@@ -7,7 +7,7 @@
 
 import * as  ReactDOM from 'react-dom/client';
 import { Editor } from './Editor';
-import { Annotation, EditorProps } from './props';
+import { Annotation, EditorProps, EditorValue } from './props';
 
 export class EditorWrapper {
     private readonly root: ReactDOM.Root;
@@ -26,7 +26,7 @@ export class EditorWrapper {
         this.render();
     }
 
-    public setValue(value: string) {
+    public setValue(value: EditorValue) {
         this.update({ value });
     }
 

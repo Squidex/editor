@@ -6,8 +6,8 @@
  */
 
 import { command, CommandFunction, extension, ExtensionTag, NodeExtension, NodeExtensionSpec, PrimitiveSelection } from 'remirror';
-import { Content } from './../props';
-import { getContentId } from './../utils';
+import { Content } from '../props';
+import { getContentId } from '../utils';
 import { ContentLinkRenderView } from './ContentLinkRenderView';
 
 export interface ContentLinkExtensionOptions {

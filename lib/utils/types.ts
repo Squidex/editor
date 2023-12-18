@@ -13,6 +13,10 @@ export function isUndefined(value: unknown): value is undefined {
     return typeof value === 'undefined';
 }
 
+export function isString(value: unknown): value is string {
+    return typeof value === 'string' || value instanceof String;
+}
+
 export function isObject(value: unknown): value is Record<string, unknown> {
     return !!value && typeof value === 'object' && value.constructor === Object;
 }
