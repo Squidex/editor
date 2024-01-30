@@ -12,8 +12,9 @@ import { isString } from '../lib/utils';
 
 type State = { value?: EditorValue, annotations?: ReadonlyArray<Annotation>, selected?: ReadonlyArray<string> };
 
-export const EditorTester = (props: { mode: SquidexEditorMode }) => {
+export const EditorTester = (props: { isDisabled?: boolean, mode: SquidexEditorMode }) => {
     const {
+        isDisabled,
         mode,
     } = props;
 
@@ -23,6 +24,10 @@ export const EditorTester = (props: { mode: SquidexEditorMode }) => {
     React.useEffect(() => {
         saveState(mode, state);
     }, [mode, state]);
+
+    React.useEffect(() => {
+        view?.setIsDisabled(isDisabled || false);
+    }, [isDisabled, view]);
 
     const doUnset = React.useCallback(() => {
         setState(state => ({ ...state, value: undefined }));
@@ -68,6 +73,7 @@ export const EditorTester = (props: { mode: SquidexEditorMode }) => {
             value: '',
             appName: 'my-app',
             baseUrl: 'https://cloud.squidex.io',
+            isDisabled: isDisabled,
             canSelectAIText: true,
             canSelectContents: true,
             canSelectAssets: true,

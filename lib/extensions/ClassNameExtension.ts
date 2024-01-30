@@ -5,7 +5,7 @@
  * Copyright (c) Squidex UG (haftungsbeschränkt). All rights reserved.
  */
 
-import { ApplySchemaAttributes, command, CommandFunction, extension, ExtensionTag, isElementDomNode, Mark, MarkExtension, MarkExtensionSpec, MarkSpecOverride, omitExtraAttributes, PrimitiveSelection } from "remirror";
+import { ApplySchemaAttributes, command, CommandFunction, extension, ExtensionTag, getTextSelection, isElementDomNode, Mark, MarkExtension, MarkExtensionSpec, MarkSpecOverride, omitExtraAttributes, PrimitiveSelection } from "remirror";
 import { addClassStyle } from './class-name-styles';
 
 export interface ClassNameOptions {
@@ -37,7 +37,7 @@ export class ClassNameExtension extends MarkExtension<ClassNameOptions> {
     }
 
     public createTags() {
-        return [ExtensionTag.FormattingMark];
+        return [ExtensionTag.FontStyle, ExtensionTag.FormattingMark];
     }
 
     public createMarkSpec(extra: ApplySchemaAttributes, override: MarkSpecOverride): MarkExtensionSpec {
@@ -47,6 +47,7 @@ export class ClassNameExtension extends MarkExtension<ClassNameOptions> {
                 ...extra.defaults(),
                 className: {},
             },
+            excludes: '',
             parseDOM: [
                 {
                     tag: '*',
@@ -83,7 +84,13 @@ export class ClassNameExtension extends MarkExtension<ClassNameOptions> {
 
     @command({})
     public setClassName(className: string, selection?: PrimitiveSelection): CommandFunction {
-        return this.store.commands.applyMark.original(this.type, { className }, selection);
+        return ({ tr, dispatch }) => {
+            const { from, to } = getTextSelection(selection ?? tr.selection, tr.doc);
+
+            dispatch?.(tr.addMark(from, to, this.type.create({ className })));
+
+            return true;
+        };
     }
 
     @command({})

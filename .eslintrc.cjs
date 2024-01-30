@@ -13,6 +13,10 @@ module.exports = {
     'react-refresh'
   ],
   rules: {
+    'react-hooks/exhaustive-deps': [
+      'warn', 
+      { additionalHooks: null }
+    ],
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },
@@ -28,7 +32,7 @@ module.exports = {
             'order': 'asc'
         }
     }],
-    "no-trailing-spaces": "error",
+    'no-trailing-spaces': 'error',
     'sort-imports': [
         'error',
         {

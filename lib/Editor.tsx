@@ -127,7 +127,7 @@ export const Editor = (props: EditorProps) => {
                 <Remirror classNames={isDisabled ? ['squidex-editor-disabled'] : []} manager={manager}>
                     <div className='squidex-editor-menu'>
                         <Toolbar>
-                            <fieldset disabled={markup} className='MuiStack-root'>
+                            <fieldset disabled={markup || isDisabled} className='MuiStack-root'>
                                 <HistoryButtonGroup />
 
                                 <HeadingLevelButtonGroup showAll />
