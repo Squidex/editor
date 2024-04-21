@@ -214,9 +214,17 @@ $color-border: #dedfe3;
         }
 
         textarea {
+            border: 1px solid $color-border;
             font-family: monospace;
-            padding: 20px;
+            font-size: inherit;
+            height: 100px;
+            outline: none;
+            overflow-x: hidden;
+            overflow-y: auto;
+            padding: 14px;
             padding-top: 30px;
+            resize: vertical;
+            width: 100%;
         }
     }
 

@@ -39,7 +39,7 @@ export const PreviewView = () => {
                     <span>Disabled</span>
                 </label>
 
-                <EditorTester isDisabled={isDisabled} mode='Html' />
+                <EditorTester isDisabled={isDisabled} mode='State' />
             </div>
         </div>
     );

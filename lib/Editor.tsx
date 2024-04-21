@@ -78,21 +78,47 @@ export const Editor = (props: EditorProps) => {
             new AnnotationExtension(),
             new BlockquoteExtension(),
             new BoldExtension({}),
-            new BulletListExtension({ enableSpine: true }),
-            new ClassNameExtension({ classNames }),
-            new CodeBlockExtension({ supportedLanguages }),
+            new BulletListExtension({ 
+                enableSpine: true 
+            }),
+            new ClassNameExtension({
+                classNames
+            }),
+            new CodeBlockExtension({
+                supportedLanguages
+            }),
             new CodeExtension(),
-            new ContentLinkExtension({ appName, baseUrl, onEditContent }),
+            new ContentLinkExtension({ 
+                appName, 
+                baseUrl,
+                onEditContent
+            }),
             new CountExtension({}),
             new HardBreakExtension(),
             new HeadingExtension({}),
             new HorizontalRuleExtension(),
-            new HtmlCopyExtension({ copyAsHtml: mode === 'Html' }),
-            new ImageExtension({ uploadHandler: onUpload }),
+            new HtmlCopyExtension({ 
+                copyAsHtml: mode === 'Html'
+            }),
+            new ImageExtension({ 
+                uploadHandler: onUpload
+            }),
             new ItalicExtension(),
-            new LinkExtension({ autoLink: true }),
-            new ListItemExtension({ enableCollapsible: true }),
-            new MarkdownExtension({ copyAsMarkdown: mode === 'Markdown', htmlToMarkdown, markdownToHtml }),
+            new LinkExtension({ 
+                autoLink: true, 
+                markOverride: { 
+                    excludes: undefined
+                }
+            }),
+            new ListItemExtension({ 
+                enableCollapsible: true
+            }),
+            new MarkdownExtension({ 
+                copyAsMarkdown: mode === 'Markdown', 
+                htmlToMarkdown,
+                htmlSanitizer: undefined,
+                markdownToHtml
+            }),
             new OrderedListExtension(),
             new PlainHtmlExtension(),
             new StrikeExtension(),
@@ -107,7 +133,12 @@ export const Editor = (props: EditorProps) => {
         nodeViewComponents: {
             'image': (props: NodeViewComponentProps) => {
                 return (
-                    <CustomImageView {...props} appName={appName} baseUrl={baseUrl} onEditNode={setModalTitle} onEditAsset={onEditAsset} />
+                    <CustomImageView {...props}
+                        appName={appName}
+                        baseUrl={baseUrl}
+                        onEditNode={setModalTitle}
+                        onEditAsset={onEditAsset}
+                    />
                 );
             }
         },
