@@ -19,7 +19,7 @@ export const PlainHtmlRenderView = ({ node, getPosition, view }: NodeViewCompone
         <div className='squidex-editor-html'>
             <div className='squidex-editor-html-label'>Plain HTML</div>
 
-            <textarea spellCheck="false" value={node.attrs.content} onChange={doChangeContent}></textarea>
+            <textarea spellCheck="false" value={node.attrs.html} onChange={doChangeContent}></textarea>
         </div>
     );
 };

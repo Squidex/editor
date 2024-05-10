@@ -11,7 +11,7 @@ import { PlainHtmlRenderView } from './PlainHtmlRenderView';
 interface PlainHtmlOptions {}
 
 @extension<PlainHtmlOptions>({
-    defaultOptions: {} as never
+    defaultOptions: {},
 })
 export class PlainHtmlExtension extends NodeExtension<PlainHtmlOptions> {
     public get name(): string {
@@ -32,16 +32,16 @@ export class PlainHtmlExtension extends NodeExtension<PlainHtmlOptions> {
                 html: { default: '' },
             },
             toDOM: node => {
-                const content = node.attrs.html;
+                const html = node.attrs.html;
 
-                return ['div', { class: '__editor_html' }, ...parseDOM(content)];
+                return ['div', { class: '__editor_html' }, ...parseDOM(html)];
             },
             parseDOM: [
                 {
                     tag: 'div[class~=__editor_html]',
                     getAttrs: (dom) => {
                         return {
-                            content: (dom as HTMLDivElement).innerHTML
+                            html: (dom as HTMLDivElement).innerHTML
                         };
                     },
                     priority: 10000,

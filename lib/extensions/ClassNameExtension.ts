@@ -5,12 +5,12 @@
  * Copyright (c) Squidex UG (haftungsbeschränkt). All rights reserved.
  */
 
-import { ApplySchemaAttributes, command, CommandFunction, extension, ExtensionTag, getTextSelection, isElementDomNode, Mark, MarkExtension, MarkExtensionSpec, MarkSpecOverride, omitExtraAttributes, PrimitiveSelection } from "remirror";
+import { ApplySchemaAttributes, command, CommandFunction, extension, ExtensionTag, getTextSelection, isElementDomNode, Mark, MarkExtension, MarkExtensionSpec, MarkSpecOverride, omitExtraAttributes, PrimitiveSelection, Static } from "remirror";
 import { addClassStyle } from './class-name-styles';
 
 export interface ClassNameOptions {
     // The class names.
-    classNames?: ReadonlyArray<string>;
+    classNames: Static<ReadonlyArray<string>>;
 }
 
 export interface ClassNameAttributes {
@@ -20,7 +20,8 @@ export interface ClassNameAttributes {
 const PREFIX = '__editor_';
 
 @extension<ClassNameOptions>({
-    defaultOptions: {} as never
+    defaultOptions: {},
+    staticKeys: ['classNames'],
 })
 export class ClassNameExtension extends MarkExtension<ClassNameOptions> {
     public get name() {

@@ -5,24 +5,25 @@
  * Copyright (c) Squidex UG (haftungsbeschränkt). All rights reserved.
  */
 
-import { command, CommandFunction, extension, ExtensionTag, NodeExtension, NodeExtensionSpec, PrimitiveSelection } from 'remirror';
+import { command, CommandFunction, extension, ExtensionTag, NodeExtension, NodeExtensionSpec, PrimitiveSelection, Static } from 'remirror';
 import { Content } from '../props';
 import { getContentId } from '../utils';
 import { ContentLinkRenderView } from './ContentLinkRenderView';
 
 export interface ContentLinkExtensionOptions {
     // The base url.
-    baseUrl: string;
+    baseUrl: Static<string>;
 
     // The name to the app.
-    appName: string;
+    appName: Static<string>;
 
     // Called when a content is to be edited.
-    onEditContent: (schemaName: string, id: string) => void;
+    onEditContent: Static<(schemaName: string, id: string) => void>;
 }
 
 @extension<ContentLinkExtensionOptions>({
-    defaultOptions: {} as never
+    defaultOptions: {},
+    staticKeys: ['appName', 'baseUrl', 'onEditContent']
 })
 export class ContentLinkExtension extends NodeExtension<ContentLinkExtensionOptions> {
     public get name(): string {

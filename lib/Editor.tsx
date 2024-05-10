@@ -75,14 +75,14 @@ export const Editor = (props: EditorProps) => {
 
     const extensions = React.useCallback(() => {
         return [
-            new AnnotationExtension(),
+            new AnnotationExtension({}),
             new BlockquoteExtension(),
             new BoldExtension({}),
             new BulletListExtension({ 
                 enableSpine: true 
             }),
             new ClassNameExtension({
-                classNames
+                classNames: classNames || []
             }),
             new CodeBlockExtension({
                 supportedLanguages
@@ -96,7 +96,7 @@ export const Editor = (props: EditorProps) => {
             new CountExtension({}),
             new HardBreakExtension(),
             new HeadingExtension({}),
-            new HorizontalRuleExtension(),
+            new HorizontalRuleExtension({}),
             new HtmlCopyExtension({ 
                 copyAsHtml: mode === 'Html'
             }),
@@ -122,7 +122,7 @@ export const Editor = (props: EditorProps) => {
             new OrderedListExtension(),
             new PlainHtmlExtension(),
             new StrikeExtension(),
-            new TrailingNodeExtension(),
+            new TrailingNodeExtension({}),
             new UnderlineExtension(),
         ];
     }, [appName, baseUrl, classNames, mode, onEditContent, onUpload]);
@@ -212,7 +212,7 @@ export const Editor = (props: EditorProps) => {
                                     </CommandButtonGroup>
                                 }
 
-                                {mode === 'Html' &&
+                                {mode !== 'Markdown' &&
                                     <CommandButtonGroup>
                                         <AddHtmlButton />
                                     </CommandButtonGroup>

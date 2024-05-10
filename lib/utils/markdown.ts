@@ -133,7 +133,7 @@ export function htmlToMarkdown(html: string) {
 export function markdownToHtml(markdown: string): string {
     const html = marked(markdown, { gfm: true });
 
-    return html;
+    return html as string;
 }
 
 function repeat(character: string, count: number) {
