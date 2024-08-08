@@ -15,8 +15,13 @@ $color-border: #dedfe3;
     box-sizing: border-box;
 }
 
-.remirror-theme .ProseMirror p {
+.remirror-theme .ProseMirror > p {
     margin-bottom: 1rem !important;
+}
+
+.remirror-theme .ProseMirror hr {
+    border: 0;
+    border-top: 1px solid darken($color-border, 20%) !important;
 }
 
 .remirror-editor {
@@ -325,6 +330,14 @@ $color-border: #dedfe3;
             flex-grow: 1;
         }
     }
+}
+
+:has(.remirror-language-select-positioner) ~ pre[class*="language-"] {
+    padding-top: 2.5rem !important;
+}
+
+.remirror-language-select-positioner {
+    @include absolute(5px, 5px);
 }
 
 .b {

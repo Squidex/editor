@@ -97,7 +97,7 @@ export const Editor = (props: EditorProps) => {
             new HardBreakExtension(),
             new HeadingExtension({}),
             new HorizontalRuleExtension({}),
-            new HtmlCopyExtension({ 
+            new HtmlCopyExtension({
                 copyAsHtml: mode === 'Html'
             }),
             new ImageExtension({ 
@@ -230,31 +230,33 @@ export const Editor = (props: EditorProps) => {
 
                         <EditorComponent />
 
-                        {markup &&
+                        {markup ? (
                             <MarkupView value={value} mode={mode} />
-                        }
-
-                        {modalLink ? (
-                            <LinkModal onClose={doCloseModalLink} />
-                        ) : modalTitle ? (
-                            <TitleModal node={modalTitle} onClose={doCloseModalTitle} />
                         ) : (
-                            <ToolbarWrapper onLinkModal={doOpenModalLink} />
+                            <>
+                                {modalLink ? (
+                                    <LinkModal onClose={doCloseModalLink} />
+                                ) : modalTitle ? (
+                                    <TitleModal node={modalTitle} onClose={doCloseModalTitle} />
+                                ) : (
+                                    <ToolbarWrapper onLinkModal={doOpenModalLink} />
+                                )}
+        
+                                <CodeBlockLanguageSelect
+                                    offset={{ x: 5, y: 5 }}
+                                    className={cx(
+                                        ExtensionCodeBlockTheme.LANGUAGE_SELECT_POSITIONER,
+                                        ExtensionCodeBlockTheme.LANGUAGE_SELECT_WIDTH,
+                                    )}
+                                />
+        
+                                <AnnotationView
+                                    annotations={annotations}
+                                    onAnnotationsFocus={onAnnotationsFocus}
+                                    onAnnotationsUpdate={onAnnotationsUpdate}
+                                />
+                            </>
                         )}
-
-                        <CodeBlockLanguageSelect
-                            offset={{ x: 5, y: 5 }}
-                            className={cx(
-                                ExtensionCodeBlockTheme.LANGUAGE_SELECT_POSITIONER,
-                                ExtensionCodeBlockTheme.LANGUAGE_SELECT_WIDTH,
-                            )}
-                        />
-
-                        <AnnotationView
-                            annotations={annotations}
-                            onAnnotationsFocus={onAnnotationsFocus}
-                            onAnnotationsUpdate={onAnnotationsUpdate}
-                        />
                     </div>
 
                     <Counter />
