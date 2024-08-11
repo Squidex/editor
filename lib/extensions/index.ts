@@ -8,6 +8,6 @@
 export * from './ClassNameExtension';
 export * from './ContentLinkExtension';
 export * from './CustomImageView';
-export * from './HtmlCopyExtension';
+export * from './ClipboardExtension';
 export * from './OnChangeLink';
 export * from './PlainHtmlExtension';

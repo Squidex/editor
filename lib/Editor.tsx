@@ -12,9 +12,9 @@ import { AllStyledComponent } from '@remirror/styles/emotion';
 import * as React from 'react';
 import { cx, ExtensionCodeBlockTheme } from 'remirror';
 import { AnnotationExtension, BlockquoteExtension, BoldExtension, BulletListExtension, CodeBlockExtension, CodeExtension, HardBreakExtension, HeadingExtension, HorizontalRuleExtension, ImageExtension, ItalicExtension, LinkExtension, ListItemExtension, MarkdownExtension, OrderedListExtension, StrikeExtension, TrailingNodeExtension, UnderlineExtension } from 'remirror/extensions';
-import { ClassNameExtension, ContentLinkExtension, CustomImageView, HtmlCopyExtension, OnChangeLink, PlainHtmlExtension } from './extensions';
+import { ClassNameExtension, ContentLinkExtension, CustomImageView, ClipboardExtension, OnChangeLink, PlainHtmlExtension } from './extensions';
 import { EditorProps } from './props';
-import { AddAITextButton, AddAssetsButton, AddContentsButton, AddHtmlButton, AnnotateButton, AnnotationView, ClassNameButton, Counter, LinkButtons, LinkModal, MarkupView, TitleModal } from './ui';
+import { AddAITextButton, AddAssetsButton, AddContentsButton, AddHtmlButton, AnnotateButton, AnnotationView, ClassNameButton, Counter, LinkButtons, LinkModal, MarkdownTextEditor, MarkupView, TitleModal } from './ui';
 import { Icon } from './ui/internal';
 import { EditableNode, htmlToMarkdown, markdownToHtml, supportedLanguages } from './utils';
 import './Editor.scss';
@@ -78,15 +78,10 @@ export const Editor = (props: EditorProps) => {
             new AnnotationExtension({}),
             new BlockquoteExtension(),
             new BoldExtension({}),
-            new BulletListExtension({ 
-                enableSpine: true 
-            }),
-            new ClassNameExtension({
-                classNames: classNames || []
-            }),
-            new CodeBlockExtension({
-                supportedLanguages
-            }),
+            new BulletListExtension({ enableSpine: true }),
+            new ClassNameExtension({ classNames: classNames || [] }),
+            new ClipboardExtension({ mode }),
+            new CodeBlockExtension({ supportedLanguages }),
             new CodeExtension(),
             new ContentLinkExtension({ 
                 appName, 
@@ -97,12 +92,7 @@ export const Editor = (props: EditorProps) => {
             new HardBreakExtension(),
             new HeadingExtension({}),
             new HorizontalRuleExtension({}),
-            new HtmlCopyExtension({
-                copyAsHtml: mode === 'Html'
-            }),
-            new ImageExtension({ 
-                uploadHandler: onUpload
-            }),
+            new ImageExtension({ uploadHandler: onUpload }),
             new ItalicExtension(),
             new LinkExtension({ 
                 autoLink: true, 
@@ -127,7 +117,7 @@ export const Editor = (props: EditorProps) => {
         ];
     }, [appName, baseUrl, classNames, mode, onEditContent, onUpload]);
 
-    const { manager } = useRemirror({
+    const { manager, getContext } = useRemirror({
         stringHandler: mode === 'Markdown' ? 'markdown' : 'html',
         content: value as never,
         nodeViewComponents: {
@@ -219,9 +209,13 @@ export const Editor = (props: EditorProps) => {
                                 }
                             </fieldset>
 
-                            <CommandButton commandName='toggleMarkup' enabled onSelect={doToggleMarkup} label='Show Markup (readonly)' icon={
-                                <Icon type='Preview' />
-                            } />
+                            {mode === 'Markdown' ? (
+                                <CommandButton commandName='toggleMarkup' enabled onSelect={doToggleMarkup} label='Edit Markup'
+                                    icon={<Icon type='Edit' />} />
+                            ) : (
+                                <CommandButton commandName='toggleMarkup' enabled onSelect={doToggleMarkup} label='Show Markup (readonly)'
+                                    icon={<Icon type='Preview' />} />
+                            )}
                         </Toolbar>
                     </div>
 
@@ -231,7 +225,13 @@ export const Editor = (props: EditorProps) => {
                         <EditorComponent />
 
                         {markup ? (
-                            <MarkupView value={value} mode={mode} />
+                            <>
+                                {mode === 'Markdown' ? (
+                                    <MarkdownTextEditor value={value as any} onChange={value => getContext()?.setContent(value)} />
+                                ) : (
+                                    <MarkupView value={value} mode={mode} />
+                                )}
+                            </>
                         ) : (
                             <>
                                 {modalLink ? (
