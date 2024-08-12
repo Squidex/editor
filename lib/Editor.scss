@@ -196,11 +196,6 @@ $color-border: #dedfe3;
             @include absolute(0, 0, 0, 0);
             border: 1px solid $color-border;
         }
-
-        .squidex-editor-markdown {
-            @include absolute(0, 0, 0, 0);
-            border: 0;
-        }
     }
 
     /*
@@ -315,17 +310,6 @@ $color-border: #dedfe3;
         
         .MuiButtonBase-root {
             height: 30px;
-        }
-    }
-    
-    &-markdown {
-        background-color: white;
-    
-        .language-markdown {
-            background: none !important;
-            margin-top: 0 !important;
-            margin-bottom: 0 !important;
-            padding: 0 !important;
         }
     }
     

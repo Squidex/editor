@@ -5,8 +5,8 @@
  * Copyright (c) Squidex UG (haftungsbeschränkt). All rights reserved.
  */
 
-import { EditorTester } from './EditorTester';
 import * as React from 'react';
+import { EditorTester } from './EditorTester';
 
 export const PreviewView = () => {
     const [isDisabled, setIsDisabled] = React.useState(false);
@@ -35,7 +35,7 @@ export const PreviewView = () => {
 
                 <label style={{ marginBottom: 10 }}>
                     <input type="checkbox" checked={isDisabled} onChange={ev => setIsDisabled(ev.target.checked)}></input>
-                    
+
                     <span>Disabled</span>
                 </label>
 

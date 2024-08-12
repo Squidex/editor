@@ -5,10 +5,10 @@
  * Copyright (c) Squidex UG (haftungsbeschränkt). All rights reserved.
  */
 
-import { DOMSerializer, DOMParser } from '@remirror/pm/model';
+import { DOMParser, DOMSerializer } from '@remirror/pm/model';
 import { CreateExtensionPlugin, PlainExtension, Slice } from 'remirror';
-import { htmlToMarkdown, markdownToHtml } from '../utils';
 import { SquidexEditorMode } from '../props';
+import { htmlToMarkdown, markdownToHtml } from '../utils';
 
 export interface ClipboardExtensionOptions {
     // The mode of the editor.

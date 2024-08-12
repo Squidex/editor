@@ -91,7 +91,7 @@ export const EditorTester = (props: { isDisabled?: boolean, mode: SquidexEditorM
         });
 
         setView(wrapper);
-    }, [doCreateAnnotation, doSelectAnnotations, doUpdateAnnotations, doUpdateValue, mode]);
+    }, [doCreateAnnotation, doSelectAnnotations, doUpdateAnnotations, doUpdateValue, isDisabled, mode]);
 
     React.useEffect(() => {
         view?.setValue(state.value);

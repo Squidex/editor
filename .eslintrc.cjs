@@ -15,7 +15,7 @@ module.exports = {
   rules: {
     'react-hooks/exhaustive-deps': [
       'warn', 
-      { additionalHooks: null }
+      { additionalHooks: '' }
     ],
     'react-refresh/only-export-components': [
       'warn',

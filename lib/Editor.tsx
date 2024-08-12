@@ -12,9 +12,9 @@ import { AllStyledComponent } from '@remirror/styles/emotion';
 import * as React from 'react';
 import { cx, ExtensionCodeBlockTheme } from 'remirror';
 import { AnnotationExtension, BlockquoteExtension, BoldExtension, BulletListExtension, CodeBlockExtension, CodeExtension, HardBreakExtension, HeadingExtension, HorizontalRuleExtension, ImageExtension, ItalicExtension, LinkExtension, ListItemExtension, MarkdownExtension, OrderedListExtension, StrikeExtension, TrailingNodeExtension, UnderlineExtension } from 'remirror/extensions';
-import { ClassNameExtension, ContentLinkExtension, CustomImageView, ClipboardExtension, OnChangeLink, PlainHtmlExtension } from './extensions';
+import { ClassNameExtension, ClipboardExtension, ContentLinkExtension, CustomImageView, OnChangeLink, PlainHtmlExtension } from './extensions';
 import { EditorProps } from './props';
-import { AddAITextButton, AddAssetsButton, AddContentsButton, AddHtmlButton, AnnotateButton, AnnotationView, ClassNameButton, Counter, LinkButtons, LinkModal, MarkdownTextEditor, MarkupView, TitleModal } from './ui';
+import { AddAITextButton, AddAssetsButton, AddContentsButton, AddHtmlButton, AnnotateButton, AnnotationView, ClassNameButton, Counter, LinkButtons, LinkModal, MarkupView, TitleModal } from './ui';
 import { Icon } from './ui/internal';
 import { EditableNode, htmlToMarkdown, markdownToHtml, supportedLanguages } from './utils';
 import './Editor.scss';
@@ -83,8 +83,8 @@ export const Editor = (props: EditorProps) => {
             new ClipboardExtension({ mode }),
             new CodeBlockExtension({ supportedLanguages }),
             new CodeExtension(),
-            new ContentLinkExtension({ 
-                appName, 
+            new ContentLinkExtension({
+                appName,
                 baseUrl,
                 onEditContent
             }),
@@ -94,17 +94,17 @@ export const Editor = (props: EditorProps) => {
             new HorizontalRuleExtension({}),
             new ImageExtension({ uploadHandler: onUpload }),
             new ItalicExtension(),
-            new LinkExtension({ 
-                autoLink: true, 
-                markOverride: { 
+            new LinkExtension({
+                autoLink: true,
+                markOverride: {
                     excludes: undefined
                 }
             }),
-            new ListItemExtension({ 
+            new ListItemExtension({
                 enableCollapsible: true
             }),
-            new MarkdownExtension({ 
-                copyAsMarkdown: mode === 'Markdown', 
+            new MarkdownExtension({
+                copyAsMarkdown: mode === 'Markdown',
                 htmlToMarkdown,
                 htmlSanitizer: undefined,
                 markdownToHtml
@@ -134,6 +134,10 @@ export const Editor = (props: EditorProps) => {
         },
         extensions,
     });
+
+    const doChange = React.useCallback((value: string) => {
+        getContext()?.setContent(value);
+    }, [getContext]);
 
     return (
         <AllStyledComponent>
@@ -226,11 +230,7 @@ export const Editor = (props: EditorProps) => {
 
                         {markup ? (
                             <>
-                                {mode === 'Markdown' ? (
-                                    <MarkdownTextEditor value={value as any} onChange={value => getContext()?.setContent(value)} />
-                                ) : (
-                                    <MarkupView value={value} mode={mode} />
-                                )}
+                                <MarkupView value={value} mode={mode} editable={mode === 'Markdown'} onChange={doChange} />
                             </>
                         ) : (
                             <>
@@ -241,7 +241,7 @@ export const Editor = (props: EditorProps) => {
                                 ) : (
                                     <ToolbarWrapper onLinkModal={doOpenModalLink} />
                                 )}
-        
+
                                 <CodeBlockLanguageSelect
                                     offset={{ x: 5, y: 5 }}
                                     className={cx(
@@ -249,7 +249,7 @@ export const Editor = (props: EditorProps) => {
                                         ExtensionCodeBlockTheme.LANGUAGE_SELECT_WIDTH,
                                     )}
                                 />
-        
+
                                 <AnnotationView
                                     annotations={annotations}
                                     onAnnotationsFocus={onAnnotationsFocus}

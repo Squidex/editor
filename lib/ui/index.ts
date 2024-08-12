@@ -16,5 +16,4 @@ export * from './Counter';
 export * from './LinkButtons';
 export * from './LinkModal';
 export * from './MarkupView';
-export * from './MarkdownTextEditor';
 export * from './TitleModal';
