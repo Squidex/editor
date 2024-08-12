@@ -63,8 +63,10 @@ export const MarkupView = ({ editable, mode, onChange, value }: MarkupViewProps)
     const doChange = React.useCallback((value: string) => {
         setEditValue(value);
 
-        onChange(value);
-    }, [onChange]);
+        if (editable) {
+            onChange(value);
+        }
+    }, [editable, onChange]);
 
     return (
         <AceEditor mode={aceMode} value={editValue} height='100%' width='100%' readOnly={!editable} onChange={doChange} wrapEnabled />
