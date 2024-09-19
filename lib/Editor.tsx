@@ -7,8 +7,9 @@
 
 import { CountExtension } from '@remirror/extension-count';
 import { CodeBlockLanguageSelect } from '@remirror/extension-react-language-select';
-import { CommandButton, CommandButtonGroup, EditorComponent, FloatingToolbar, HeadingLevelButtonGroup, HistoryButtonGroup, InsertHorizontalRuleButton, NodeViewComponentProps, Remirror, ThemeProvider, ToggleBlockquoteButton, ToggleBoldButton, ToggleBulletListButton, ToggleCodeBlockButton, ToggleCodeButton, ToggleItalicButton, ToggleOrderedListButton, ToggleUnderlineButton, Toolbar, useActive, useRemirror } from '@remirror/react';
+import { CommandButton, CommandButtonGroup, EditorComponent, FloatingToolbar, HeadingLevelButtonGroup, HistoryButtonGroup, InsertHorizontalRuleButton, NodeViewComponentProps, Remirror, ThemeProvider, ToggleBlockquoteButton, ToggleBoldButton, ToggleBulletListButton, ToggleCodeBlockButton, ToggleCodeButton, ToggleItalicButton, ToggleOrderedListButton, ToggleUnderlineButton, Toolbar, useActive, useCurrentSelection, useRemirror } from '@remirror/react';
 import { AllStyledComponent } from '@remirror/styles/emotion';
+import classNames from 'classnames';
 import * as React from 'react';
 import { cx, ExtensionCodeBlockTheme } from 'remirror';
 import { AnnotationExtension, BlockquoteExtension, BoldExtension, BulletListExtension, CodeBlockExtension, CodeExtension, HardBreakExtension, HeadingExtension, HorizontalRuleExtension, ImageExtension, ItalicExtension, LinkExtension, ListItemExtension, MarkdownExtension, OrderedListExtension, StrikeExtension, TrailingNodeExtension, UnderlineExtension } from 'remirror/extensions';
@@ -16,7 +17,7 @@ import { ClassNameExtension, ClipboardExtension, ContentLinkExtension, CustomIma
 import { EditorProps } from './props';
 import { AddAITextButton, AddAssetsButton, AddContentsButton, AddHtmlButton, AnnotateButton, AnnotationView, ClassNameButton, Counter, LinkButtons, LinkModal, MarkupView, TitleModal } from './ui';
 import { Icon } from './ui/internal';
-import { EditableNode, htmlToMarkdown, markdownToHtml, supportedLanguages } from './utils';
+import { EditableNode, htmlToMarkdown, markdownToHtml, supportedLanguages, useDebounceBoolean, useStoredBoolean } from './utils';
 import './Editor.scss';
 
 export const Editor = (props: EditorProps) => {
@@ -56,6 +57,7 @@ export const Editor = (props: EditorProps) => {
     const [modalTitle, setModalTitle] = React.useState<EditableNode | undefined | null>();
     const [modalLink, setModalLink] = React.useState<boolean>(false);
     const [markup, setMarkup] = React.useState<boolean>(false);
+    const [toolbar, setToolbar] = useStoredBoolean('toolbar');
 
     const doOpenModalLink = React.useCallback(() => {
         setModalLink(true);
@@ -238,9 +240,9 @@ export const Editor = (props: EditorProps) => {
                                     <LinkModal onClose={doCloseModalLink} />
                                 ) : modalTitle ? (
                                     <TitleModal node={modalTitle} onClose={doCloseModalTitle} />
-                                ) : (
+                                ) : toolbar ? (
                                     <ToolbarWrapper onLinkModal={doOpenModalLink} />
-                                )}
+                                ) : null}
 
                                 <CodeBlockLanguageSelect
                                     offset={{ x: 5, y: 5 }}
@@ -259,7 +261,15 @@ export const Editor = (props: EditorProps) => {
                         )}
                     </div>
 
-                    <Counter />
+                    <div className='squidex-editor-counter'>
+                        <label>
+                            <input type="checkbox" checked={toolbar} onChange={ev => setToolbar(ev.target.checked)} />
+
+                            Floating Toolbar
+                        </label>
+
+                        <Counter />
+                    </div>
                 </Remirror>
             </ThemeProvider>
         </AllStyledComponent>
@@ -268,13 +278,15 @@ export const Editor = (props: EditorProps) => {
 
 const ToolbarWrapper = ({ onLinkModal }: { onLinkModal: () => void }) => {
     const active = useActive<CodeBlockExtension>();
+    const selection = useCurrentSelection();
+    const visible = useDebounceBoolean(400, [selection.from, selection.to]);
 
     if (active.codeBlock()) {
         return null;
     }
 
     return (
-        <FloatingToolbar className='squidex-editor-floating'>
+        <FloatingToolbar className={classNames('squidex-editor-floating', { hidden: !visible })}>
             <ToggleBoldButton />
             <ToggleItalicButton />
             <ToggleUnderlineButton />

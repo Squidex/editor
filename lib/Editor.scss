@@ -146,14 +146,21 @@ $color-border: #dedfe3;
      * COUNTER
      */
     &-counter {
-        border: 1px solid $color-border;
         border-top: 0;
+        border: 1px solid $color-border;
+        display: flex;
+        flex-direction: row;
         font-size: 85%;
         font-weight: normal;
-        opacity: .8;
-        padding: 4px;
+        justify-content: space-between;
+        opacity: 1;
         padding-right: 10px;
+        padding: 4px;
         text-align: right;
+
+        label {
+            display: flex;
+        }
     }
 
     /*
@@ -303,6 +310,10 @@ $color-border: #dedfe3;
     */
     &-floating {
         border: 1px solid $color-border;
+
+        &.hidden {
+            display: none;
+        }
 
         .MuiBox-root {
             margin-right: 0 !important

@@ -1,9 +1,12 @@
+
 /*
  * Squidex Headless CMS
  *
  * @license
  * Copyright (c) Squidex UG (haftungsbeschränkt). All rights reserved.
  */
+
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import { useRemirrorContext } from '@remirror/react';
 import * as React from 'react';
@@ -62,11 +65,71 @@ export function useDebouncedMemo<T>(timeout: number, calculator: () => T,  deps?
         return () => {
             clearTimeout(timer);
         };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, deps);
 
     return state;
 }
 
+export function useDebounceBoolean(timeout: number, deps?: React.DependencyList) {
+    const [state, setState] = React.useState<boolean>(true);
+
+    React.useEffect(() => {
+        setState(false);
+
+        const timer = setTimeout(() => {
+            setState(true);
+        }, timeout);
+
+        return () => {
+            clearTimeout(timer);
+        };
+    }, deps);
+
+    return state;
+}
+
+
+export function useStoredBoolean(key: string): [boolean, (value: boolean) => void] {
+    const [state, setState] = React.useState(() => {
+        const fromState = localStorage.getItem(key);
+
+        return !!fromState;
+    });
+
+    React.useEffect(() => {
+        const listener = (event: Event) => {
+            const typed = event as ChangeEvent;
+
+            if (typed.detail.key === key) {
+                setState(typed.detail.value);
+            }
+        };
+
+        document.addEventListener(CHANGE_EVENT, listener);
+
+        return () => {
+            document.removeEventListener(CHANGE_EVENT, listener);
+        };
+    }, []);
+
+    const update = React.useCallback((newValue: boolean) => {
+        setState(newValue);
+
+        if (newValue) {
+            localStorage.setItem(key, '1');
+        } else {
+            localStorage.removeItem(key);
+        }
+
+        document.dispatchEvent(new CustomEvent(CHANGE_EVENT, { detail: { key, value: newValue } }));
+    }, []);
+
+    return [state, update];
+}
+
 const NO_ANNOTATIONS: Annotation[] = [];
 const NO_SELECTION: string[] = [];
+
+const CHANGE_EVENT = 'storeChanged';
+
+type ChangeEvent = CustomEvent<{ key: string, value: boolean }>;

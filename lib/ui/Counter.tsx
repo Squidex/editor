@@ -22,7 +22,7 @@ export const Counter = () => {
     }, [state]);
 
     return (
-        <div className='squidex-editor-counter'>
+        <div>
             Words: <strong>{wordCount}</strong>, Characters: <strong>{characterCount}</strong>
         </div>
     );
