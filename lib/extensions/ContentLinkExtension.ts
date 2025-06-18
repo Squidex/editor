@@ -41,6 +41,7 @@ export class ContentLinkExtension extends NodeExtension<ContentLinkExtensionOpti
     public createNodeSpec(): NodeExtensionSpec {
         return {
             inline: true,
+            selectable: true,
             attrs: {
                 contentId: { default: '' },
                 contentTitle: { default: '' },

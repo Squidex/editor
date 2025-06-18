@@ -31,6 +31,8 @@ async function buildPackages() {
                 rollupOptions: {
                     input,
                     output: {
+                        format: 'iife',
+
                         entryFileNames: chunk => {
                             if (chunk.name === 'squidex-editor') {
                                 return 'squidex-editor.js';

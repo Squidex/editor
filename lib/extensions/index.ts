@@ -5,6 +5,7 @@
  * Copyright (c) Squidex UG (haftungsbeschränkt). All rights reserved.
  */
 
+export * from './BackspaceExtension';
 export * from './ClassNameExtension';
 export * from './ContentLinkExtension';
 export * from './CustomImageView';

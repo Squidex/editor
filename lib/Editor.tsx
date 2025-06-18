@@ -13,7 +13,7 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { cx, ExtensionCodeBlockTheme } from 'remirror';
 import { AnnotationExtension, BlockquoteExtension, BoldExtension, BulletListExtension, CodeBlockExtension, CodeExtension, HardBreakExtension, HeadingExtension, HorizontalRuleExtension, ImageExtension, ItalicExtension, LinkExtension, ListItemExtension, MarkdownExtension, OrderedListExtension, StrikeExtension, TrailingNodeExtension, UnderlineExtension } from 'remirror/extensions';
-import { ClassNameExtension, ClipboardExtension, ContentLinkExtension, CustomImageView, OnChangeLink, PlainHtmlExtension } from './extensions';
+import { BackspaceKeyExtension, ClassNameExtension, ClipboardExtension, ContentLinkExtension, CustomImageView, OnChangeLink, PlainHtmlExtension } from './extensions';
 import { EditorProps } from './props';
 import { AddAITextButton, AddAssetsButton, AddContentsButton, AddHtmlButton, AnnotateButton, AnnotationView, ClassNameButton, Counter, LinkButtons, LinkModal, MarkupView, TitleModal } from './ui';
 import { Icon } from './ui/internal';
@@ -78,12 +78,13 @@ export const Editor = (props: EditorProps) => {
     const extensions = React.useCallback(() => {
         return [
             new AnnotationExtension({}),
+            new BackspaceKeyExtension(),
             new BlockquoteExtension(),
             new BoldExtension({}),
             new BulletListExtension({ enableSpine: true }),
             new ClassNameExtension({ classNames: classNames || [] }),
             new ClipboardExtension({ mode }),
-            new CodeBlockExtension({ supportedLanguages }),
+            new CodeBlockExtension({ supportedLanguages, nodeOverride: { selectable: false } }),
             new CodeExtension(),
             new ContentLinkExtension({
                 appName,
@@ -94,7 +95,7 @@ export const Editor = (props: EditorProps) => {
             new HardBreakExtension(),
             new HeadingExtension({}),
             new HorizontalRuleExtension({}),
-            new ImageExtension({ uploadHandler: onUpload }),
+            new ImageExtension({ uploadHandler: onUpload, nodeOverride: { selectable: true} }),
             new ItalicExtension(),
             new LinkExtension({
                 autoLink: true,
@@ -154,7 +155,7 @@ export const Editor = (props: EditorProps) => {
                 <Remirror classNames={isDisabled ? ['squidex-editor-disabled'] : []} manager={manager}>
                     <div className='squidex-editor-menu'>
                         <Toolbar>
-                            <fieldset disabled={markup || isDisabled} className='MuiStack-root'>
+                            <fieldset className='squidex-editor-menu-group' disabled={markup || isDisabled}>
                                 <HistoryButtonGroup />
 
                                 <HeadingLevelButtonGroup showAll />
@@ -215,50 +216,56 @@ export const Editor = (props: EditorProps) => {
                                 }
                             </fieldset>
 
-                            {mode === 'Markdown' ? (
-                                <CommandButton commandName='toggleMarkup' enabled onSelect={doToggleMarkup} label='Edit Markup'
-                                    icon={<Icon type='Edit' />} />
-                            ) : (
-                                <CommandButton commandName='toggleMarkup' enabled onSelect={doToggleMarkup} label='Show Markup (readonly)'
-                                    icon={<Icon type='Preview' />} />
-                            )}
+                            <fieldset className='squidex-editor-menu-group'>
+                                <CommandButtonGroup>
+                                    {mode === 'Markdown' ? (
+                                        <CommandButton commandName='toggleMarkup' enabled onSelect={doToggleMarkup} label='Edit Markup'
+                                            icon={<Icon type='Edit' />} />
+                                    ) : (
+                                        <CommandButton commandName='toggleMarkup' enabled onSelect={doToggleMarkup} label='Show Markup (readonly)'
+                                            icon={<Icon type='Preview' />} />
+                                    )}
+                                </CommandButtonGroup>
+                            </fieldset>
                         </Toolbar>
                     </div>
 
                     <div className='squidex-editor-main'>
-                        <OnChangeLink mode={mode} onChange={onChange} value={value} />
+                        <div>
+                            <OnChangeLink mode={mode} onChange={onChange} value={value} />
 
-                        <EditorComponent />
+                            <EditorComponent />
 
-                        {markup ? (
-                            <>
-                                <MarkupView value={value} mode={mode} editable={mode === 'Markdown'} onChange={doChange} />
-                            </>
-                        ) : (
-                            <>
-                                {modalLink ? (
-                                    <LinkModal onClose={doCloseModalLink} />
-                                ) : modalTitle ? (
-                                    <TitleModal node={modalTitle} onClose={doCloseModalTitle} />
-                                ) : toolbar ? (
-                                    <ToolbarWrapper onLinkModal={doOpenModalLink} />
-                                ) : null}
+                            {markup ? (
+                                <>
+                                    <MarkupView value={value} mode={mode} editable={mode === 'Markdown'} onChange={doChange} />
+                                </>
+                            ) : (
+                                <>
+                                    {modalLink ? (
+                                        <LinkModal onClose={doCloseModalLink} />
+                                    ) : modalTitle ? (
+                                        <TitleModal node={modalTitle} onClose={doCloseModalTitle} />
+                                    ) : toolbar ? (
+                                        <ToolbarWrapper onLinkModal={doOpenModalLink} />
+                                    ) : null}
 
-                                <CodeBlockLanguageSelect
-                                    offset={{ x: 5, y: 5 }}
-                                    className={cx(
-                                        ExtensionCodeBlockTheme.LANGUAGE_SELECT_POSITIONER,
-                                        ExtensionCodeBlockTheme.LANGUAGE_SELECT_WIDTH,
-                                    )}
-                                />
+                                    <CodeBlockLanguageSelect
+                                        offset={{ x: 5, y: 5 }}
+                                        className={cx(
+                                            ExtensionCodeBlockTheme.LANGUAGE_SELECT_POSITIONER,
+                                            ExtensionCodeBlockTheme.LANGUAGE_SELECT_WIDTH,
+                                        )}
+                                    />
 
-                                <AnnotationView
-                                    annotations={annotations}
-                                    onAnnotationsFocus={onAnnotationsFocus}
-                                    onAnnotationsUpdate={onAnnotationsUpdate}
-                                />
-                            </>
-                        )}
+                                    <AnnotationView
+                                        annotations={annotations}
+                                        onAnnotationsFocus={onAnnotationsFocus}
+                                        onAnnotationsUpdate={onAnnotationsUpdate}
+                                    />
+                                </>
+                            )}
+                        </div>
                     </div>
 
                     <div className='squidex-editor-counter'>
@@ -287,12 +294,15 @@ const ToolbarWrapper = ({ onLinkModal }: { onLinkModal: () => void }) => {
 
     return (
         <FloatingToolbar className={classNames('squidex-editor-floating', { hidden: !visible })}>
-            <ToggleBoldButton />
-            <ToggleItalicButton />
-            <ToggleUnderlineButton />
-            <ToggleCodeButton />
-
-            <LinkButtons onEdit={onLinkModal} />
+            <fieldset className='squidex-editor-menu-group'>
+                <CommandButtonGroup>
+                    <ToggleBoldButton />
+                    <ToggleItalicButton />
+                    <ToggleUnderlineButton />
+                    <ToggleCodeButton />
+                    <LinkButtons onEdit={onLinkModal} />
+                </CommandButtonGroup>
+            </fieldset>
         </FloatingToolbar>
     );
 };
